@@ -1247,6 +1247,237 @@
             body { background: white; color: black; font-size: 14pt; }
             .screen { display: block !important; page-break-after: always; }
             .word-card, .sign-card, .story-container { border: 1px solid #ccc; break-inside: avoid; }
+        /* ESTILOS DE FRASES CORTAS */
+        .phrases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+            margin-top: 14px;
+        }
+        .phrase-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .phrase-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .phrase-words-wrap {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 6px 0;
+        }
+        .phrase-word-pill {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            border-radius: 14px;
+            padding: 8px 14px;
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .phrase-word-pill:hover, .phrase-word-pill:active {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            color: #1e40af;
+            transform: scale(1.05);
+        }
+        .phrase-word-pill.active {
+            background: #bbf7d0;
+            border-color: #22c55e;
+            color: #15803d;
+        }
+        .phrase-btn-full {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(16,185,129,0.3);
+            transition: transform 0.15s;
+        }
+        .phrase-btn-full:hover {
+            transform: scale(1.02);
+        }
+        .phrase-btn-game {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 2px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 8px 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .phrase-btn-game:hover {
+            background: #dbeafe;
+        }
+        .phrase-game-box {
+            background: #f8fafc;
+            border: 2px dashed #94a3b8;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* ESTILOS DE LA ZONA PROFESORA Y PIN */
+        .pin-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 16px;
+        }
+        .pin-modal-card {
+            background: white;
+            border-radius: 24px;
+            max-width: 380px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: popIn 0.2s ease-out;
+        }
+        .pin-dots-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        .pin-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 3px solid #cbd5e1;
+            background: white;
+            transition: all 0.2s;
+        }
+        .pin-dot.filled {
+            background: #ec4899;
+            border-color: #db2777;
+            transform: scale(1.15);
+        }
+        .pin-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 260px;
+            margin: 0 auto;
+        }
+        .pin-key {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--dark);
+            padding: 12px 0;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #cbd5e1;
+            transition: all 0.1s;
+        }
+        .pin-key:active {
+            transform: translateY(3px);
+            box-shadow: none;
+        }
+        .pin-key.clear {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+        .pin-key.ok {
+            background: #dcfce7;
+            border-color: #86efac;
+            color: #15803d;
+        }
+        .pin-msg {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-top: 14px;
+            min-height: 24px;
+        }
+        .exam-section-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+        .exam-text-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #1e293b;
+            margin: 14px 0;
+        }
+        .exam-q-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-vf {
+            width: 50px;
+            height: 42px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            cursor: pointer;
+            border: 2px solid #cbd5e1;
+            background: white;
+            transition: all 0.15s;
+        }
+        .btn-vf.selected-v {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #15803d;
+        }
+        .btn-vf.selected-f {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+        .exam-cloze-select {
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 10px;
+            border: 2px solid var(--primary);
+            background: #eff6ff;
+            color: var(--primary);
         }
     </style>
 </head>
@@ -1299,6 +1530,40 @@
         </div>
     </div>
 
+    <!-- MODAL DE PIN DE LA PROFESORA -->
+    <div class="pin-modal-overlay" id="pin-modal-overlay" style="display:none;" onclick="handlePinOverlayClick(event)">
+        <div class="pin-modal-card">
+            <div class="voice-modal-header" style="border-bottom:2px solid #fce7f3; padding-bottom:12px; margin-bottom:16px;">
+                <h2 style="color:#9d174d; font-size:1.35rem;">🔒 Zona de la Profesora</h2>
+                <button type="button" class="voice-modal-close" onclick="closePinModal()" title="Cerrar">✕</button>
+            </div>
+            <div style="font-size:1rem; color:var(--dark); margin-bottom:16px; line-height:1.4;">
+                Introduce el <b>código PIN de 4 dígitos</b> de la profesora para acceder a los niveles avanzados y exámenes oficiales:
+            </div>
+            <div class="pin-dots-row">
+                <span class="pin-dot" id="pin-dot-0"></span>
+                <span class="pin-dot" id="pin-dot-1"></span>
+                <span class="pin-dot" id="pin-dot-2"></span>
+                <span class="pin-dot" id="pin-dot-3"></span>
+            </div>
+            <div class="pin-keypad">
+                <button type="button" class="pin-key" onclick="pressPinKey('1')">1</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('2')">2</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('3')">3</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('4')">4</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('5')">5</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('6')">6</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('7')">7</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('8')">8</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('9')">9</button>
+                <button type="button" class="pin-key clear" onclick="clearPin()" title="Borrar">C</button>
+                <button type="button" class="pin-key" onclick="pressPinKey('0')">0</button>
+                <button type="button" class="pin-key ok" onclick="submitPin()" title="Entrar">✓</button>
+            </div>
+            <div class="pin-msg" id="pin-msg" style="color:#dc2626;"></div>
+        </div>
+    </div>
+
     <main>
         <!-- PANTALLA 0: MENÚ PRINCIPAL -->
         <section id="screen-home" class="screen active">
@@ -1345,22 +1610,32 @@
                     </div>
                 </div>
 
-                <!-- NUEVO APARTADO: COMPRENSIÓN LECTORA (HISTORIAS CORTAS) -->
+                <!-- NUEVO APARTADO: FRASES CORTAS (PASO A PASO) -->
+                <div class="menu-card" onclick="showScreen('phrases')" style="border-color:#fde047; background:#fefce8;">
+                    <span class="step-badge" style="background:#fef08a; color:#854d0e;">Frases cotidianas</span>
+                    <div class="menu-icon" style="background:#fef08a;">💬</div>
+                    <div class="menu-info">
+                        <h2>5. Frases Cortas</h2>
+                        <p>Aprende a unir palabras en frases sencillas del día a día con audio palabra a palabra.</p>
+                    </div>
+                </div>
+
+                <!-- APARTADO: COMPRENSIÓN LECTORA (HISTORIAS CORTAS) -->
                 <div class="menu-card" onclick="showScreen('reading')" style="border-color:#86efac; background:#f0fdf4;">
                     <span class="step-badge" style="background:#dcfce7; color:#15803d;">Con preguntas</span>
                     <div class="menu-icon" style="background:#dcfce7;">📚</div>
                     <div class="menu-info">
-                        <h2>5. Comprensión Lectora</h2>
+                        <h2>6. Comprensión Lectora</h2>
                         <p>Historias muy cortas del día a día (súper, médico, trabajo) con preguntas de test.</p>
                     </div>
                 </div>
 
-                <!-- NUEVO APARTADO: DICTADO INTERACTIVO FÁCIL -->
+                <!-- APARTADO: DICTADO INTERACTIVO FÁCIL -->
                 <div class="menu-card" onclick="showScreen('dictation')" style="border-color:#fde68a; background:#fffdf5;">
                     <span class="step-badge" style="background:#fef3c7; color:#b45309;">Escucha y escribe</span>
                     <div class="menu-icon" style="background:#fef3c7;">📝</div>
                     <div class="menu-info">
-                        <h2>6. Dictado Fácil</h2>
+                        <h2>7. Dictado Fácil</h2>
                         <p>Escucha la palabra despacito y colócala en orden con corrección al instante.</p>
                     </div>
                 </div>
@@ -1369,7 +1644,7 @@
                     <span class="step-badge" style="background:#ccfbf1; color:#0f766e;">Vida Real</span>
                     <div class="menu-icon" style="background:#ccfbf1;">🏪</div>
                     <div class="menu-info">
-                        <h2>7. Súper, Médico y Calle</h2>
+                        <h2>8. Súper, Médico y Calle</h2>
                         <p>Leer envases (Pollo vs Cerdo), recetas médicas, puertas y frases.</p>
                     </div>
                 </div>
@@ -1378,7 +1653,7 @@
                     <span class="step-badge" style="background:#ffedd5; color:#c2410c;">Consejos</span>
                     <div class="menu-icon" style="background:#ffedd5;">💡</div>
                     <div class="menu-info">
-                        <h2>8. Trucos P/B y Vocales</h2>
+                        <h2>9. Trucos P/B y Vocales</h2>
                         <p>Diferenciar P de B, E de I, O de U, letras en espejo y la H muda.</p>
                     </div>
                 </div>
@@ -1387,7 +1662,7 @@
                     <span class="step-badge">Pizarra</span>
                     <div class="menu-icon" style="background:#ede9fe;">✍️</div>
                     <div class="menu-info">
-                        <h2>9. Escribir y Teclado</h2>
+                        <h2>10. Escribir y Teclado</h2>
                         <p>Pizarra para dibujar las letras y práctica con las teclas del portátil.</p>
                     </div>
                 </div>
@@ -1396,8 +1671,18 @@
                     <span class="step-badge" style="background:#dbeafe; color:#1d4ed8;">5 Juegos</span>
                     <div class="menu-icon" style="background:#dbeafe;">🎮</div>
                     <div class="menu-info">
-                        <h2>10. Juegos por Niveles</h2>
+                        <h2>11. Juegos por Niveles</h2>
                         <p>Arrastrar Vocales, Leer Carteles, Ordenar Sílabas, Caza el Sonido y Parejas.</p>
+                    </div>
+                </div>
+
+                <!-- ZONA PROFESORA: EXÁMENES A1 Y A2 (PROTEGIDA POR PIN) -->
+                <div class="menu-card" onclick="openTeacherPinModal()" style="border-color:#f472b6; background:#fdf2f8;">
+                    <span class="step-badge" style="background:#fce7f3; color:#9d174d;">🔒 Requiere PIN</span>
+                    <div class="menu-icon" style="background:#fce7f3;">👩‍🏫</div>
+                    <div class="menu-info">
+                        <h2>Zona Profesora: Niveles A1 - A2</h2>
+                        <p>Exámenes oficiales de la EOI (Comunidad de Madrid). Acceso reservado mediante código.</p>
                     </div>
                 </div>
             </div>
@@ -1442,7 +1727,18 @@
             <div class="words-grid" id="words-grid"></div>
         </section>
 
-        <!-- PANTALLA 5: COMPRENSIÓN LECTORA (HISTORIAS CORTAS CON PREGUNTAS) -->
+        <!-- PANTALLA 5: FRASES CORTAS DEL DÍA A DÍA -->
+        <section id="screen-phrases" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #fefce8 0%, #eff6ff 100%); border-color:#fef08a;">
+                <h2 style="color:#a16207; font-size:1.4rem;">💬 Frases Cortas del Día a Día</h2>
+                <p style="font-size:0.95rem;">Toca cualquier palabra para escucharla suelta o escucha la frase entera. ¡También puedes jugar a ordenarla!</p>
+            </div>
+            <div class="level-bar" id="phrases-level-bar"></div>
+            <div style="text-align:center; margin-bottom:14px; color:var(--muted); font-weight:700;" id="phrases-level-desc"></div>
+            <div class="phrases-grid" id="phrases-grid"></div>
+        </section>
+
+        <!-- PANTALLA 6: COMPRENSIÓN LECTORA (HISTORIAS CORTAS CON PREGUNTAS) -->
         <section id="screen-reading" class="screen">
             <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%); border-color:#86efac;">
                 <h2 style="color:#15803d; font-size:1.4rem;">📚 Historias Cortas para Leer y Comprender</h2>
@@ -1548,6 +1844,28 @@
                 <div id="game-stage-content"></div>
                 <div id="game-feedback" style="margin-top:14px; font-size:1.25rem; font-weight:800; min-height:30px;"></div>
             </div>
+        </section>
+
+        <!-- PANTALLA 12: ZONA PROFESORA (EXÁMENES OFICIALES A1 Y A2) -->
+        <section id="screen-teacher" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 100%); border-color:#f472b6;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <h2 style="color:#9d174d; font-size:1.4rem;">👩‍🏫 Zona de la Profesora: Exámenes Oficiales A1 - A2</h2>
+                        <p style="font-size:0.95rem;">Modelos reales de la Escuela Oficial de Idiomas (Comunidad de Madrid) con audios y corrección interactiva.</p>
+                    </div>
+                    <button class="btn-top" onclick="lockTeacherZone()" style="background:#fee2e2; border-color:#f87171; color:#b91c1c; font-weight:800;">
+                        🔒 Bloquear y salir
+                    </button>
+                </div>
+            </div>
+            <div class="category-tabs" id="teacher-tabs">
+                <button class="cat-tab active" id="tab-t-tv" onclick="switchTeacherTab('tv')">📺 1. Programas TV (Lectura)</button>
+                <button class="cat-tab" id="tab-t-antonio" onclick="switchTeacherTab('antonio')">🎸 2. Antonio Vega (V / F)</button>
+                <button class="cat-tab" id="tab-t-cloze" onclick="switchTeacherTab('cloze')">📖 3. En España leemos mucho</button>
+                <button class="cat-tab" id="tab-t-write" onclick="switchTeacherTab('write')">🐱 4. Redacción: Gatitos</button>
+            </div>
+            <div id="teacher-content-area" style="margin-top:16px;"></div>
         </section>
     </main>
 
@@ -1751,6 +2069,56 @@
                 { word: 'HOS-PI-TAL', full: 'Hospital', emoji: '🏥' }, { word: 'SE-MÁ-FO-RO', full: 'Semáforo', emoji: '🚦' }, { word: 'TE-LÉ-FO-NO', full: 'Teléfono', emoji: '📱' }, { word: 'PAN-TA-LÓN', full: 'Pantalón', emoji: '👖' }, { word: 'CHA-QUE-TA', full: 'Chaqueta', emoji: '🧥' }, { word: 'BO-LÍ-GRA-FO', full: 'Bolígrafo', emoji: '🖊️' }, { word: 'OR-DE-NA-DOR', full: 'Ordenador', emoji: '💻' }, { word: 'TRA-BA-JO', full: 'Trabajo', emoji: '💼' }, { word: 'CA-LEN-DA-RIO', full: 'Calendario', emoji: '📅' }, { word: 'AM-BU-LAN-CIA', full: 'Ambulancia', emoji: '🚑' }, { word: 'PE-LU-QUE-RÍA', full: 'Peluquería', emoji: '💇‍♀️' }, { word: 'PA-NA-DE-RÍA', full: 'Panadería', emoji: '🥖' }
             ]}
         };
+
+        /* =========================================================
+           2.1 FRASES CORTAS DEL DÍA A DÍA (PUENTE LECTOR)
+           ========================================================= */
+        const SHORT_PHRASES_DATA = {
+            1: {
+                name: 'Nivel 1: Frases de 3 palabras',
+                desc: 'Frases muy cortitas con sujeto, verbo y objeto para empezar a leer con sentido.',
+                items: [
+                    { full: 'El gato bebe leche.', words: ['El', 'gato', 'bebe', 'leche.'], emoji: '🐱' },
+                    { full: 'Mamá come una manzana.', words: ['Mamá', 'come', 'una', 'manzana.'], emoji: '🍎' },
+                    { full: 'El sol da calor.', words: ['El', 'sol', 'da', 'calor.'], emoji: '☀️' },
+                    { full: 'El vaso tiene agua.', words: ['El', 'vaso', 'tiene', 'agua.'], emoji: '🥛' },
+                    { full: 'La casa es bonita.', words: ['La', 'casa', 'es', 'bonita.'], emoji: '🏠' },
+                    { full: 'La luna brilla mucho.', words: ['La', 'luna', 'brilla', 'mucho.'], emoji: '🌙' }
+                ]
+            },
+            2: {
+                name: 'Nivel 2: Familia, Escuela y Rutinas',
+                desc: 'Frases del día a día de 4 palabras para conectar situaciones reales.',
+                items: [
+                    { full: 'Amina sube al autobús.', words: ['Amina', 'sube', 'al', 'autobús.'], emoji: '🚌' },
+                    { full: 'Mónica enseña a leer.', words: ['Mónica', 'enseña', 'a', 'leer.'], emoji: '👩‍🏫' },
+                    { full: 'Fátima compra pan fresco.', words: ['Fátima', 'compra', 'pan', 'fresco.'], emoji: '🥖' },
+                    { full: 'El médico receta pastillas.', words: ['El', 'médico', 'receta', 'pastillas.'], emoji: '🩺' },
+                    { full: 'La niña lee un libro.', words: ['La', 'niña', 'lee', 'un', 'libro.'], emoji: '📖' },
+                    { full: 'El perro juega fuera.', words: ['El', 'perro', 'juega', 'fuera.'], emoji: '🐶' }
+                ]
+            },
+            3: {
+                name: 'Nivel 3: Frases Completas y Detalladas',
+                desc: 'Frases completas de 5 o 6 palabras para ganar fluidez lectora.',
+                items: [
+                    { full: 'El panadero vende pan caliente.', words: ['El', 'panadero', 'vende', 'pan', 'caliente.'], emoji: '🥖' },
+                    { full: 'Yo tomo café por la mañana.', words: ['Yo', 'tomo', 'café', 'por', 'la', 'mañana.'], emoji: '☕' },
+                    { full: 'La gata duerme en el sofá.', words: ['La', 'gata', 'duerme', 'en', 'el', 'sofá.'], emoji: '🐱' },
+                    { full: 'El niño lleva su mochila azul.', words: ['El', 'niño', 'lleva', 'su', 'mochila', 'azul.'], emoji: '🎒' },
+                    { full: 'Amina escribe con un lápiz.', words: ['Amina', 'escribe', 'con', 'un', 'lápiz.'], emoji: '✏️' },
+                    { full: 'El hospital está muy cerca.', words: ['El', 'hospital', 'está', 'muy', 'cerca.'], emoji: '🏥' }
+                ]
+            }
+        };
+
+        /* =========================================================
+           2.2 EXÁMENES OFICIALES A1 Y A2 (ZONA PROFESORA)
+           ========================================================= */
+        const TEACHER_PIN = '0121';
+        let isTeacherUnlocked = false;
+        let enteredPin = '';
+        let currentTeacherTab = 'tv';
 
         /* =========================================================
            3. HISTORIAS DE COMPRENSIÓN LECTORA (CON PREGUNTAS Y NOTA)
@@ -2461,6 +2829,7 @@
             renderSyllables();
             renderBlends();
             renderWords();
+            renderPhrases();
             drawTraceGuide();
             if (currentScreen === 'games') renderCurrentGameStep(false);
         }
@@ -2476,12 +2845,14 @@
                 'syllables': '2. Sílabas Simples (MA, PA...)',
                 'blends': '3. Sílabas Trabadas (BL, BR, TR...)',
                 'words': '4. Palabras por 5 Niveles',
-                'reading': '5. Comprensión Lectora',
-                'dictation': '6. Dictado Fácil',
-                'reallife': '7. Súper, Médico y Calle',
-                'tips': '8. Trucos P/B y Vocales',
-                'write': '9. Escribir y Teclado',
-                'games': '10. Juegos por Niveles'
+                'phrases': '5. Frases Cortas (Paso a Paso)',
+                'reading': '6. Comprensión Lectora',
+                'dictation': '7. Dictado Fácil',
+                'reallife': '8. Súper, Médico y Calle',
+                'tips': '9. Trucos P/B y Vocales',
+                'write': '10. Escribir y Teclado',
+                'games': '11. Juegos por Niveles',
+                'teacher': '🎓 Zona Profesora: Exámenes A1 - A2'
             };
             document.getElementById('top-title').innerText = titles[name] || 'Español Paso a Paso';
 
@@ -2489,12 +2860,14 @@
             else if (name === 'syllables') renderSyllables();
             else if (name === 'blends') renderBlends();
             else if (name === 'words') renderWords();
+            else if (name === 'phrases') renderPhrases();
             else if (name === 'reading') renderReadingStory();
             else if (name === 'dictation') initDictation();
             else if (name === 'reallife') renderRealLife();
             else if (name === 'tips') renderTips();
             else if (name === 'write') initTraceSection();
             else if (name === 'games') initGameLevelQueue();
+            else if (name === 'teacher') renderTeacherSection();
             else synth.cancel();
         }
 
@@ -2505,12 +2878,14 @@
                 'syllables': 'Elige una letra arriba y escucha cómo suena con cada vocal.',
                 'blends': 'Aquí tienes las sílabas trabadas como BLA, BRA, TRA y las familias de CA, QUE, QUI.',
                 'words': 'Cinco niveles de palabras con dibujos reales.',
+                'phrases': 'Toca cada palabra para escucharla suelta o escucha la frase entera. También puedes jugar a ordenarla.',
                 'reading': 'Toca el botón verde para escuchar la historia leída despacito y luego responde a las preguntas.',
                 'dictation': 'Toca la bocina para escuchar la palabra y coloca las piezas en orden.',
                 'reallife': 'Carteles del supermercado, médico y frases coloquiales.',
                 'tips': 'Consejos para no confundir la Pe y la Be, o la E y la I.',
                 'write': 'Pizarra para dibujar las letras y buscador de teclas.',
-                'games': 'Cuatro juegos con 5 niveles sin repetir palabras.'
+                'games': 'Cuatro juegos con 5 niveles sin repetir palabras.',
+                'teacher': 'Zona de la profesora con modelos oficiales de exámenes A2 adaptados.'
             };
             speak(helps[currentScreen]);
         }
@@ -2737,7 +3112,149 @@
         }
 
         /* =========================================================
-           10. MÓDULO 5: COMPRENSIÓN LECTORA (CON PREGUNTAS Y NOTA)
+           9.1 MÓDULO 5: FRASES CORTAS DEL DÍA A DÍA (PUENTE LECTOR)
+           ========================================================= */
+        let currentPhrasesLevel = 1;
+        const phraseGameStates = {};
+
+        function renderPhrases() {
+            const bar = document.getElementById('phrases-level-bar');
+            if (!bar) return;
+            bar.innerHTML = '';
+            [1, 2, 3].forEach(lvl => {
+                const btn = document.createElement('button');
+                btn.className = `lvl-btn ${lvl === currentPhrasesLevel ? 'active' : ''}`;
+                btn.innerHTML = `⭐ Nivel ${lvl}`;
+                btn.onclick = () => {
+                    currentPhrasesLevel = lvl;
+                    renderPhrases();
+                    speak(SHORT_PHRASES_DATA[lvl].name);
+                };
+                bar.appendChild(btn);
+            });
+
+            const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
+            document.getElementById('phrases-level-desc').innerText = `${lvlObj.name}: ${lvlObj.desc}`;
+
+            const grid = document.getElementById('phrases-grid');
+            grid.innerHTML = '';
+
+            lvlObj.items.forEach((item, cardIdx) => {
+                const card = document.createElement('div');
+                card.className = 'phrase-card';
+
+                const wordsHtml = item.words.map((w, wIdx) => {
+                    const dispWord = caseMode === 'lower' ? w.toLowerCase() : (caseMode === 'upper' ? w.toUpperCase() : w);
+                    const safeW = w.replace(/'/g, "\\'");
+                    return `<button type="button" class="phrase-word-pill" id="p-pill-${cardIdx}-${wIdx}" onclick="speakPhraseWord('${safeW}', ${cardIdx}, ${wIdx})">${dispWord}</button>`;
+                }).join('');
+
+                const isGameOpen = phraseGameStates[cardIdx] && phraseGameStates[cardIdx].open;
+                let gameHtml = '';
+
+                if (isGameOpen) {
+                    const gState = phraseGameStates[cardIdx];
+                    const slotsHtml = item.words.map((_, sIdx) => {
+                        const filledWord = gState.placed[sIdx];
+                        return `<div class="dict-slot ${filledWord ? 'filled' : ''}">${filledWord || ''}</div>`;
+                    }).join('');
+
+                    const piecesHtml = gState.shuffled.map((piece, pIdx) => {
+                        if (piece.used) return '';
+                        const dispP = caseMode === 'lower' ? piece.w.toLowerCase() : (caseMode === 'upper' ? piece.w.toUpperCase() : piece.w);
+                        return `<button type="button" class="quiz-opt-btn" onclick="onPhrasePieceClick(${cardIdx}, ${pIdx})">${dispP}</button>`;
+                    }).join('');
+
+                    gameHtml = `
+                        <div class="phrase-game-box">
+                            <div style="font-weight:800; font-size:0.95rem; color:#1e40af;">🧩 Toca las palabras en orden de izquierda 🟢 a derecha ➡️:</div>
+                            <div class="dictation-slots" style="justify-content:center;">${slotsHtml}</div>
+                            <div class="quiz-options" style="justify-content:center; margin-top:6px;">${piecesHtml}</div>
+                            <div id="phrase-fb-${cardIdx}" style="font-size:1.05rem; font-weight:800; min-height:24px;">${gState.feedback || ''}</div>
+                        </div>
+                    `;
+                }
+
+                const safeFull = item.full.replace(/'/g, "\\'");
+                card.innerHTML = `
+                    <div style="font-size:3.2rem; margin-bottom:-4px;">${item.emoji}</div>
+                    <div class="direction-indicator">🟢 Lee de izquierda a derecha ➡️</div>
+                    <div class="phrase-words-wrap">${wordsHtml}</div>
+                    <div style="font-size:0.9rem; color:var(--muted); font-weight:700;">Toca cada palabra para escucharla suelta</div>
+                    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:4px;">
+                        <button type="button" class="phrase-btn-full" onclick="speak('${safeFull}', 0.72)">
+                            🔊 Escuchar frase entera
+                        </button>
+                        <button type="button" class="phrase-btn-game" onclick="togglePhraseGame(${cardIdx})">
+                            ${isGameOpen ? '✕ Cerrar juego' : '🧩 Jugar a ordenar'}
+                        </button>
+                    </div>
+                    ${gameHtml}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function speakPhraseWord(word, cardIdx, wordIdx) {
+            document.querySelectorAll('.phrase-word-pill').forEach(el => el.classList.remove('active'));
+            const el = document.getElementById(`p-pill-${cardIdx}-${wordIdx}`);
+            if (el) el.classList.add('active');
+            speak(word.replace(/[.,;:!?]/g, ''), 0.68);
+            setTimeout(() => {
+                if (el) el.classList.remove('active');
+            }, 800);
+        }
+
+        function togglePhraseGame(cardIdx) {
+            const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
+            const item = lvlObj.items[cardIdx];
+            if (!phraseGameStates[cardIdx] || !phraseGameStates[cardIdx].open) {
+                const shuffled = item.words.map((w, idx) => ({ w, idx, used: false }))
+                    .sort(() => Math.random() - 0.5);
+                phraseGameStates[cardIdx] = {
+                    open: true,
+                    placed: [],
+                    shuffled: shuffled,
+                    feedback: ''
+                };
+            } else {
+                phraseGameStates[cardIdx].open = false;
+            }
+            renderPhrases();
+        }
+
+        function onPhrasePieceClick(cardIdx, pieceIdx) {
+            const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
+            const item = lvlObj.items[cardIdx];
+            const gState = phraseGameStates[cardIdx];
+            if (!gState) return;
+
+            const piece = gState.shuffled[pieceIdx];
+            const nextIdx = gState.placed.length;
+            const expectedWord = item.words[nextIdx];
+
+            const cleanPiece = piece.w.toLowerCase().replace(/[.,;:!?]/g, '');
+            const cleanExpected = expectedWord.toLowerCase().replace(/[.,;:!?]/g, '');
+
+            if (cleanPiece === cleanExpected) {
+                piece.used = true;
+                gState.placed.push(expectedWord);
+                speak(cleanExpected, 0.75);
+                if (gState.placed.length === item.words.length) {
+                    gState.feedback = `<span style="color:var(--success);">¡Perfecto! Has ordenado la frase 👏</span>`;
+                    setTimeout(() => speak(`¡Muy bien! ${item.full}`, 0.75), 600);
+                } else {
+                    gState.feedback = '';
+                }
+            } else {
+                gState.feedback = `<span style="color:#dc2626;">Prueba con otra palabra primero.</span>`;
+                speak('Busca otra palabra primero', 0.75);
+            }
+            renderPhrases();
+        }
+
+        /* =========================================================
+           10. MÓDULO 6: COMPRENSIÓN LECTORA (CON PREGUNTAS Y NOTA)
            ========================================================= */
         function renderReadingStory() {
             const tabs = document.getElementById('story-selector-tabs');
@@ -3783,6 +4300,413 @@
                     }, 800);
                 }
             }
+        }
+
+        /* =========================================================
+           14. ZONA PROFESORA: EXÁMENES OFICIALES A1 Y A2 CON PIN
+           ========================================================= */
+        function openTeacherPinModal() {
+            if (isTeacherUnlocked) {
+                showScreen('teacher');
+                return;
+            }
+            enteredPin = '';
+            updatePinDots();
+            const msgEl = document.getElementById('pin-msg');
+            if (msgEl) msgEl.innerText = '';
+            const overlay = document.getElementById('pin-modal-overlay');
+            if (overlay) overlay.style.display = 'flex';
+        }
+
+        function closePinModal() {
+            const overlay = document.getElementById('pin-modal-overlay');
+            if (overlay) overlay.style.display = 'none';
+            enteredPin = '';
+        }
+
+        function handlePinOverlayClick(e) {
+            if (e.target && e.target.id === 'pin-modal-overlay') {
+                closePinModal();
+            }
+        }
+
+        function pressPinKey(digit) {
+            if (enteredPin.length < 4) {
+                enteredPin += digit;
+                updatePinDots();
+                if (enteredPin.length === 4) {
+                    setTimeout(submitPin, 180);
+                }
+            }
+        }
+
+        function clearPin() {
+            enteredPin = '';
+            updatePinDots();
+            const msgEl = document.getElementById('pin-msg');
+            if (msgEl) msgEl.innerText = '';
+        }
+
+        function updatePinDots() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`pin-dot-${i}`);
+                if (dot) dot.classList.toggle('filled', i < enteredPin.length);
+            }
+        }
+
+        function submitPin() {
+            const msgEl = document.getElementById('pin-msg');
+            if (enteredPin === TEACHER_PIN) {
+                isTeacherUnlocked = true;
+                closePinModal();
+                showScreen('teacher');
+                speak('Acceso concedido. Bienvenida a la zona de la profesora.', 0.85);
+            } else {
+                if (msgEl) msgEl.innerText = 'PIN incorrecto. Pide a tu profesora que introduzca el código.';
+                speak('PIN incorrecto. Zona reservada para la profesora.', 0.85);
+                const dotsWrap = document.querySelector('.pin-dots-row');
+                if (dotsWrap) {
+                    dotsWrap.classList.add('shake');
+                    setTimeout(() => dotsWrap.classList.remove('shake'), 450);
+                }
+                setTimeout(() => {
+                    enteredPin = '';
+                    updatePinDots();
+                }, 600);
+            }
+        }
+
+        function lockTeacherZone() {
+            isTeacherUnlocked = false;
+            showScreen('home');
+            speak('Zona de la profesora bloqueada.', 0.85);
+        }
+
+        function switchTeacherTab(tabName) {
+            currentTeacherTab = tabName;
+            ['tv', 'antonio', 'cloze', 'write'].forEach(t => {
+                const btn = document.getElementById(`tab-t-${t}`);
+                if (btn) btn.classList.toggle('active', t === tabName);
+            });
+            renderTeacherSection();
+        }
+
+        const TEACHER_TV_DATA = [
+            { id: 1, name: '1. UN MUNDO CURIOSO', text: 'Observaremos a los animales desde una perspectiva poco habitual. La presentadora nos hace pensar sobre la relación entre los humanos y los animales ¿En qué nos parecemos? ¿Cómo nos relacionamos? ¿Qué aprendemos de ellos?', correct: 'K' },
+            { id: 2, name: '2. 200, UNA NOCHE EN EL PRADO', text: 'Una serie de 4 programas que nos permite visitar el Museo del Prado de noche, cuando el museo ya está cerrado. Podremos disfrutar de ese maravilloso espacio sin visitantes, y mirar cada cuadro sin prisa.', correct: 'H' },
+            { id: 3, name: '3. 59 SEGUNDOS', text: 'Es un programa de actualidad política, económica y social donde los invitados tienen 59 segundos para hablar. En este programa periodistas y expertos comentan, discuten y opinan sobre los temas que más preocupan a los ciudadanos.', correct: 'B' },
+            { id: 4, name: '4. DESLENGUADOS', text: 'Programa presentado por un poeta y showman que se interesa por el uso que hacemos de las palabras. Es una reflexión sobre cómo hablamos y cómo nos comunicamos, porque nuestra forma de hablar cambia al mismo tiempo que nuestra mente y nuestra sociedad.', correct: 'I' },
+            { id: 5, name: '5. ADOLESCENTES', text: 'Es un espacio de diálogo entre adolescentes y adultos sobre los asuntos que les preocupan. Se discute sobre temas que ellos eligen y que normalmente están de actualidad en las redes sociales como drogas, sexo, relaciones, inseguridades, amor…', correct: 'A' },
+            { id: 6, name: '6. SIN EQUIPAJE', text: 'Un programa en el que vamos a visitar lugares espectaculares y a vivir experiencias poco habituales. Queremos ver lugares que no están en los circuitos turísticos y conocer otras maneras de vivir.', correct: 'E' },
+            { id: 7, name: '7. CIFRAS Y LETRAS', text: 'Un concurso para trabajar la rapidez mental. Hay dos clases de pruebas, en una tienes que hacer cálculos matemáticos y en la otra tienes que formar palabras a partir de unas letras, para eso tienes solo un minuto. Puedes ganar mucho dinero.', correct: 'F' },
+            { id: 8, name: '8. AGROSFERA', text: 'Es un programa informativo que está dirigido a ganaderos, pescadores, agricultores y a la gente que vive en las zonas rurales. También se visitan pueblos, granjas, puertos... y nos explican cómo se producen los alimentos que llegan a nuestra mesa.', correct: 'D' }
+        ];
+
+        const TEACHER_TV_OPTIONS = {
+            'A': 'Conversaciones entre personas de distintas edades',
+            'B': 'El análisis rápido de las últimas noticias',
+            'C': 'Hablamos con personajes sobre su vida y su trabajo (Ejemplo)',
+            'D': 'Noticias para saber más sobre el campo y el mar',
+            'E': 'Otra forma de viajar',
+            'F': 'Piensa rápido y gana',
+            'G': 'Un concurso para jóvenes',
+            'H': 'Un paseo tranquilo rodeado de arte',
+            'I': 'Un programa para pensar sobre el lenguaje',
+            'J': 'Un programa sobre animales de compañía',
+            'K': 'Una mirada distinta al mundo animal'
+        };
+
+        const TEACHER_ANTONIO_QUESTIONS = [
+            { num: 9, q: 'A Antonio, de joven, le interesaban muchas cosas.', ans: 'V', expl: 'Verdadero: le gustaba leer sobre el movimiento de los planetas, literatura, etc.' },
+            { num: 10, q: 'Para su familia, lo más importante era la música.', ans: 'F', expl: 'Falso: para su familia el conocimiento y los libros eran muy importantes.' },
+            { num: 11, q: 'Antonio, de joven, era una persona muy activa.', ans: 'V', expl: 'Verdadero: fue una persona muy vital y le gustaba mucho practicar deporte.' },
+            { num: 12, q: 'Para Antonio la música y la ciencia eran dos mundos muy diferentes.', ans: 'F', expl: 'Falso: para él la música y la ciencia estaban conectadas.' },
+            { num: 13, q: 'Antonio como músico era ordenado y metódico.', ans: 'V', expl: 'Verdadero: era un trabajador perfeccionista y muy serio, con control absoluto de la técnica.' },
+            { num: 14, q: 'Antonio escribía canciones, cantaba y tocaba la guitarra.', ans: 'V', expl: 'Verdadero: fue compositor, cantante y un gran guitarrista experto.' },
+            { num: 15, q: 'Antonio dedicaba mucho tiempo a escribir las canciones.', ans: 'V', expl: 'Verdadero: cambiaba las letras durante años hasta que le parecían perfectas.' },
+            { num: 16, q: 'Antonio escribió muchas canciones de moda ahora olvidadas.', ans: 'F', expl: 'Falso: sus canciones resisten el paso del tiempo y duran siempre.' }
+        ];
+
+        const teacherAntonioUserAns = {};
+        const teacherTvUserAns = {};
+        const teacherClozeUserAns = {};
+
+        function renderTeacherSection() {
+            const area = document.getElementById('teacher-content-area');
+            if (!area) return;
+
+            if (currentTeacherTab === 'tv') {
+                let optionsListHtml = Object.entries(TEACHER_TV_OPTIONS).map(([letter, desc]) => `
+                    <div style="font-size:0.95rem; margin-bottom:4px;"><b>${letter}.</b> ${desc}</div>
+                `).join('');
+
+                let cardsHtml = TEACHER_TV_DATA.map(item => {
+                    const sel = teacherTvUserAns[item.id] || '';
+                    const selectOptions = ['-', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'].map(opt => `
+                        <option value="${opt}" ${sel === opt ? 'selected' : ''}>${opt === '-' ? 'Elegir título...' : `${opt} - ${TEACHER_TV_OPTIONS[opt] || ''}`}</option>
+                    `).join('');
+
+                    return `
+                        <div style="background:#f8fafc; border:2px solid #e2e8f0; border-radius:14px; padding:14px; margin-bottom:12px;" id="tv-box-${item.id}">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <h4 style="font-size:1.15rem; color:#1e293b; font-weight:800;">${item.name}</h4>
+                                <button type="button" class="btn-top" style="padding:2px 8px;" onclick="speak('${item.name.replace(/'/g, "\\'")}. ${item.text.replace(/'/g, "\\'")}', 0.8)">🔊 Escuchar</button>
+                            </div>
+                            <p style="font-size:1.05rem; line-height:1.5; color:#334155; margin-bottom:10px;">${item.text}</p>
+                            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                                <label style="font-weight:800; font-size:0.95rem; color:#475569;">Título correspondiente:</label>
+                                <select class="exam-cloze-select" onchange="teacherTvUserAns[${item.id}] = this.value">
+                                    ${selectOptions}
+                                </select>
+                            </div>
+                            <div id="tv-fb-${item.id}" style="margin-top:6px; font-weight:800; font-size:0.95rem;"></div>
+                        </div>
+                    `;
+                }).join('');
+
+                area.innerHTML = `
+                    <div class="exam-section-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <div>
+                                <h3 style="color:#0369a1; font-size:1.3rem;">📺 Tarea 1: Programas de Televisión (Nivel A2)</h3>
+                                <p style="font-size:0.95rem; color:var(--muted);">Lee los 8 programas de RTVE y relaciónalos con la frase más adecuada.</p>
+                            </div>
+                            <span class="step-badge" style="background:#e0f2fe; color:#0369a1;">8 Puntos</span>
+                        </div>
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:12px; margin-bottom:16px;">
+                            <div style="font-weight:800; color:#166534; margin-bottom:6px;">📋 Lista de Títulos Disponibles:</div>
+                            ${optionsListHtml}
+                        </div>
+                        ${cardsHtml}
+                        <button type="button" class="phrase-btn-full" style="width:100%; margin-top:12px;" onclick="checkTeacherTV()">
+                            ✅ Comprobar Respuestas de Tarea 1
+                        </button>
+                        <div id="teacher-tv-total-fb" style="margin-top:12px; text-align:center; font-size:1.2rem; font-weight:800;"></div>
+                    </div>
+                `;
+            } else if (currentTeacherTab === 'antonio') {
+                let questionsHtml = TEACHER_ANTONIO_QUESTIONS.map(q => {
+                    const userVal = teacherAntonioUserAns[q.num];
+                    return `
+                        <div class="exam-q-row" id="ant-row-${q.num}">
+                            <div style="flex:1; min-width:240px;">
+                                <b>${q.num}.</b> ${q.q}
+                                <button type="button" class="btn-top" style="padding:2px 6px; font-size:0.8rem; margin-left:6px;" onclick="speak('${q.q.replace(/'/g, "\\'")}', 0.8)">🔊</button>
+                                <div id="ant-expl-${q.num}" style="font-size:0.9rem; margin-top:4px; font-weight:700;"></div>
+                            </div>
+                            <div style="display:flex; gap:8px;">
+                                <button type="button" class="btn-vf ${userVal === 'V' ? 'selected-v' : ''}" onclick="selectAntonioVF(${q.num}, 'V')">V</button>
+                                <button type="button" class="btn-vf ${userVal === 'F' ? 'selected-f' : ''}" onclick="selectAntonioVF(${q.num}, 'F')">F</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                area.innerHTML = `
+                    <div class="exam-section-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <div>
+                                <h3 style="color:#6b21a8; font-size:1.3rem;">🎸 Tarea 2: Antonio Vega - Comprensión de Texto (Nivel A2)</h3>
+                                <p style="font-size:0.95rem; color:var(--muted);">Lee el texto biográfico y marca Verdadero (V) o Falso (F).</p>
+                            </div>
+                            <button type="button" class="btn-action" style="background:#16a34a;" onclick="speakAntonioText()">
+                                🔊 Escuchar biografía completa
+                            </button>
+                        </div>
+                        <div class="exam-text-box" style="max-height:260px; overflow-y:auto;">
+                            <h4 style="color:#7c3aed; margin-bottom:6px;">Antonio Vega: Uno de los músicos españoles más queridos</h4>
+                            <p style="margin-bottom:8px;">Antonio Vega fue uno de los artistas más importantes y queridos de la música española. Muchas personas hoy tienen una imagen de él como un hombre triste y solitario, pero la realidad era muy diferente, especialmente en su juventud. Según sus amigos cercanos y los libros sobre su vida, Antonio era un joven curioso, muy divertido y siempre tenía una sonrisa para los demás. Tenía una inteligencia fuera de lo común. Le gustaba leer y aprender sobre muchísimos temas diferentes, desde el movimiento de los planetas hasta la literatura clásica.</p>
+                            <p style="margin-bottom:8px;">Nació en Madrid en 1957 en una familia acomodada, donde el conocimiento y los libros eran muy importantes. Durante su infancia y adolescencia fue una persona muy vital y le gustaba mucho practicar deporte.</p>
+                            <p style="margin-bottom:8px;">Como músico no era una persona caótica: era un trabajador perfeccionista, obsesivo y muy serio, con un control absoluto de la técnica. Fue compositor, cantante y un gran guitarrista experto. Además, cambiaba las letras de sus canciones durante años hasta que le parecían perfectas.</p>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <h4 style="font-size:1.15rem; color:#1e293b; margin-bottom:10px;">Preguntas de Verdadero (V) o Falso (F):</h4>
+                            ${questionsHtml}
+                        </div>
+                        <button type="button" class="phrase-btn-full" style="width:100%; margin-top:14px;" onclick="checkTeacherAntonio()">
+                            ✅ Comprobar Respuestas de Tarea 2
+                        </button>
+                        <div id="teacher-ant-total-fb" style="margin-top:12px; text-align:center; font-size:1.2rem; font-weight:800;"></div>
+                    </div>
+                `;
+            } else if (currentTeacherTab === 'cloze') {
+                const wordsList = ['PERO', 'UNIVERSITARIOS', 'PORQUE', 'MÁS', 'PREFIEREN', 'TIEMPO', 'ENCUENTRAN', 'HACER DEPORTE', 'EL PRECIO'];
+                const allOpts = ['-', ...wordsList, 'DE COLORES', 'DESPERTARSE', 'ENTRE', 'POCAS', 'PREGUNTAN', 'EL ESPACIO'];
+                
+                const makeSelect = (gapNum) => {
+                    const selVal = teacherClozeUserAns[gapNum] || '';
+                    return `<select class="exam-cloze-select" id="cloze-gap-${gapNum}" onchange="teacherClozeUserAns[${gapNum}] = this.value">
+                        ${allOpts.map(o => `<option value="${o}" ${selVal === o ? 'selected' : ''}>${o === '-' ? `[ ${gapNum} ]` : o}</option>`).join('')}
+                    </select>`;
+                };
+
+                area.innerHTML = `
+                    <div class="exam-section-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <div>
+                                <h3 style="color:#b45309; font-size:1.3rem;">📖 Tarea 3: En España leemos mucho (Rellenar huecos)</h3>
+                                <p style="font-size:0.95rem; color:var(--muted);">Elige la palabra correcta para cada hueco del texto.</p>
+                            </div>
+                            <span class="step-badge" style="background:#fef3c7; color:#b45309;">9 Puntos</span>
+                        </div>
+                        <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:12px; margin-bottom:14px;">
+                            <div style="font-weight:800; color:#92400e; margin-bottom:6px;">🔤 Banco de palabras disponibles:</div>
+                            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                                ${allOpts.filter(o => o !== '-').map(w => `<span style="background:white; border:1px solid #cbd5e1; border-radius:8px; padding:3px 8px; font-weight:700; font-size:0.9rem;">${w}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="exam-text-box" style="font-size:1.2rem; line-height:2;">
+                            <p style="margin-bottom:10px;">Leer libros es hoy una de las actividades de ocio más importantes en España. Según un estudio de 2024, el 65,5% de la población lee en su tiempo libre, al menos una vez <b>por semana</b>.</p>
+                            <p style="margin-bottom:10px;"><b>¿Quiénes son los lectores?</b><br>
+                            Muchas personas piensan que los jóvenes no leen, ${makeSelect(17)} las estadísticas dicen lo contrario: el 75% de los jóvenes lee habitualmente. Quienes más leen son mujeres jóvenes con estudios ${makeSelect(18)} que viven en ciudades.</p>
+                            <p style="margin-bottom:10px;"><b>¿Qué tipo de libro y dónde se compra?</b><br>
+                            La mayoría de la gente prefiere el libro de papel ${makeSelect(19)} no cansa la vista. Cada vez ${makeSelect(20)} personas usan libros electrónicos. Para comprar libros, los españoles ${makeSelect(21)} ir a las librerías del barrio.</p>
+                            <p style="margin-bottom:10px;"><b>¿Por qué algunas personas no leen?</b><br>
+                            Un 34% no lee nunca por falta de ${makeSelect(22)}. Otras personas no leen porque no ${makeSelect(23)} libros divertidos o prefieren ${makeSelect(24)}. Otro problema es ${makeSelect(25)} de los libros, ya que son caros.</p>
+                        </div>
+                        <button type="button" class="phrase-btn-full" style="width:100%; margin-top:14px;" onclick="checkTeacherCloze()">
+                            ✅ Comprobar Huecos de Tarea 3
+                        </button>
+                        <div id="teacher-cloze-total-fb" style="margin-top:12px; text-align:center; font-size:1.2rem; font-weight:800;"></div>
+                    </div>
+                `;
+            } else if (currentTeacherTab === 'write') {
+                area.innerHTML = `
+                    <div class="exam-section-card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <div>
+                                <h3 style="color:#0f766e; font-size:1.3rem;">🐱 Tarea 4: Expresión Escrita - Email a Raquel</h3>
+                                <p style="font-size:0.95rem; color:var(--muted);">Escribe un correo de entre 70 y 90 palabras respondiendo al anuncio.</p>
+                            </div>
+                            <span class="step-badge" style="background:#ccfbf1; color:#0f766e;">12 Puntos</span>
+                        </div>
+                        <div style="background:#f0fdfa; border:2px dashed #99f6e4; border-radius:14px; padding:14px; margin-bottom:14px;">
+                            <div style="font-weight:800; color:#115e59; margin-bottom:4px;">📢 Anuncio leído en la parada del autobús:</div>
+                            <div style="font-size:1.05rem; line-height:1.5; color:#134e4a;">
+                                <i>«Hola: Me llamo Raquel y tengo una gata preciosa que se llama Rizos. Ha tenido 5 gatitos y desgraciadamente no puedo quedarme con los 5. Si estás interesado/a te puedo regalar uno. Pero antes necesito saber cosas de ti: quién eres, qué experiencia tienes con animales y por qué quieres un gatito. Si vas a tenerlo en tu casa, dime dónde vives y cómo es tu casa. Escríbeme a raquel_5555@gmail.com»</i>
+                            </div>
+                        </div>
+                        <div style="background:#fefce8; border:1px solid #fef08a; border-radius:12px; padding:10px 14px; margin-bottom:14px; font-size:0.95rem; color:#854d0e;">
+                            📌 <b>Puntos obligatorios a tratar:</b> 1. Preséntate. 2. Contesta a todas sus preguntas (experiencia, por qué lo quieres, casa). 3. Pregúntale cuándo puedes ir a conocer a los gatitos.
+                        </div>
+                        <textarea id="cat-email-textarea" style="width:100%; min-height:160px; padding:14px; border:2px solid #cbd5e1; border-radius:14px; font-size:1.15rem; font-family:inherit; line-height:1.5; box-sizing:border-box;" placeholder="¡Hola, Raquel! Me llamo..." oninput="updateCatEmailWordCount()"></textarea>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:8px;">
+                            <span id="cat-word-count-badge" style="font-weight:800; font-size:1rem; color:#64748b;">Palabras: 0 / 70 - 90 palabras</span>
+                            <button type="button" class="btn-top" style="background:#e0f2fe; border-color:#93c5fd; color:#0369a1; font-weight:800;" onclick="listenCatSampleEmail()">
+                                🔊 Escuchar modelo de respuesta de ejemplo
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function checkTeacherTV() {
+            let score = 0;
+            TEACHER_TV_DATA.forEach(it => {
+                const userAns = teacherTvUserAns[it.id];
+                const fb = document.getElementById(`tv-fb-${it.id}`);
+                const box = document.getElementById(`tv-box-${it.id}`);
+                if (userAns === it.correct) {
+                    score++;
+                    if (box) { box.style.borderColor = '#16a34a'; box.style.background = '#f0fdf4'; }
+                    if (fb) fb.innerHTML = `<span style="color:#16a34a;">✅ ¡Correcto! Opción ${it.correct}: ${TEACHER_TV_OPTIONS[it.correct]}</span>`;
+                } else {
+                    if (box) { box.style.borderColor = '#dc2626'; box.style.background = '#fef2f2'; }
+                    if (fb) fb.innerHTML = `<span style="color:#dc2626;">❌ Respuesta correcta: ${it.correct} (${TEACHER_TV_OPTIONS[it.correct]})</span>`;
+                }
+            });
+            const tot = document.getElementById('teacher-tv-total-fb');
+            if (tot) {
+                tot.innerHTML = score >= 5
+                    ? `<span style="color:#16a34a;">🎉 ¡Muy bien! Puntuación: ${score} / 8 aciertos.</span>`
+                    : `<span style="color:#dc2626;">Puntuación: ${score} / 8 aciertos. ¡Revisa los títulos marcados en rojo!</span>`;
+            }
+            speak(`Has conseguido ${score} de ocho puntos en la tarea uno.`, 0.85);
+        }
+
+        function selectAntonioVF(num, val) {
+            teacherAntonioUserAns[num] = val;
+            renderTeacherSection();
+        }
+
+        function speakAntonioText() {
+            const txt = 'Antonio Vega fue uno de los artistas más importantes de la música española. Era un joven curioso, muy divertido y tenía una inteligencia fuera de lo común. Nació en Madrid en 1957. Era muy vital y deportista. Para él, la música y la ciencia estaban conectadas. Como músico era perfeccionista, serio y metódico. Escribía canciones, cantaba y tocaba la guitarra.';
+            speak(txt, 0.75);
+        }
+
+        function checkTeacherAntonio() {
+            let score = 0;
+            TEACHER_ANTONIO_QUESTIONS.forEach(q => {
+                const userAns = teacherAntonioUserAns[q.num];
+                const row = document.getElementById(`ant-row-${q.num}`);
+                const expl = document.getElementById(`ant-expl-${q.num}`);
+                if (userAns === q.ans) {
+                    score++;
+                    if (row) { row.style.background = '#f0fdf4'; row.style.border = '1px solid #16a34a'; }
+                    if (expl) expl.innerHTML = `<span style="color:#16a34a;">✅ Correcto: ${q.expl}</span>`;
+                } else {
+                    if (row) { row.style.background = '#fef2f2'; row.style.border = '1px solid #dc2626'; }
+                    if (expl) expl.innerHTML = `<span style="color:#dc2626;">❌ Incorrecto. ${q.expl}</span>`;
+                }
+            });
+            const tot = document.getElementById('teacher-ant-total-fb');
+            if (tot) {
+                tot.innerHTML = score >= 5
+                    ? `<span style="color:#16a34a;">🎉 ¡Genial! Puntuación: ${score} / 8 respuestas correctas.</span>`
+                    : `<span style="color:#dc2626;">Puntuación: ${score} / 8 respuestas correctas.</span>`;
+            }
+            speak(`Has obtenido ${score} de ocho aciertos en la lectura de Antonio Vega.`, 0.85);
+        }
+
+        function checkTeacherCloze() {
+            const correctMap = {
+                17: 'PERO',
+                18: 'UNIVERSITARIOS',
+                19: 'PORQUE',
+                20: 'MÁS',
+                21: 'PREFIEREN',
+                22: 'TIEMPO',
+                23: 'ENCUENTRAN',
+                24: 'HACER DEPORTE',
+                25: 'EL PRECIO'
+            };
+            let score = 0;
+            Object.entries(correctMap).forEach(([gap, cor]) => {
+                const user = teacherClozeUserAns[gap];
+                const sel = document.getElementById(`cloze-gap-${gap}`);
+                if (user === cor) {
+                    score++;
+                    if (sel) { sel.style.borderColor = '#16a34a'; sel.style.background = '#dcfce7'; sel.style.color = '#15803d'; }
+                } else {
+                    if (sel) { sel.style.borderColor = '#dc2626'; sel.style.background = '#fee2e2'; sel.style.color = '#b91c1c'; }
+                }
+            });
+            const tot = document.getElementById('teacher-cloze-total-fb');
+            if (tot) {
+                tot.innerHTML = score >= 6
+                    ? `<span style="color:#16a34a;">🎉 ¡Excelente! Puntuación: ${score} / 9 aciertos.</span>`
+                    : `<span style="color:#dc2626;">Puntuación: ${score} / 9 aciertos. Los huecos en rojo no son correctos.</span>`;
+            }
+            speak(`Has conseguido ${score} de nueve puntos en los huecos.`, 0.85);
+        }
+
+        function updateCatEmailWordCount() {
+            const ta = document.getElementById('cat-email-textarea');
+            const badge = document.getElementById('cat-word-count-badge');
+            if (!ta || !badge) return;
+            const words = (ta.value || '').trim().split(/\s+/).filter(Boolean);
+            const count = words.length;
+            let color = '#64748b';
+            if (count >= 70 && count <= 90) color = '#16a34a';
+            else if (count > 90) color = '#dc2626';
+            badge.style.color = color;
+            badge.innerText = `Palabras: ${count} / 70 - 90 palabras recomendadas ${count >= 70 && count <= 90 ? '✅ (Longitud perfecta)' : ''}`;
+        }
+
+        function listenCatSampleEmail() {
+            const sample = '¡Hola, Raquel! Me llamo Amina y vivo en Madrid. Me encantan los animales y de pequeña en mi familia teníamos dos gatos y un perro, así que sé muy bien cómo cuidarlos y alimentarlos. Me gustaría adoptar un gatito para que me haga compañía en casa. Vivo en un piso luminoso y tranquilo con terraza protegida. ¿Cuándo podría ir a tu casa a conocer a los gatitos? Muchas gracias y un saludo, Amina.';
+            speak(sample, 0.78);
         }
 
         // Inicialización
