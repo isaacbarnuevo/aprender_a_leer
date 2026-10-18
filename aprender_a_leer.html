@@ -3259,14 +3259,35 @@
                         setTimeout(initGameLevelQueue, 700);
                     });
                 } else {
-                    fb.style.color = 'var(--purple)';
-                    fb.innerText = `👑 ¡Has completado los 5 Niveles!`;
-                    speak(`¡Enhorabuena! Has superado los cinco niveles.`, 0.85, () => {
-                        setTimeout(() => {
-                            currentGameLevel = 1;
-                            initGameLevelQueue();
-                        }, 1000);
-                    });
+                    const games = ['drag', 'market', 'puzzle', 'sound', 'memory'];
+                    const gameNames = {
+                        'drag': 'Arrastrar Vocales',
+                        'market': 'Leer Carteles',
+                        'puzzle': 'Ordenar Sílabas',
+                        'sound': 'Reto de Letras',
+                        'memory': 'Parejas'
+                    };
+                    const currentIdx = games.indexOf(activeGameType);
+                    const nextGame = games[(currentIdx + 1) % games.length];
+                    const nextGameName = gameNames[nextGame];
+
+                    if (currentIdx + 1 < games.length) {
+                        fb.style.color = 'var(--purple)';
+                        fb.innerText = `👑 ¡Has completado los 5 Niveles de ${gameNames[activeGameType]}! Pasamos a ${nextGameName}... 🎉`;
+                        speak(`¡Enhorabuena! Has completado los cinco niveles. Pasamos a ${nextGameName}.`, 0.85, () => {
+                            setTimeout(() => {
+                                switchGame(nextGame);
+                            }, 800);
+                        });
+                    } else {
+                        fb.style.color = 'var(--purple)';
+                        fb.innerText = `🏆 ¡CAMPEÓN! Has superado todos los juegos y todos los niveles 🎉`;
+                        speak(`¡Enhorabuena, campeón! Has superado todos los juegos y todos los niveles.`, 0.85, () => {
+                            setTimeout(() => {
+                                switchGame('drag');
+                            }, 1000);
+                        });
+                    }
                 }
             } else {
                 updateProgressBar();
