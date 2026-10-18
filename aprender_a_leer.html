@@ -2380,7 +2380,9 @@
                 'us': 'ús',
                 'cu': 'cú',
                 'za': 'zá',
-                'zi': 'zí'
+                'zi': 'zí',
+                'ga': 'gá',
+                'go': 'goh'
             };
 
             for (const [syl, phon] of Object.entries(SPECIFIC_SYLLABLE_FIXES)) {
@@ -2395,7 +2397,8 @@
             return t;
         }
 
-        function speak(text, customRate = null) {
+        let activeUtterance = null;
+        function speak(text, customRate = null, onEnd = null) {
             if (!synth) return;
             if (synth.speaking) synth.cancel();
             if (!text) return;
@@ -2409,13 +2412,14 @@
             if (!cachedSpanishVoice && synth.getVoices().length === 0) {
                 setTimeout(() => {
                     cachedSpanishVoice = getBestSpanishVoice();
-                    speak(text, customRate);
+                    speak(text, customRate, onEnd);
                 }, 120);
                 return;
             }
 
             const cleaned = cleanTextForSpeech(text);
             const utter = new SpeechSynthesisUtterance(cleaned);
+            activeUtterance = utter; // Evita que Chrome recolecte la locución en segundo plano
             if (cachedSpanishVoice) {
                 utter.voice = cachedSpanishVoice;
                 utter.lang = cachedSpanishVoice.lang || 'es-ES';
@@ -2424,6 +2428,23 @@
             }
             utter.rate = customRate || getSpeechRate();
             utter.pitch = 1.02;
+
+            if (onEnd) {
+                let finished = false;
+                let fallbackTimer = null;
+                const done = () => {
+                    if (finished) return;
+                    finished = true;
+                    if (fallbackTimer) clearTimeout(fallbackTimer);
+                    onEnd();
+                };
+                utter.onend = done;
+                utter.onerror = done;
+                // Temporizador de seguridad garantizado según longitud de texto
+                const estMs = Math.max(1600, Math.ceil((cleaned.length / 8) * 1000 / (utter.rate || 0.85)) + 1200);
+                fallbackTimer = setTimeout(done, estMs);
+            }
+
             synth.speak(utter);
         }
 
@@ -2688,7 +2709,7 @@
                 const parts = item.word.split('-');
                 const pillsHtml = parts.map(p => {
                     const label = caseMode === 'lower' ? p.toLowerCase() : p;
-                    const sylSpeak = p.toLowerCase() === 'ga' ? 'gá' : p.toLowerCase();
+                    const sylSpeak = p.toLowerCase() === 'ga' ? 'gá' : (p.toLowerCase() === 'go' ? 'goh' : p.toLowerCase());
                     return `<button class="syl-pill" onclick="speak('${sylSpeak}', 0.68)">${label}</button>`;
                 }).join('');
 
@@ -2709,6 +2730,7 @@
             const parts = hyphenated.split('-').map(p => {
                 let s = p.toLowerCase();
                 if (s === 'ga') s = 'gá';
+                if (s === 'go') s = 'goh';
                 return s;
             });
             speak(`${parts.join(', ')}... ${fullWord}`, 0.68);
@@ -2906,13 +2928,13 @@
 
                             // Esperar a que termine de sonar la última sílaba antes de leer la palabra completa
                             setTimeout(() => {
-                                speak(`¡Muy bien! ${currentItem.full}`, 0.75);
-                            }, 850);
-
-                            setTimeout(() => {
-                                dictItemIndex += 1;
-                                loadDictationStep();
-                            }, 2500);
+                                speak(`¡Muy bien! ${currentItem.full}`, 0.75, () => {
+                                    setTimeout(() => {
+                                        dictItemIndex += 1;
+                                        loadDictationStep();
+                                    }, 600);
+                                });
+                            }, 500);
                         }
                     } else {
                         btn.classList.add('shake');
@@ -3233,16 +3255,18 @@
                     currentGameLevel += 1;
                     fb.style.color = 'var(--success)';
                     fb.innerText = `🏆 ¡Nivel ${finishedLvl} superado! Pasando al Nivel ${currentGameLevel}...`;
-                    speak(`¡Felicidades! Nivel ${finishedLvl} superado. Pasamos al Nivel ${currentGameLevel}.`);
-                    setTimeout(initGameLevelQueue, 2400);
+                    speak(`¡Felicidades! Nivel ${finishedLvl} superado. Pasamos al Nivel ${currentGameLevel}.`, 0.85, () => {
+                        setTimeout(initGameLevelQueue, 700);
+                    });
                 } else {
                     fb.style.color = 'var(--purple)';
                     fb.innerText = `👑 ¡Has completado los 5 Niveles!`;
-                    speak(`¡Enhorabuena! Has superado los cinco niveles.`);
-                    setTimeout(() => {
-                        currentGameLevel = 1;
-                        initGameLevelQueue();
-                    }, 2800);
+                    speak(`¡Enhorabuena! Has superado los cinco niveles.`, 0.85, () => {
+                        setTimeout(() => {
+                            currentGameLevel = 1;
+                            initGameLevelQueue();
+                        }, 1000);
+                    });
                 }
             } else {
                 updateProgressBar();
@@ -3418,18 +3442,20 @@
                 addPoint();
                 fb.style.color = 'var(--success)';
                 fb.innerText = `¡Correcto! ${item.answer} de ${item.word.toUpperCase()} 👏`;
-                speak(`¡Muy bien! ${item.answer}... ${item.word}`, 0.75);
+                const isLevelDone = (currentGameData.totalCompleted === currentGameData.items.length);
                 selectedDragVowel = null;
                 drawDragGameState();
 
-                if (currentGameData.totalCompleted === currentGameData.items.length) {
+                if (isLevelDone) {
                     gameLocked = true;
-                    setTimeout(() => {
-                        fb.style.color = 'var(--success)';
-                        fb.innerText = `¡Excelente! Has completado todas las palabras del Nivel ${currentGameLevel} 🎉`;
-                        speak(`¡Excelente! Has completado todas las palabras.`);
-                    }, 500);
-                    setTimeout(advanceStepOrLevel, 2400);
+                    fb.style.color = 'var(--success)';
+                    fb.innerText = `¡Excelente! Has completado todas las palabras del Nivel ${currentGameLevel} 🎉`;
+                    // Decir la última palabra completa sin interrupciones y al terminar pasar de nivel
+                    speak(`¡Muy bien! ${item.answer}... ${item.word}`, 0.75, () => {
+                        setTimeout(advanceStepOrLevel, 600);
+                    });
+                } else {
+                    speak(`¡Muy bien! ${item.answer}... ${item.word}`, 0.75);
                 }
             } else {
                 resetStreak();
@@ -3482,8 +3508,9 @@
                         btn.style.borderColor = '#16a34a';
                         fb.style.color = 'var(--success)';
                         fb.innerText = `¡Correcto! Ahí pone ${target.full.toUpperCase()} 👏`;
-                        speak(`¡Muy bien! ${target.full}`);
-                        setTimeout(advanceStepOrLevel, 1500);
+                        speak(`¡Muy bien! ${target.full}`, 0.8, () => {
+                            setTimeout(advanceStepOrLevel, 500);
+                        });
                     } else {
                         resetStreak();
                         btn.classList.add('shake');
@@ -3559,11 +3586,14 @@
                             addPoint();
                             fb.style.color = 'var(--success)';
                             fb.innerText = `¡Completada! ${target.full.toUpperCase()} 🎉`;
-                            setTimeout(() => speak(`¡Muy bien! ${target.full}`, 0.75), 850);
                             setTimeout(() => {
-                                currentGameData = null;
-                                advanceStepOrLevel();
-                            }, 2500);
+                                speak(`¡Muy bien! ${target.full}`, 0.75, () => {
+                                    setTimeout(() => {
+                                        currentGameData = null;
+                                        advanceStepOrLevel();
+                                    }, 600);
+                                });
+                            }, 400);
                         }
                     } else {
                         resetStreak();
@@ -3621,8 +3651,9 @@
                         btn.style.borderColor = '#16a34a';
                         fb.style.color = 'var(--success)';
                         fb.innerText = `¡Exacto! Se escribe ${item.word} 🎉`;
-                        speak(`¡Exacto! ${item.word}`);
-                        setTimeout(advanceStepOrLevel, 1600);
+                        speak(`¡Exacto! ${item.word}`, 0.8, () => {
+                            setTimeout(advanceStepOrLevel, 500);
+                        });
                     } else {
                         resetStreak();
                         btn.classList.add('shake');
@@ -3708,12 +3739,15 @@
                     state.firstIdx = null;
                     state.matches += 1;
                     addPoint();
-                    speak(`¡Muy bien! ${card.audio}`, 0.78);
                     drawMemoryBoard();
                     if (state.matches === 4) {
                         fb.style.color = 'var(--success)';
                         fb.innerText = '¡Tablero completado! 🌟';
-                        setTimeout(advanceStepOrLevel, 1500);
+                        speak(`¡Muy bien! Has completado todas las parejas.`, 0.8, () => {
+                            setTimeout(advanceStepOrLevel, 600);
+                        });
+                    } else {
+                        speak(`¡Muy bien! ${card.audio}`, 0.78);
                     }
                 } else {
                     gameLocked = true;
