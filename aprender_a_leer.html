@@ -2106,7 +2106,7 @@
             document.getElementById('syl-emoji').innerHTML = ex.emoji;
             document.getElementById('syl-word').innerHTML = `<span style="color:var(--primary)">${syl}</span> / <span style="color:var(--purple)">${syl.toLowerCase()}</span>`;
             document.getElementById('syl-example').innerHTML = `Como en <b>${ex.word.toUpperCase()}</b> (${ex.word.toLowerCase()})`;
-            speak(`${syl.toLowerCase()}. ${ex.word}`, 0.72);
+            speak(`${syl.toLowerCase()}, ${ex.word}`, 0.72);
         }
 
         /* =========================================================
