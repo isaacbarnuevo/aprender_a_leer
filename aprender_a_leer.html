@@ -1,0 +1,3230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Español Paso a Paso - Lectura, Trabadas, Comprensión y Dictado</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --success: #16a34a;
+            --success-light: #dcfce7;
+            --warning: #ea580c;
+            --warning-light: #ffedd5;
+            --purple: #7c3aed;
+            --purple-light: #ede9fe;
+            --teal: #0d9488;
+            --teal-light: #ccfbf1;
+            --amber: #d97706;
+            --amber-light: #fef3c7;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* CABECERA CON VELOCIDAD Y ACCIONES */
+        header {
+            background: var(--card);
+            border-bottom: 2px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-home {
+            background: var(--primary-light);
+            border: 2px solid #93c5fd;
+            color: var(--primary);
+            font-size: 1.15rem;
+            font-weight: 800;
+            padding: 7px 15px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.15s, background 0.15s;
+        }
+        .btn-home:hover { background: #bfdbfe; transform: scale(1.02); }
+        .btn-home:active { transform: scale(0.98); }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-top {
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            color: var(--text);
+            font-size: 0.92rem;
+            font-weight: 700;
+            padding: 7px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-top:hover { background: #e2e8f0; }
+        .btn-top.active {
+            background: var(--purple-light);
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        main {
+            flex: 1;
+            max-width: 1060px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 18px 16px 44px;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-8px); }
+        }
+        .shake { animation: shake 0.45s; }
+
+        @keyframes pop {
+            0% { transform: scale(0.85); }
+            60% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+        }
+        .pop { animation: pop 0.28s ease; }
+
+        /* MENÚ PRINCIPAL */
+        .welcome-banner {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+            border: 2px solid #bfdbfe;
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .welcome-banner h1 {
+            font-size: 1.85rem;
+            color: #1e3a8a;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .welcome-banner p {
+            font-size: 1.02rem;
+            color: #475569;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 14px;
+        }
+
+        .menu-card {
+            background: var(--card);
+            border: 3px solid var(--border);
+            border-radius: 18px;
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.18s ease;
+            text-align: left;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+            position: relative;
+        }
+        .menu-card:hover {
+            transform: translateY(-3px);
+            border-color: #93c5fd;
+            box-shadow: 0 8px 16px -3px rgba(0,0,0,0.07);
+        }
+
+        .menu-icon {
+            font-size: 2.6rem;
+            width: 66px;
+            height: 66px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .menu-info h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+        .menu-info p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.32;
+        }
+        .step-badge {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 99px;
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        /* SELECTORES DE NIVELES Y PESTAÑAS */
+        .level-bar, .category-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .lvl-btn, .cat-tab {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lvl-btn:hover, .cat-tab:hover { border-color: var(--primary); }
+        .lvl-btn.active, .cat-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: #1e40af;
+            box-shadow: 0 3px 8px rgba(37,99,235,0.22);
+        }
+
+        /* COLORES DE VOCALES */
+        .v-A { border-color: #f87171 !important; color: #dc2626 !important; background: #fef2f2; }
+        .v-E { border-color: #fb923c !important; color: #ea580c !important; background: #fff7ed; }
+        .v-I { border-color: #eab308 !important; color: #a16207 !important; background: #fefce8; }
+        .v-O { border-color: #4ade80 !important; color: #15803d !important; background: #f0fdf4; }
+        .v-U { border-color: #c084fc !important; color: #7e22ce !important; background: #faf5ff; }
+
+        /* MÓDULO 1: VOCALES */
+        .vowel-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .vowel-btn {
+            background: var(--card);
+            border: 4px solid var(--border);
+            border-radius: 20px;
+            padding: 16px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.06);
+        }
+        .vowel-btn:hover { transform: translateY(-2px); }
+        .vowel-big { font-size: 3rem; font-weight: 900; line-height: 1.05; }
+        .vowel-small { font-size: 1.9rem; font-weight: 700; opacity: 0.85; }
+
+        .display-stage {
+            background: var(--card);
+            border: 3px solid #cbd5e1;
+            border-radius: 22px;
+            padding: 22px;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .stage-emoji { font-size: 5.5rem; line-height: 1; }
+        .stage-word { font-size: 2.6rem; font-weight: 800; letter-spacing: 1px; }
+        .stage-word-lower { font-size: 1.9rem; color: var(--muted); font-weight: 600; }
+        .hl-vowel { color: #dc2626; text-decoration: underline; text-underline-offset: 6px; }
+
+        .word-mini-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .word-chip {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .word-chip:hover { background: var(--primary-light); border-color: var(--primary); }
+
+        /* MÓDULO 2: SÍLABAS DIRECTAS */
+        .consonant-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .cons-btn {
+            background: var(--card);
+            border: 3px solid #94a3b8;
+            border-radius: 14px;
+            padding: 9px 16px;
+            font-size: 1.55rem;
+            font-weight: 900;
+            cursor: pointer;
+            min-width: 68px;
+        }
+        .cons-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: #1d4ed8;
+            transform: scale(1.04);
+        }
+        .syllable-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .syl-btn {
+            background: white;
+            border: 4px solid #60a5fa;
+            border-radius: 18px;
+            padding: 16px 6px;
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #1e40af;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 0 #bfdbfe;
+        }
+        .syl-btn:hover { background: #eff6ff; }
+        .syl-btn small { display: block; font-size: 1.35rem; color: #475569; margin-top: 3px; }
+
+        /* MÓDULO NUEVO: SÍLABAS TRABADAS (BL, BR, TR, CA-QUE-QUI...) */
+        .blends-family-bar {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .family-btn {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .family-btn.active {
+            background: var(--purple);
+            color: white;
+            border-color: #5b21b6;
+            box-shadow: 0 4px 10px rgba(124,58,237,0.25);
+        }
+        .blend-sub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .blend-card-btn {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 3px 0 #e2e8f0;
+        }
+        .blend-card-btn:hover {
+            border-color: var(--purple);
+            background: var(--purple-light);
+            transform: translateY(-2px);
+        }
+        .blend-card-btn .bc-syl {
+            font-size: 1.9rem;
+            font-weight: 900;
+            color: #4c1d95;
+            display: block;
+        }
+        .blend-card-btn .bc-word {
+            font-size: 1rem;
+            color: var(--muted);
+            font-weight: 700;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* MÓDULO 3: PALABRAS POR 5 NIVELES */
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 14px;
+        }
+        .word-card {
+            background: white;
+            border: 3px solid var(--border);
+            border-radius: 18px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 9px;
+        }
+        .word-card-emoji { font-size: 3.8rem; cursor: pointer; }
+        .direction-indicator { font-size: 0.8rem; color: #15803d; font-weight: 700; }
+        .syllable-pills { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+        .syl-pill {
+            background: #f1f5f9;
+            border: 3px solid #94a3b8;
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .syl-pill:hover { background: #fef08a; border-color: #eab308; }
+        .btn-read-whole {
+            width: 100%;
+            background: var(--success-light);
+            border: 2px solid #4ade80;
+            color: #15803d;
+            font-size: 1.05rem;
+            font-weight: 800;
+            padding: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .btn-read-whole:hover { background: #bbf7d0; }
+
+        /* MÓDULO NUEVO: COMPRENSIÓN LECTORA (HISTORIAS CORTAS CON EVALUACIÓN) */
+        .story-container {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 22px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .story-text-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-left: 6px solid var(--primary);
+            border-radius: 16px;
+            padding: 18px;
+            font-size: 1.45rem;
+            line-height: 1.7;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+        .story-sentence {
+            display: inline;
+            padding: 2px 4px;
+            border-radius: 6px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .story-sentence:hover {
+            background: #fef08a;
+        }
+        .story-sentence.speaking {
+            background: #fef08a;
+            color: #854d0e;
+        }
+        .questions-box {
+            margin-top: 20px;
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 18px;
+        }
+        .q-item {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .q-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .q-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .q-opt-btn {
+            background: white;
+            border: 2px solid #94a3b8;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s;
+        }
+        .q-opt-btn:hover { border-color: var(--primary); background: #eff6ff; }
+        .q-opt-btn.correct { background: #dcfce7 !important; border-color: #16a34a !important; color: #15803d; }
+        .q-opt-btn.wrong { background: #fee2e2 !important; border-color: #dc2626 !important; color: #b91c1c; }
+
+        /* MÓDULO NUEVO: DICTADO INTERACTIVO FÁCIL */
+        .dictation-card {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 24px;
+            padding: 24px;
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .dictation-audio-btn {
+            background: #f0fdf4;
+            border: 3px solid #86efac;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            transition: transform 0.15s;
+        }
+        .dictation-audio-btn:hover { transform: scale(1.02); }
+        .dictation-slots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 18px 0;
+            min-height: 64px;
+            flex-wrap: wrap;
+        }
+        .dict-slot {
+            min-width: 65px;
+            height: 60px;
+            border: 3px dashed #94a3b8;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.9rem;
+            font-weight: 900;
+            background: #f8fafc;
+        }
+        .dict-slot.filled {
+            border-style: solid;
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: #1e40af;
+        }
+
+        /* MÓDULO 4: CARTELES Y VIDA REAL */
+        .real-life-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 14px;
+        }
+        .sign-card {
+            background: white;
+            border: 3px solid var(--border);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            transition: all 0.15s;
+        }
+        .sign-card:hover { transform: translateY(-2px); border-color: var(--primary); }
+        .sign-visual {
+            border-radius: 12px;
+            padding: 12px 10px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.55rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .sign-meaning { font-size: 0.95rem; color: #334155; line-height: 1.4; font-weight: 600; }
+        .sign-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            color: var(--primary);
+            font-weight: 800;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 8px;
+        }
+
+        /* MÓDULO 5: TRUCOS P/B Y VOCALES */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 16px;
+        }
+        .tip-card {
+            background: white;
+            border: 3px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .tip-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+        .tip-badge { font-size: 1.3rem; font-weight: 900; padding: 5px 12px; border-radius: 12px; }
+        .tip-explain {
+            font-size: 0.95rem;
+            color: #334155;
+            line-height: 1.4;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        .contrast-pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .contrast-item-btn {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 10px 6px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .contrast-item-btn:hover { border-color: var(--primary); background: #eff6ff; }
+        .contrast-item-btn .ci-emoji { font-size: 2rem; display: block; }
+        .contrast-item-btn .ci-word { font-size: 1.25rem; font-weight: 900; display: block; margin-top: 3px; }
+        .contrast-item-btn .ci-sub { font-size: 0.88rem; color: var(--muted); }
+
+        /* MÓDULO 6: PIZARRA Y TECLADO */
+        .write-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+        @media (max-width: 768px) {
+            .write-container { grid-template-columns: 1fr; }
+            .vowel-row, .syllable-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        .canvas-box, .keyboard-trainer {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+        canvas#trace-canvas {
+            background: #f8fafc;
+            border: 3px dashed #94a3b8;
+            border-radius: 16px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .letter-picker {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .pick-btn {
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .pick-btn.active { background: var(--purple); color: white; border-color: var(--purple); }
+        .key-target {
+            width: 110px;
+            height: 110px;
+            background: #1e293b;
+            color: white;
+            border-radius: 18px;
+            border-bottom: 7px solid #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.6rem;
+            font-weight: 900;
+            margin: 6px 0;
+        }
+
+        /* MÓDULO 7: JUEGOS POR NIVELES */
+        .game-panel {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 24px;
+            padding: 22px;
+            max-width: 740px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            font-size: 1.05rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .progress-wrap {
+            background: #e2e8f0;
+            border-radius: 99px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+            margin: 6px 0 14px;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .quiz-speaker-box {
+            cursor: pointer;
+            background: #f0fdf4;
+            border: 3px solid #86efac;
+            border-radius: 20px;
+            padding: 16px;
+            margin: 10px 0;
+        }
+        .quiz-options {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .quiz-opt-btn {
+            background: white;
+            border: 3px solid #94a3b8;
+            border-radius: 16px;
+            min-width: 130px;
+            padding: 12px 18px;
+            font-size: 1.85rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #cbd5e1;
+        }
+        .quiz-opt-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
+
+        .btn-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 9px 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-action:hover { background: #1d4ed8; }
+
+        /* ESTILOS DEL JUEGO DE MEMORIA (PAREJAS) */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            max-width: 660px;
+            margin: 16px auto;
+        }
+        @media (max-width: 600px) {
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+        .mem-card {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 18px;
+            min-height: 120px;
+            padding: 12px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            transition: all 0.18s ease;
+            user-select: none;
+        }
+        .mem-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 16px rgba(37,99,235,0.12);
+        }
+        .mem-card.selected {
+            background: #eff6ff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.25);
+            transform: scale(1.04);
+        }
+        .mem-card.matched {
+            background: #dcfce7 !important;
+            border-color: #16a34a !important;
+            opacity: 0.9;
+            cursor: default;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .mem-card-icon {
+            font-size: 2.8rem;
+            line-height: 1.1;
+            display: block;
+        }
+        .mem-card-listen {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #15803d;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .mem-card-text-main {
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: var(--dark);
+            letter-spacing: 1px;
+            display: block;
+        }
+        .mem-card-text-sub {
+            font-size: 1rem;
+            color: var(--muted);
+            font-weight: 700;
+            display: block;
+        }
+
+        /* ESTILOS DEL NUEVO JUEGO: ARRASTRAR LAS VOCALES */
+        .drag-vowels-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .drag-vowels-source-row {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 14px;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+            border-radius: 20px;
+            border: 2px dashed #93c5fd;
+        }
+        .vowel-bubble {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            cursor: grab;
+            user-select: none;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.15), inset 0 -3px 0 rgba(0,0,0,0.2);
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+            position: relative;
+        }
+        .vowel-bubble:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+        .vowel-bubble:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.22);
+        }
+        .vowel-bubble.selected {
+            transform: translateY(-6px) scale(1.1);
+            box-shadow: 0 0 0 5px #fbbf24, 0 12px 24px rgba(0,0,0,0.25);
+            animation: floatBubble 1.2s ease-in-out infinite alternate;
+        }
+        @keyframes floatBubble {
+            from { transform: translateY(-4px) scale(1.08); }
+            to { transform: translateY(-10px) scale(1.12); }
+        }
+        .v-bubble-A { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .v-bubble-E { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .v-bubble-I { background: linear-gradient(135deg, #10b981, #059669); }
+        .v-bubble-O { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .v-bubble-U { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .drag-targets-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 650px) {
+            .drag-targets-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .pedestal-card {
+            background: white;
+            border: 3px solid #cbd5e1;
+            border-radius: 22px;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+            position: relative;
+            transition: all 0.2s;
+        }
+        .pedestal-card.completed {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+        .pedestal-speaker-btn {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            transition: all 0.15s;
+        }
+        .pedestal-speaker-btn:hover {
+            background: #eff6ff;
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+        .pedestal-dropzone {
+            width: 72px;
+            height: 72px;
+            border: 3px dashed #94a3b8;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: #64748b;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .pedestal-dropzone.drag-over {
+            border-color: var(--primary);
+            background: #eff6ff;
+            transform: scale(1.08);
+        }
+        .pedestal-dropzone.filled {
+            border-style: solid;
+            border-color: #16a34a;
+            background: #dcfce7;
+            color: #15803d;
+            box-shadow: 0 4px 10px rgba(22,163,74,0.25);
+        }
+        .pedestal-word {
+            font-size: 1.45rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--dark);
+        }
+        /* TIPOGRAFÍA ESCOLAR: IMITAR LETRA ESCRITA A MANO */
+        body.font-handwriting .stage-word,
+        body.font-handwriting .stage-word-lower,
+        body.font-handwriting .vowel-big,
+        body.font-handwriting .vowel-small,
+        body.font-handwriting .vowel-bubble,
+        body.font-handwriting .cons-btn,
+        body.font-handwriting .syl-btn,
+        body.font-handwriting .syl-word,
+        body.font-handwriting .syl-example,
+        body.font-handwriting .word-chip,
+        body.font-handwriting .word-card,
+        body.font-handwriting .word-big,
+        body.font-handwriting .word-syllables,
+        body.font-handwriting .word-lower,
+        body.font-handwriting .quiz-opt-btn,
+        body.font-handwriting .dict-slot,
+        body.font-handwriting .pedestal-word,
+        body.font-handwriting .pedestal-dropzone,
+        body.font-handwriting .mem-card-text-main,
+        body.font-handwriting .mem-card-text-sub,
+        body.font-handwriting .story-line,
+        body.font-handwriting .story-title,
+        body.font-handwriting .key-target,
+        body.font-handwriting .tip-badge,
+        body.font-handwriting .ci-word {
+            font-family: 'Segoe Print', 'Comic Sans MS', 'Segoe Script', cursive, sans-serif !important;
+            letter-spacing: 0.5px;
+        }
+
+        /* ESTILOS DE IMPRESIÓN (CARTILLA EN PAPEL) */
+        @media print {
+            header, .level-bar, .category-tabs, .btn-action, .quiz-options, .write-container, .header-controls {
+                display: none !important;
+            }
+            body { background: white; color: black; font-size: 14pt; }
+            .screen { display: block !important; page-break-after: always; }
+            .word-card, .sign-card, .story-container { border: 1px solid #ccc; break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="font-handwriting">
+
+    <header>
+        <div class="header-left">
+            <button class="btn-home" onclick="showScreen('home')">
+                🏠 <span>Menú</span>
+            </button>
+            <span class="header-title" id="top-title">Español Paso a Paso</span>
+        </div>
+        <div class="header-controls">
+            <!-- Selector de velocidad: Normal o Tortuga -->
+            <button class="btn-top" id="btn-speed" onclick="toggleSpeechRate()">
+                🐇 <span>Velocidad: <b>Normal</b></span>
+            </button>
+            <button class="btn-top active" id="btn-font" onclick="toggleFontFamily()" title="Cambiar tipografía: Escrita a mano o Imprenta">
+                ✏️ Letra: <b>A mano</b>
+            </button>
+            <button class="btn-top active" id="btn-case" onclick="toggleLetterCase()">
+                🔤 Letras: <b>A a</b>
+            </button>
+            <button class="btn-top" onclick="window.print()" title="Imprimir cartilla en papel">
+                🖨️ Imprimir
+            </button>
+            <button class="btn-top" onclick="speakCurrentHelp()">
+                🔊 Ayuda
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- PANTALLA 0: MENÚ PRINCIPAL -->
+        <section id="screen-home" class="screen active">
+            <div class="welcome-banner">
+                <h1>🌟 Aprender a Leer y Escribir en Español 🌟</h1>
+                <p>Elige un apartado para escuchar y practicar. Todo habla en voz alta al tocarlo.</p>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-card" onclick="showScreen('vowels')">
+                    <span class="step-badge">Paso 1</span>
+                    <div class="menu-icon" style="background:#fee2e2;">🅰️</div>
+                    <div class="menu-info">
+                        <h2>1. Las 5 Vocales</h2>
+                        <p>A, E, I, O, U en mayúscula y minúscula con palabras claras.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showScreen('syllables')">
+                    <span class="step-badge">Paso 2</span>
+                    <div class="menu-icon" style="background:#dbeafe;">🧩</div>
+                    <div class="menu-info">
+                        <h2>2. Sílabas Simples</h2>
+                        <p>Junta M, P, B, L, S, T, N, D con las vocales (MA, PA, LA...).</p>
+                    </div>
+                </div>
+
+                <!-- NUEVO APARTADO: SÍLABAS TRABADAS (BL, BR, TR, CA-QUE-QUI...) -->
+                <div class="menu-card" onclick="showScreen('blends')" style="border-color:#c084fc; background:#faf5ff;">
+                    <span class="step-badge" style="background:#ede9fe; color:#7c3aed;">¡Muy importante!</span>
+                    <div class="menu-icon" style="background:#ede9fe;">🌟</div>
+                    <div class="menu-info">
+                        <h2>3. Sílabas de 2 Letras</h2>
+                        <p>BLA, BRA, TRA, PLA, CA-QUE-QUI, GA-GUE-GUI y sílabas inversas (AS, ES, AL).</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showScreen('words')">
+                    <span class="step-badge" style="background:#dcfce7; color:#15803d;">5 Niveles</span>
+                    <div class="menu-icon" style="background:#dcfce7;">📖</div>
+                    <div class="menu-info">
+                        <h2>4. Palabras por Niveles</h2>
+                        <p>60 palabras divididas por sílabas desde muy fáciles hasta avanzadas.</p>
+                    </div>
+                </div>
+
+                <!-- NUEVO APARTADO: COMPRENSIÓN LECTORA (HISTORIAS CORTAS) -->
+                <div class="menu-card" onclick="showScreen('reading')" style="border-color:#86efac; background:#f0fdf4;">
+                    <span class="step-badge" style="background:#dcfce7; color:#15803d;">Con preguntas</span>
+                    <div class="menu-icon" style="background:#dcfce7;">📚</div>
+                    <div class="menu-info">
+                        <h2>5. Comprensión Lectora</h2>
+                        <p>Historias muy cortas del día a día (súper, médico, trabajo) con preguntas de test.</p>
+                    </div>
+                </div>
+
+                <!-- NUEVO APARTADO: DICTADO INTERACTIVO FÁCIL -->
+                <div class="menu-card" onclick="showScreen('dictation')" style="border-color:#fde68a; background:#fffdf5;">
+                    <span class="step-badge" style="background:#fef3c7; color:#b45309;">Escucha y escribe</span>
+                    <div class="menu-icon" style="background:#fef3c7;">📝</div>
+                    <div class="menu-info">
+                        <h2>6. Dictado Fácil</h2>
+                        <p>Escucha la palabra despacito y colócala en orden con corrección al instante.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showScreen('reallife')" style="border-color:#99f6e4; background:#f0fdfa;">
+                    <span class="step-badge" style="background:#ccfbf1; color:#0f766e;">Vida Real</span>
+                    <div class="menu-icon" style="background:#ccfbf1;">🏪</div>
+                    <div class="menu-info">
+                        <h2>7. Súper, Médico y Calle</h2>
+                        <p>Leer envases (Pollo vs Cerdo), recetas médicas, puertas y frases.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showScreen('tips')" style="border-color:#fed7aa; background:#fff7ed;">
+                    <span class="step-badge" style="background:#ffedd5; color:#c2410c;">Consejos</span>
+                    <div class="menu-icon" style="background:#ffedd5;">💡</div>
+                    <div class="menu-info">
+                        <h2>8. Trucos P/B y Vocales</h2>
+                        <p>Diferenciar P de B, E de I, O de U, letras en espejo y la H muda.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showScreen('write')">
+                    <span class="step-badge">Pizarra</span>
+                    <div class="menu-icon" style="background:#ede9fe;">✍️</div>
+                    <div class="menu-info">
+                        <h2>9. Escribir y Teclado</h2>
+                        <p>Pizarra para dibujar las letras y práctica con las teclas del portátil.</p>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showScreen('games')" style="border-color:#93c5fd; background:#eff6ff;">
+                    <span class="step-badge" style="background:#dbeafe; color:#1d4ed8;">5 Juegos</span>
+                    <div class="menu-icon" style="background:#dbeafe;">🎮</div>
+                    <div class="menu-info">
+                        <h2>10. Juegos por Niveles</h2>
+                        <p>Arrastrar Vocales, Leer Carteles, Ordenar Sílabas, Caza el Sonido y Parejas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 1: LAS VOCALES -->
+        <section id="screen-vowels" class="screen">
+            <div class="vowel-row" id="vowel-buttons-row"></div>
+            <div class="display-stage">
+                <div class="stage-emoji" id="v-stage-emoji">👆</div>
+                <div class="stage-word" id="v-stage-word">Toca una vocal arriba</div>
+                <div class="stage-word-lower" id="v-stage-sub">También puedes pulsar A, E, I, O, U en tu teclado</div>
+                <div class="word-mini-list" id="v-word-chips"></div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 2: SÍLABAS DIRECTAS -->
+        <section id="screen-syllables" class="screen">
+            <div class="consonant-bar" id="consonant-bar"></div>
+            <div class="syllable-grid" id="syllable-grid"></div>
+            <div class="display-stage">
+                <div class="stage-emoji" id="syl-emoji">🧩</div>
+                <div class="stage-word" id="syl-word">Toca una sílaba arriba</div>
+                <div class="stage-word-lower" id="syl-example">Escucharás cómo se unen las dos letras</div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: SÍLABAS TRABADAS (BL, BR, TR, CA-QUE-QUI, GA-GUE-GUI...) -->
+        <section id="screen-blends" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #faf5ff 0%, #eff6ff 100%); border-color:#d8b4fe;">
+                <h2 style="color:#6b21a8; font-size:1.4rem;">🌟 Sílabas de 2 consonantes con vocal (Trabadas y Especiales)</h2>
+                <p style="font-size:0.95rem;">Estas combinaciones son las que más cuestan. Toca cada tarjeta para escucharla despacio.</p>
+            </div>
+            <div class="blends-family-bar" id="blends-family-bar"></div>
+            <div id="blends-content-area"></div>
+        </section>
+
+        <!-- PANTALLA 4: PALABRAS POR 5 NIVELES -->
+        <section id="screen-words" class="screen">
+            <div class="level-bar" id="words-level-bar"></div>
+            <div style="text-align:center; margin-bottom:14px; color:var(--muted); font-weight:700;" id="words-level-desc"></div>
+            <div class="words-grid" id="words-grid"></div>
+        </section>
+
+        <!-- PANTALLA 5: COMPRENSIÓN LECTORA (HISTORIAS CORTAS CON PREGUNTAS) -->
+        <section id="screen-reading" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%); border-color:#86efac;">
+                <h2 style="color:#15803d; font-size:1.4rem;">📚 Historias Cortas para Leer y Comprender</h2>
+                <p style="font-size:0.95rem;">Lee la historia despacio o toca el botón verde para escucharla. Luego responde a las preguntas.</p>
+            </div>
+            <div class="category-tabs" id="story-selector-tabs"></div>
+            <div id="story-display-area"></div>
+        </section>
+
+        <!-- PANTALLA 6: DICTADO INTERACTIVO FÁCIL -->
+        <section id="screen-dictation" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #fffdf5 0%, #eff6ff 100%); border-color:#fde68a;">
+                <h2 style="color:#b45309; font-size:1.4rem;">📝 Dictado Fácil: Escucha y Escribe</h2>
+                <p style="font-size:0.95rem;">Toca la bocina para escuchar la palabra y coloca las letras o sílabas en orden.</p>
+            </div>
+            <div class="level-bar" id="dictation-level-bar"></div>
+            <div class="dictation-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span style="font-size:1.05rem; font-weight:800; color:var(--primary);" id="dict-progress-label">Palabra 1 de 5</span>
+                    <span style="font-size:1.2rem; font-weight:900; color:#ca8a04;">⭐ <span id="dict-score">0</span></span>
+                </div>
+                <div>
+                    <button class="dictation-audio-btn" onclick="playDictationAudio(false)">
+                        <span style="font-size:3.5rem;">🔊</span>
+                        <span style="font-size:1.05rem; font-weight:800; color:#15803d;">Toca para escuchar</span>
+                    </button>
+                    <button class="btn-top" style="margin: 0 auto 14px;" onclick="playDictationAudio(true)">
+                        🐢 Escuchar muy despacio
+                    </button>
+                </div>
+                <div class="dictation-slots" id="dict-slots-container"></div>
+                <p style="color:var(--muted); font-weight:700; margin-bottom:8px;">Toca las piezas en orden:</p>
+                <div class="quiz-options" id="dict-pieces-container"></div>
+                <div id="dict-feedback" style="margin-top:16px; font-size:1.25rem; font-weight:800; min-height:30px;"></div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 7: VIDA REAL (SÚPER, MÉDICO, TRABAJO Y FRASES) -->
+        <section id="screen-reallife" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px; background:linear-gradient(135deg, #f0fdfa 0%, #eff6ff 100%);">
+                <h2 style="color:#0f766e; font-size:1.4rem;">🏪 Palabras y Carteles de la Vida Real</h2>
+                <p style="font-size:0.95rem;">Toca cualquier cartel o etiqueta para escuchar cómo se lee y qué significa.</p>
+            </div>
+            <div class="category-tabs" id="reallife-tabs"></div>
+            <div class="real-life-grid" id="reallife-grid"></div>
+        </section>
+
+        <!-- PANTALLA 8: TRUCOS Y ERRORES TÍPICOS -->
+        <section id="screen-tips" class="screen">
+            <div class="welcome-banner" style="padding:14px; margin-bottom:14px;">
+                <h2 style="color:#92400e; font-size:1.4rem;">💡 Trucos para los sonidos que más cuestan</h2>
+                <p style="font-size:0.95rem;">Toca cada pareja para escuchar la diferencia y ver el consejo.</p>
+            </div>
+            <div class="tips-grid" id="tips-container"></div>
+        </section>
+
+        <!-- PANTALLA 9: ESCRIBIR Y TECLADO -->
+        <section id="screen-write" class="screen">
+            <div class="letter-picker" id="trace-picker"></div>
+            <div class="write-container">
+                <div class="canvas-box">
+                    <h3 style="font-size:1.15rem;">✍️ Pizarra: Empieza en el punto verde 🟢 ➡️</h3>
+                    <canvas id="trace-canvas" width="340" height="260"></canvas>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-action" style="background:#64748b;" onclick="clearTraceCanvas()">🧽 Borrar</button>
+                        <button class="btn-action" onclick="speakTraceLetter()">🔊 Escuchar</button>
+                    </div>
+                </div>
+                <div class="keyboard-trainer">
+                    <h3 style="font-size:1.15rem;">💻 Localiza la tecla en tu portátil</h3>
+                    <p style="color:var(--muted); font-size:0.9rem;">En el teclado las letras están en mayúscula. Busca esta:</p>
+                    <div class="key-target" id="key-target-box">A</div>
+                    <div id="key-feedback" style="font-size:1.1rem; font-weight:800; color:var(--primary); min-height:28px;">
+                        ¡Pulsa la tecla en tu ordenador!
+                    </div>
+                    <button class="btn-action" onclick="nextKeyboardTarget()">🔄 Cambiar tecla</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 10: JUEGOS POR NIVELES -->
+        <section id="screen-games" class="screen">
+            <div class="category-tabs">
+                <button class="cat-tab active" id="tab-g-drag" onclick="switchGame('drag')">🎈 1. Arrastrar Vocales</button>
+                <button class="cat-tab" id="tab-g-market" onclick="switchGame('market')">🛒 2. Leer Carteles</button>
+                <button class="cat-tab" id="tab-g-puzzle" onclick="switchGame('puzzle')">🧩 3. Ordenar Sílabas</button>
+                <button class="cat-tab" id="tab-g-sound" onclick="switchGame('sound')">🎯 4. Reto P/B y Vocales</button>
+                <button class="cat-tab" id="tab-g-memory" onclick="switchGame('memory')">🃏 5. Parejas</button>
+            </div>
+            <div class="level-bar" id="game-level-bar"></div>
+            <div class="game-panel">
+                <div class="score-bar">
+                    <span id="game-title-label" style="color:var(--primary);">🛒 Nivel 1</span>
+                    <div style="display:flex; gap:12px;">
+                        <span style="color:#15803d;">📊 Progreso: <span id="game-progress-text">1 / 8</span></span>
+                        <span style="color:#ea580c;">🔥 Racha: <span id="game-streak">0</span></span>
+                        <span style="color:#ca8a04;">⭐ Total: <span id="game-score">0</span></span>
+                    </div>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-fill" id="game-progress-bar"></div>
+                </div>
+                <div id="game-stage-content"></div>
+                <div id="game-feedback" style="margin-top:14px; font-size:1.25rem; font-weight:800; min-height:30px;"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        /* =========================================================
+           1. BASE DE DATOS FONÉTICA Y DE SÍLABAS TRABADAS
+           ========================================================= */
+        const VOWEL_DATA = {
+            'A': { colorClass: 'v-A', words: [{ word: 'Agua', emoji: '💧' }, { word: 'Aceite', emoji: '🫒' }, { word: 'Autobús', emoji: '🚌' }, { word: 'Avión', emoji: '✈️' }, { word: 'Anillo', emoji: '💍' }] },
+            'E': { colorClass: 'v-E', words: [{ word: 'Escoba', emoji: '🧹' }, { word: 'Espejo', emoji: '🪞' }, { word: 'Escalera', emoji: '🪜' }, { word: 'Estrella', emoji: '⭐' }, { word: 'Enchufe', emoji: '🔌' }] },
+            'I': { colorClass: 'v-I', words: [{ word: 'Imán', emoji: '🧲' }, { word: 'Isla', emoji: '🏝️' }, { word: 'Imperdible', emoji: '🧷' }, { word: 'Invierno', emoji: '🧣' }] },
+            'O': { colorClass: 'v-O', words: [{ word: 'Ojo', emoji: '👁️' }, { word: 'Olla', emoji: '🍲' }, { word: 'Oreja', emoji: '👂' }, { word: 'Oveja', emoji: '🐑' }, { word: 'Ocho', emoji: '8️⃣' }] },
+            'U': { colorClass: 'v-U', words: [{ word: 'Uvas', emoji: '🍇' }, { word: 'Uno', emoji: '1️⃣' }, { word: 'Uña', emoji: '💅' }] }
+        };
+
+        // Icono visual inequívoco para MESA (mesa de 4 patas) para evitar confusión con la silla
+        const MESA_ICON = `<svg viewBox="0 0 64 64" width="1em" height="1em" style="display:inline-block; vertical-align:-0.15em;" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="20" width="56" height="8" rx="2" fill="#b45309"/><rect x="8" y="28" width="48" height="4" fill="#78350f"/><rect x="9" y="32" width="7" height="24" rx="2" fill="#92400e"/><rect x="48" y="32" width="7" height="24" rx="2" fill="#92400e"/><rect x="18" y="32" width="5" height="18" rx="1.5" fill="#78350f"/><rect x="41" y="32" width="5" height="18" rx="1.5" fill="#78350f"/></svg>`;
+
+        const CONSONANTS = [
+            { letter: 'M', name: 'eme', examples: { 'MA': { word: 'Mano', emoji: '✋' }, 'ME': { word: 'Mesa', emoji: MESA_ICON }, 'MI': { word: 'Miel', emoji: '🍯' }, 'MO': { word: 'Mochila', emoji: '🎒' }, 'MU': { word: 'Mujer', emoji: '👩' } } },
+            { letter: 'P', name: 'pe', label: 'pe (aire fuerte)', examples: { 'PA': { word: 'Pan', emoji: '🍞' }, 'PE': { word: 'Pera', emoji: '🍐' }, 'PI': { word: 'Piña', emoji: '🍍' }, 'PO': { word: 'Pollo', emoji: '🍗' }, 'PU': { word: 'Puerta', emoji: '🚪' } } },
+            { letter: 'B', name: 'be', label: 'be (suave)', examples: { 'BA': { word: 'Baño', emoji: '🚿' }, 'BE': { word: 'Bebé', emoji: '👶' }, 'BI': { word: 'Bicicleta', emoji: '🚲' }, 'BO': { word: 'Bolsa', emoji: '🛍️' }, 'BU': { word: 'Bufanda', emoji: '🧣' } } },
+            { letter: 'L', name: 'ele', examples: { 'LA': { word: 'Lápiz', emoji: '✏️' }, 'LE': { word: 'Leche', emoji: '🥛' }, 'LI': { word: 'Limón', emoji: '🍋' }, 'LO': { word: 'Loro', emoji: '🦜' }, 'LU': { word: 'Luna', emoji: '🌙' } } },
+            { letter: 'LL', name: 'elle', examples: { 'LLA': { word: 'Llave', emoji: '🔑' }, 'LLE': { word: 'Cuello', emoji: '🧣' }, 'LLI': { word: 'Gallina', emoji: '🐔' }, 'LLO': { word: 'Pollo', emoji: '🍗' }, 'LLU': { word: 'Lluvia', emoji: '🌧️' } } },
+            { letter: 'S', name: 'ese', examples: { 'SA': { word: 'Sal', emoji: '🧂' }, 'SE': { word: 'Semáforo', emoji: '🚦' }, 'SI': { word: 'Silla', emoji: '🪑' }, 'SO': { word: 'Sopa', emoji: '🍲' }, 'SU': { word: 'Suma', emoji: '➕' } } },
+            { letter: 'T', name: 'te', examples: { 'TA': { word: 'Taza', emoji: '☕' }, 'TE': { word: 'Teléfono', emoji: '📱' }, 'TI': { word: 'Tijeras', emoji: '✂️' }, 'TO': { word: 'Tomate', emoji: '🍅' }, 'TU': { word: 'Tulipán', emoji: '🌷' } } },
+            { letter: 'N', name: 'ene', examples: { 'NA': { word: 'Naranja', emoji: '🍊' }, 'NE': { word: 'Nevera', emoji: '🧊' }, 'NI': { word: 'Niña', emoji: '👧' }, 'NO': { word: 'Noche', emoji: '🌌' }, 'NU': { word: 'Nube', emoji: '☁️' } } },
+            { letter: 'D', name: 'de', examples: { 'DA': { word: 'Dado', emoji: '🎲' }, 'DE': { word: 'Dedo', emoji: '☝️' }, 'DI': { word: 'Dinero', emoji: '💶' }, 'DO': { word: 'Dos', emoji: '2️⃣' }, 'DU': { word: 'Ducha', emoji: '🚿' } } }
+        ];
+
+        // SÍLABAS TRABADAS Y ESPECIALES (BL, BR, TR, CA-QUE-QUI, GA-GUE-GUI, INVERSAS)
+        const BLENDS_DATA = {
+            'Grupos con L (BL, CL, FL, PL)': {
+                desc: 'Dos consonantes con la L en medio: junta los labios y sube la lengua.',
+                subgroups: [
+                    {
+                        name: 'Familia BL (bla, ble, bli, blo, blu)',
+                        items: [
+                            { syl: 'BLA', word: 'Blanco', emoji: '⚪' },
+                            { syl: 'BLE', word: 'Cable', emoji: '🔌' },
+                            { syl: 'BLI', word: 'Obligado', emoji: '📋' },
+                            { syl: 'BLO', word: 'Bloque', emoji: '🧱' },
+                            { syl: 'BLU', word: 'Blusa', emoji: '👚' }
+                        ]
+                    },
+                    {
+                        name: 'Familia CL y PL (clase, plato...)',
+                        items: [
+                            { syl: 'CLA', word: 'Clase', emoji: '🏫' },
+                            { syl: 'CLI', word: 'Cliente', emoji: '🛒' },
+                            { syl: 'PLA', word: 'Plátano', emoji: '🍌' },
+                            { syl: 'PLE', word: 'Cumpleaños', emoji: '🎂' },
+                            { syl: 'PLO', word: 'Plomo', emoji: '🪨' }
+                        ]
+                    },
+                    {
+                        name: 'Familia FL y GL (flor, globo...)',
+                        items: [
+                            { syl: 'FLA', word: 'Flan', emoji: '🍮' },
+                            { syl: 'FLO', word: 'Flor', emoji: '🌸' },
+                            { syl: 'GLA', word: 'Regla', emoji: '📏' },
+                            { syl: 'GLO', word: 'Globo', emoji: '🎈' }
+                        ]
+                    }
+                ]
+            },
+            'Grupos con R (BR, CR, TR, PR)': {
+                desc: 'Consonante + R: haz vibrar la lengua suavemente.',
+                subgroups: [
+                    {
+                        name: 'Familia BR (bra, bre, bri, bro, bru)',
+                        items: [
+                            { syl: 'BRA', word: 'Brazo', emoji: '💪' },
+                            { syl: 'BRE', word: 'Sobre', emoji: '✉️' },
+                            { syl: 'BRI', word: 'Abril', emoji: '📅' },
+                            { syl: 'BRO', word: 'Libro', emoji: '📖' },
+                            { syl: 'BRU', word: 'Bruja', emoji: '🧙‍♀️' }
+                        ]
+                    },
+                    {
+                        name: 'Familia TR (tra, tre, tri, tro, tru)',
+                        items: [
+                            { syl: 'TRA', word: 'Trabajo', emoji: '💼' },
+                            { syl: 'TRE', word: 'Tren', emoji: '🚆' },
+                            { syl: 'TRI', word: 'Trigo', emoji: '🌾' },
+                            { syl: 'TRO', word: 'Metro', emoji: '🚇' },
+                            { syl: 'TRU', word: 'Truco', emoji: '🪄' }
+                        ]
+                    },
+                    {
+                        name: 'Familia PR y FR (precio, fruta...)',
+                        items: [
+                            { syl: 'PRA', word: 'Compra', emoji: '🛍️' },
+                            { syl: 'PRE', word: 'Precio', emoji: '🏷️' },
+                            { syl: 'PRI', word: 'Primero', emoji: '🥇' },
+                            { syl: 'FRA', word: 'Frasco', emoji: '🫙' },
+                            { syl: 'FRU', word: 'Fruta', emoji: '🍎' }
+                        ]
+                    }
+                ]
+            },
+            'El sonido K (CA, QUE, QUI, CO, CU)': {
+                desc: '¡Ojo con la escritura! En español con A, O, U se escribe C. Pero con E, I se escribe QU (la U no suena).',
+                subgroups: [
+                    {
+                        name: 'Sonido fuerte K (ca, que, qui, co, cu)',
+                        items: [
+                            { syl: 'CA', word: 'Casa', emoji: '🏠' },
+                            { syl: 'QUE', word: 'Queso', note: 'suena ke', emoji: '🧀' },
+                            { syl: 'QUI', word: 'Quince', note: 'suena ki', emoji: '1️⃣5️⃣' },
+                            { syl: 'CO', word: 'Coche', emoji: '🚗' },
+                            { syl: 'CU', word: 'Cuchara', emoji: '🥄' }
+                        ]
+                    }
+                ]
+            },
+            'El sonido G (GA, GUE, GUI, GO, GU)': {
+                desc: 'Sonido suave de garganta. Con E, I necesita una U en medio (GUE, GUI) para sonar suave.',
+                subgroups: [
+                    {
+                        name: 'Sonido suave G (ga, gue, gui, go, gu)',
+                        items: [
+                            { syl: 'GA', word: 'Gato', emoji: '🐱' },
+                            { syl: 'GUE', word: 'Manguera', note: 'suena gue', emoji: '🚒' },
+                            { syl: 'GUI', word: 'Guitarra', note: 'suena gui', emoji: '🎸' },
+                            { syl: 'GO', word: 'Gota', emoji: '💧' },
+                            { syl: 'GU', word: 'Gusano', emoji: '🐛' }
+                        ]
+                    }
+                ]
+            },
+            'Sílabas Inversas (AS, ES, AL, EN)': {
+                desc: 'La vocal va ANTES de la consonante. No digas "se", di "es".',
+                subgroups: [
+                    {
+                        name: 'Vocal + S (as, es, is, os, us)',
+                        items: [
+                            { syl: 'AS', word: 'Ascensor', emoji: '🛗' },
+                            { syl: 'ES', word: 'Escuela', emoji: '🏫' },
+                            { syl: 'IS', word: 'Isla', emoji: '🏝️' },
+                            { syl: 'OS', word: 'Oscuro', emoji: '🌑' },
+                            { syl: 'US', word: 'Autobús', emoji: '🚌' }
+                        ]
+                    },
+                    {
+                        name: 'Vocal + L y N (al, el, an, en)',
+                        items: [
+                            { syl: 'AL', word: 'Algodón', emoji: '☁️' },
+                            { syl: 'EL', word: 'Elástico', emoji: '🩲' },
+                            { syl: 'AN', word: 'Andar', emoji: '🚶‍♀️' },
+                            { syl: 'EN', word: 'Enfermera', emoji: '👩‍⚕️' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        /* =========================================================
+           2. PALABRAS POR 5 NIVELES
+           ========================================================= */
+        const WORDS_BY_LEVEL = {
+            1: { name: 'Nivel 1: Muy Fácil', desc: '2 sílabas directas para empezar con seguridad.', items: [
+                { word: 'MA-NO', full: 'Mano', emoji: '✋' }, { word: 'ME-SA', full: 'Mesa', emoji: MESA_ICON }, { word: 'SI-LLA', full: 'Silla', emoji: '🪑' }, { word: 'CA-SA', full: 'Casa', emoji: '🏠' }, { word: 'CA-MA', full: 'Cama', emoji: '🛏️' }, { word: 'SO-PA', full: 'Sopa', emoji: '🍲' }, { word: 'VA-SO', full: 'Vaso', emoji: '🥛' }, { word: 'BO-TA', full: 'Bota', emoji: '🥾' }, { word: 'LU-NA', full: 'Luna', emoji: '🌙' }, { word: 'PE-RA', full: 'Pera', emoji: '🍐' }, { word: 'PI-ÑA', full: 'Piña', emoji: '🍍' }, { word: 'TA-ZA', full: 'Taza', emoji: '☕' }, { word: 'GA-TO', full: 'Gato', emoji: '🐱' }
+            ]},
+            2: { name: 'Nivel 2: Fácil', desc: 'Palabras cotidianas de la cocina, casa y compra.', items: [
+                { word: 'A-GUA', full: 'Agua', emoji: '💧' }, { word: 'LE-CHE', full: 'Leche', emoji: '🥛' }, { word: 'PA-N', full: 'Pan', emoji: '🍞' }, { word: 'PO-LLO', full: 'Pollo', emoji: '🍗' }, { word: 'CA-FÉ', full: 'Café', emoji: '☕' }, { word: 'LLA-VE', full: 'Llave', emoji: '🔑' }, { word: 'O-LLA', full: 'Olla', emoji: '🍲' }, { word: 'U-VAS', full: 'Uvas', emoji: '🍇' }, { word: 'HUE-VO', full: 'Huevo', emoji: '🥚' }, { word: 'QUE-SO', full: 'Queso', emoji: '🧀' }, { word: 'RO-PA', full: 'Ropa', emoji: '👚' }, { word: 'CO-CHE', full: 'Coche', emoji: '🚗' }
+            ]},
+            3: { name: 'Nivel 3: Intermedio', desc: 'Palabras de 3 sílabas muy usadas en la compra.', items: [
+                { word: 'TO-MA-TE', full: 'Tomate', emoji: '🍅' }, { word: 'PA-TA-TA', full: 'Patata', emoji: '🥔' }, { word: 'NA-RAN-JA', full: 'Naranja', emoji: '🍊' }, { word: 'PLÁ-TA-NO', full: 'Plátano', emoji: '🍌' }, { word: 'CE-BO-LLA', full: 'Cebolla', emoji: '🧅' }, { word: 'ZA-PA-TO', full: 'Zapato', emoji: '👟' }, { word: 'CA-MI-SA', full: 'Camisa', emoji: '👔' }, { word: 'CU-CHA-RA', full: 'Cuchara', emoji: '🥄' }, { word: 'CU-CHI-LLO', full: 'Cuchillo', emoji: '🔪' }, { word: 'NE-VE-RA', full: 'Nevera', emoji: '🧊' }, { word: 'ES-CO-BA', full: 'Escoba', emoji: '🧹' }, { word: 'MO-CHI-LA', full: 'Mochila', emoji: '🎒' }
+            ]},
+            4: { name: 'Nivel 4: Avanzado', desc: 'Palabras con sílabas trabadas y de transporte/salud.', items: [
+                { word: 'A-CEI-TE', full: 'Aceite', emoji: '🫒' }, { word: 'A-ZÚ-CAR', full: 'Azúcar', emoji: '🧂' }, { word: 'A-RROZ', full: 'Arroz', emoji: '🍚' }, { word: 'PES-CA-DO', full: 'Pescado', emoji: '🐟' }, { word: 'MAN-ZA-NA', full: 'Manzana', emoji: '🍎' }, { word: 'PUER-TA', full: 'Puerta', emoji: '🚪' }, { word: 'VEN-TA-NA', full: 'Ventana', emoji: '🪟' }, { word: 'MÉ-DI-CO', full: 'Médico', emoji: '🩺' }, { word: 'FAR-MA-CIA', full: 'Farmacia', emoji: '🏥' }, { word: 'AU-TO-BÚS', full: 'Autobús', emoji: '🚌' }, { word: 'DI-NE-RO', full: 'Dinero', emoji: '💶' }, { word: 'TAR-JE-TA', full: 'Tarjeta', emoji: '💳' }
+            ]},
+            5: { name: 'Nivel 5: Experto', desc: 'Palabras largas de gestiones, trabajo y ciudad.', items: [
+                { word: 'HOS-PI-TAL', full: 'Hospital', emoji: '🏥' }, { word: 'SE-MÁ-FO-RO', full: 'Semáforo', emoji: '🚦' }, { word: 'TE-LÉ-FO-NO', full: 'Teléfono', emoji: '📱' }, { word: 'PAN-TA-LÓN', full: 'Pantalón', emoji: '👖' }, { word: 'CHA-QUE-TA', full: 'Chaqueta', emoji: '🧥' }, { word: 'BO-LÍ-GRA-FO', full: 'Bolígrafo', emoji: '🖊️' }, { word: 'OR-DE-NA-DOR', full: 'Ordenador', emoji: '💻' }, { word: 'TRA-BA-JO', full: 'Trabajo', emoji: '💼' }, { word: 'CA-LEN-DA-RIO', full: 'Calendario', emoji: '📅' }, { word: 'AM-BU-LAN-CIA', full: 'Ambulancia', emoji: '🚑' }, { word: 'PE-LU-QUE-RÍA', full: 'Peluquería', emoji: '💇‍♀️' }, { word: 'PA-NA-DE-RÍA', full: 'Panadería', emoji: '🥖' }
+            ]}
+        };
+
+        /* =========================================================
+           3. HISTORIAS DE COMPRENSIÓN LECTORA (CON PREGUNTAS Y NOTA)
+           ========================================================= */
+        const READING_STORIES = [
+            {
+                id: 'super',
+                title: '🛒 1. Fátima en el Supermercado',
+                sentences: [
+                    'Fátima va al supermercado a las diez de la mañana.',
+                    'Lleva una bolsa grande en la mano.',
+                    'Compra leche fresca, una barra de pan y un kilo de tomates.',
+                    'En la nevera busca carne de pollo para cocinar.',
+                    'Paga en la caja con su tarjeta del banco.'
+                ],
+                questions: [
+                    {
+                        q: '¿A qué sitio va Fátima por la mañana?',
+                        options: ['Al supermercado', 'Al médico', 'A la playa'],
+                        answer: 0,
+                        feedback: '¡Exacto! Fátima va a hacer la compra al supermercado.'
+                    },
+                    {
+                        q: '¿Qué carne busca en la nevera?',
+                        options: ['Carne de cerdo', 'Carne de pollo', 'Carne de conejo'],
+                        answer: 1,
+                        feedback: '¡Muy bien! Busca carne de pollo.'
+                    },
+                    {
+                        q: '¿Cómo paga en la caja?',
+                        options: ['Con monedas', 'No paga nada', 'Con su tarjeta del banco'],
+                        answer: 2,
+                        feedback: '¡Perfecto! Paga con su tarjeta.'
+                    }
+                ]
+            },
+            {
+                id: 'medico',
+                title: '🩺 2. La Receta Médica de Sara',
+                sentences: [
+                    'Sara tiene dolor de garganta y va al centro de salud.',
+                    'La médica le da una receta de medicina.',
+                    'Tiene que tomar una pastilla blanca por la mañana con el desayuno.',
+                    'Debe beber un vaso grande de agua con cada pastilla.',
+                    'En tres días volverá a la consulta si le sigue doliendo.'
+                ],
+                questions: [
+                    {
+                        q: '¿Por qué va Sara al centro de salud?',
+                        options: ['Le duele la garganta', 'Tiene hambre', 'Se ha roto una pierna'],
+                        answer: 0,
+                        feedback: '¡Correcto! Va porque le duele la garganta.'
+                    },
+                    {
+                        q: '¿Cuándo tiene que tomar la pastilla?',
+                        options: ['Por la noche a oscuras', 'Por la mañana con el desayuno', 'Nunca'],
+                        answer: 1,
+                        feedback: '¡Eso es! Por la mañana con el desayuno.'
+                    },
+                    {
+                        q: '¿Con qué tiene que tomar la pastilla?',
+                        options: ['Con refresco', 'Con un vaso grande de agua', 'Con aceite'],
+                        answer: 1,
+                        feedback: '¡Genial! Siempre con un buen vaso de agua.'
+                    }
+                ]
+            },
+            {
+                id: 'clase',
+                title: '🚌 3. La Clase de Español con Mónica',
+                sentences: [
+                    'Amina sube al autobús número cuatro para ir a su clase.',
+                    'En la escuela se encuentra con Mónica, su profesora.',
+                    'Hoy Mónica le enseña a leer palabras difíciles como trabajo y plátano.',
+                    'Amina escribe las letras en su cuaderno con un lápiz azul.',
+                    'Al terminar la clase, Amina dice: muchas gracias por todo.'
+                ],
+                questions: [
+                    {
+                        q: '¿Cómo va Amina a la clase?',
+                        options: ['En autobús número 4', 'En avión', 'En bicicleta'],
+                        answer: 0,
+                        feedback: '¡Muy bien! Va en el autobús número cuatro.'
+                    },
+                    {
+                        q: '¿Quién es su profesora?',
+                        options: ['Mónica', 'Carmen', 'Fátima'],
+                        answer: 0,
+                        feedback: '¡Exacto! Su profesora se llama Mónica.'
+                    },
+                    {
+                        q: '¿Qué le dice Amina a Mónica al terminar?',
+                        options: ['Hasta nunca', 'Muchas gracias por todo', 'Tengo frío'],
+                        answer: 1,
+                        feedback: '¡Correcto! Le da las gracias con una sonrisa.'
+                    }
+                ]
+            },
+            {
+                id: 'puerta',
+                title: '🏢 4. El Aviso del Ascensor',
+                sentences: [
+                    'En la puerta del portal hay un cartel blanco.',
+                    'El cartel dice en letras grandes: ascensor averiado.',
+                    'Los vecinos tienen que subir por las escaleras.',
+                    'El técnico vendrá el viernes por la tarde a arreglarlo.',
+                    'Por favor, empujar la puerta de la calle despacio al salir.'
+                ],
+                questions: [
+                    {
+                        q: '¿Qué dice el cartel de la puerta?',
+                        options: ['Ascensor averiado', 'Fiesta el sábado', 'Piscina abierta'],
+                        answer: 0,
+                        feedback: '¡Bien leído! El ascensor no funciona (está averiado).'
+                    },
+                    {
+                        q: '¿Por dónde tienen que subir los vecinos?',
+                        options: ['Por la ventana', 'Por las escaleras', 'Por el tejado'],
+                        answer: 1,
+                        feedback: '¡Eso es! Tienen que subir a pie por las escaleras.'
+                    },
+                    {
+                        q: '¿Qué día vendrá el técnico a arreglarlo?',
+                        options: ['El viernes', 'El domingo', 'El año que viene'],
+                        answer: 0,
+                        feedback: '¡Perfecto! Vendrá el viernes por la tarde.'
+                    }
+                ]
+            }
+        ];
+
+        /* =========================================================
+           4. DICTADO INTERACTIVO FÁCIL (PALABRAS Y FRASES CORTAS)
+           ========================================================= */
+        const DICTATION_ITEMS = {
+            1: [
+                { word: 'MESA', parts: ['ME', 'SA'], full: 'Mesa' },
+                { word: 'CASA', parts: ['CA', 'SA'], full: 'Casa' },
+                { word: 'SOPA', parts: ['SO', 'PA'], full: 'Sopa' },
+                { word: 'LUNA', parts: ['LU', 'NA'], full: 'Luna' },
+                { word: 'TAZA', parts: ['TA', 'ZA'], full: 'Taza' }
+            ],
+            2: [
+                { word: 'AGUA', parts: ['A', 'GUA'], full: 'Agua' },
+                { word: 'LECHE', parts: ['LE', 'CHE'], full: 'Leche' },
+                { word: 'POLLO', parts: ['PO', 'LLO'], full: 'Pollo' },
+                { word: 'CAFÉ', parts: ['CA', 'FÉ'], full: 'Café' },
+                { word: 'LLAVE', parts: ['LLA', 'VE'], full: 'Llave' }
+            ],
+            3: [
+                { word: 'TOMATE', parts: ['TO', 'MA', 'TE'], full: 'Tomate' },
+                { word: 'PATATA', parts: ['PA', 'TA', 'TA'], full: 'Patata' },
+                { word: 'ZAPATO', parts: ['ZA', 'PA', 'TO'], full: 'Zapato' },
+                { word: 'BLANCO', parts: ['BLAN', 'CO'], full: 'Blanco' },
+                { word: 'PLÁTANO', parts: ['PLÁ', 'TA', 'NO'], full: 'Plátano' }
+            ],
+            4: [
+                { word: 'TRABAJO', parts: ['TRA', 'BA', 'JO'], full: 'Trabajo' },
+                { word: 'PRECIO', parts: ['PRE', 'CIO'], full: 'Precio' },
+                { word: 'MÉDICO', parts: ['MÉ', 'DI', 'CO'], full: 'Médico' },
+                { word: 'PUERTA', parts: ['PUER', 'TA'], full: 'Puerta' }
+            ]
+        };
+
+        /* =========================================================
+           5. VIDA REAL Y CONSEJOS P/B
+           ========================================================= */
+        const REAL_LIFE_DATA = {
+            '🛒 En el Supermercado': [
+                { visual: '🍗 100% POLLO', bg: '#dcfce7', border: '#22c55e', color: '#15803d', meaning: 'Carne de POLLO (sí puedes comerlo). Empieza por PO.', audio: 'Cien por cien Pollo. Empieza por Pe, O.' },
+                { visual: '🐄 VACUNO / TERNERA', bg: '#dcfce7', border: '#22c55e', color: '#15803d', meaning: 'Carne de vaca o ternera.', audio: 'Vacuno o Ternera. Carne de vaca.' },
+                { visual: '🐷🚫 CERDO / PORCINO', bg: '#fee2e2', border: '#ef4444', color: '#b91c1c', meaning: '¡OJO en los ingredientes! Si pone CERDO, PORCINO, JAMÓN o MANTECA, lleva cerdo.', audio: 'Atención: si lees Cerdo, Porcino o Jamón, lleva carne de cerdo.' },
+                { visual: '🏷️ OFERTA / DESCUENTO', bg: '#fef08a', border: '#eab308', color: '#854d0e', meaning: 'Cartel amarillo o rojo: significa que el precio es más barato hoy.', audio: 'Oferta. Descuento. Cuesta menos dinero.' },
+                { visual: '🥛 SIN LACTOSA / SIN AZÚCAR', bg: '#dbeafe', border: '#3b82f6', color: '#1e40af', meaning: 'La palabra "SIN" significa que NO lleva eso.', audio: 'Sin lactosa. Sin azúcar.' },
+                { visual: '📅 FECHA DE CADUCIDAD', bg: '#f1f5f9', border: '#64748b', color: '#334155', meaning: 'El día en que la comida se pone mala. Busca "CONSUMIR ANTES DE".', audio: 'Fecha de caducidad. Consumir antes de.' },
+                { visual: '💳 CAJA / PAGAR AQUÍ', bg: '#ede9fe', border: '#8b5cf6', color: '#5b21b6', meaning: 'Fila para pagar en el supermercado (Efectivo o Tarjeta).', audio: 'Caja. Pagar aquí.' },
+                { visual: '🟢 ABIERTO / 🔴 CERRADO', bg: '#f8fafc', border: '#94a3b8', color: '#0f172a', meaning: 'En la puerta: ABIERTO (puedes entrar) / CERRADO (no se puede).', audio: 'Abierto para entrar. Cerrado cuando no abre.' }
+            ],
+            '🩺 En el Médico y Recetas': [
+                { visual: '💊 1 CADA 8 HORAS', bg: '#dbeafe', border: '#2563eb', color: '#1e3a8a', meaning: 'Tomar 1 con el desayuno ☀️, 1 con la comida 🍽️ y 1 con la cena 🌙.', audio: 'Uno cada ocho horas: desayuno, comida y cena.' },
+                { visual: '💊 1 CADA 12 HORAS', bg: '#ede9fe', border: '#7c3aed', color: '#4c1d95', meaning: 'Tomar 2 veces al día: 1 por la mañana ☀️ y 1 por la noche 🌙.', audio: 'Uno cada doce horas: mañana y noche.' },
+                { visual: '☀️ DESAYUNO | 🍽️ COMIDA | 🌙 CENA', bg: '#fef3c7', border: '#f59e0b', color: '#92400e', meaning: 'Las tres comidas que apuntan en las cajas de medicinas.', audio: 'Desayuno, comida y cena.' },
+                { visual: '🚨 URGENCIAS', bg: '#fee2e2', border: '#dc2626', color: '#991b1b', meaning: 'Cartel rojo en el Hospital para cuando estás enferma hoy sin cita.', audio: 'Urgencias. Para ir al médico rápido.' },
+                { visual: '📅 CITA PREVIA / CONSULTA', bg: '#dcfce7', border: '#16a34a', color: '#166534', meaning: 'El papel con el día, la hora y el número de puerta de tu médico.', audio: 'Cita previa y número de consulta.' }
+            ],
+            '💼 Trabajo, Puertas y Papeles': [
+                { visual: '👐 EMPUJAR ↔ TIRAR', bg: '#e0f2fe', border: '#0284c7', color: '#0369a1', meaning: 'En las puertas: EMPUJAR (hacia dentro) y TIRAR (hacia ti).', audio: 'Empujar hacia dentro. Tirar hacia ti.' },
+                { visual: '🚪 ENTRADA / SALIDA', bg: '#dcfce7', border: '#16a34a', color: '#15803d', meaning: 'Por dónde se entra y por dónde se sale.', audio: 'Entrada y Salida.' },
+                { visual: '🚻 MUJERES / SEÑORAS', bg: '#fce7f3', border: '#db2777', color: '#9d174d', meaning: 'En la puerta del baño: MUJERES o SEÑORAS.', audio: 'Baño de Mujeres o Señoras.' },
+                { visual: '✍️ FIRMA AQUÍ', bg: '#fef3c7', border: '#d97706', color: '#92400e', meaning: 'Donde pones tu firma en un contrato, banco o paquete.', audio: 'Firma aquí.' },
+                { visual: '🪪 NOMBRE Y APELLIDOS', bg: '#f1f5f9', border: '#64748b', color: '#1e293b', meaning: 'La primera casilla de todos los papeles oficiales.', audio: 'Nombre y apellidos.' }
+            ],
+            '💬 Frases Coloquiales y WhatsApp': [
+                { visual: '👋 ¡Hola! ¿Qué tal?', bg: '#dcfce7', border: '#22c55e', color: '#15803d', meaning: 'Saludo normal y cercano al entrar a un sitio o por WhatsApp.', audio: '¡Hola! ¿Qué tal?' },
+                { visual: '👍 Vale, perfecto', bg: '#dbeafe', border: '#3b82f6', color: '#1e40af', meaning: 'La palabra para decir "Sí, de acuerdo".', audio: 'Vale, perfecto. De acuerdo.' },
+                { visual: '🙏 Por favor / Muchas gracias', bg: '#fef3c7', border: '#f59e0b', color: '#92400e', meaning: 'Para pedir cualquier cosa con amabilidad.', audio: 'Por favor. Muchas gracias.' },
+                { visual: '💶 ¿Cuánto cuesta?', bg: '#ede9fe', border: '#8b5cf6', color: '#5b21b6', meaning: 'Para preguntar el precio en una tienda.', audio: '¿Cuánto cuesta?' },
+                { visual: '🗣️ Más despacio, por favor', bg: '#ffedd5', border: '#ea580c', color: '#9a3412', meaning: 'Cuando alguien te habla o lee demasiado rápido.', audio: 'Más despacio, por favor.' },
+                { visual: '📱 Llego en 5 minutos', bg: '#f1f5f9', border: '#64748b', color: '#1e293b', meaning: 'Mensaje corto muy útil cuando vas de camino.', audio: 'Llego en cinco minutos.' }
+            ]
+        };
+
+        const MOROCCAN_TIPS = [
+            {
+                title: '1. La P y la B (¡El error más común!)',
+                badge: 'P p ⚡ B b',
+                badgeBg: '#fee2e2',
+                badgeColor: '#dc2626',
+                tip: 'En árabe no existe el sonido "P". Truco: pon tu mano delante de los labios. Al decir P (Pan, Pollo) sale un golpecito fuerte de aire. Con la B (Baño, Bolsa) los labios se tocan suave.',
+                audioIntro: 'Escucha la diferencia entre la Pe, que suelta aire fuerte, y la Be, que es suave.',
+                pairs: [
+                    { w1: 'PAN', sub1: 'Con P (aire fuerte)', e1: '🍞', w2: 'VAN', sub2: 'Suave', e2: '🚶‍♀️' },
+                    { w1: 'PISO', sub1: 'Con P (Piso)', e1: '🏢', w2: 'BESO', sub2: 'Con B (Beso)', e2: '💋' },
+                    { w1: 'POLLO', sub1: 'Con P (Pollo)', e1: '🍗', w2: 'BOLLO', sub2: 'Con B (Bollo)', e2: '🥐' },
+                    { w1: 'PATA', sub1: 'Con P (Pata)', e1: '🦆', w2: 'BATA', sub2: 'Con B (Bata)', e2: '🥼' }
+                ]
+            },
+            {
+                title: '2. Vocales E ↔ I (Sonrisa abierta vs. cerrada)',
+                badge: 'E e ↔ I i',
+                badgeBg: '#ffedd5',
+                badgeColor: '#ea580c',
+                tip: 'En árabe la E y la I se parecen mucho. Para la E abre un poco la boca; para la I estira los labios haciendo una sonrisa cerrada.',
+                audioIntro: 'Para la E abre la boca. Para la I sonríe.',
+                pairs: [
+                    { w1: 'MESA', sub1: 'Con E (M-E-SA)', e1: MESA_ICON, w2: 'MISA', sub2: 'Con I (M-I-SA)', e2: '⛪' },
+                    { w1: 'PESO', sub1: 'Con E (P-E-SO)', e1: '⚖️', w2: 'PISO', sub2: 'Con I (P-I-SO)', e2: '🏢' },
+                    { w1: 'PELO', sub1: 'Con E (P-E-LO)', e1: '💇‍♀️', w2: 'PILA', sub2: 'Con I (P-I-LA)', e2: '🔋' }
+                ]
+            },
+            {
+                title: '3. Vocales O ↔ U (Boca redonda vs. soplar)',
+                badge: 'O o ↔ U u',
+                badgeBg: '#dcfce7',
+                badgeColor: '#15803d',
+                tip: 'Para la O haz un círculo abierto con la boca (Ojo). Para la U junta mucho los labios hacia delante como soplando una vela (Uvas).',
+                audioIntro: 'La O es redonda y abierta. La U es muy cerrada.',
+                pairs: [
+                    { w1: 'OSO', sub1: 'Con O (O-SO)', e1: '🐻', w2: 'USO', sub2: 'Con U (U-SO)', e2: '🛠️' },
+                    { w1: 'POLLO', sub1: 'Con O (PO-LLO)', e1: '🍗', w2: 'PUÑO', sub2: 'Con U (PU-ÑO)', e2: '✊' },
+                    { w1: 'OLLA', sub1: 'Con O (O-LLA)', e1: '🍲', w2: 'UÑA', sub2: 'Con U (U-ÑA)', e2: '💅' }
+                ]
+            },
+            {
+                title: '4. Letras en espejo (b / d) y dirección 🟢 ➡️',
+                badge: 'b ➡️ | ⬅️ d',
+                badgeBg: '#dbeafe',
+                badgeColor: '#1d4ed8',
+                tip: 'En español siempre empezamos por la IZQUIERDA 🟢 y vamos hacia la DERECHA ➡️. En minúscula, la "b" tiene la barriga mirando hacia adelante (➡️) y la "d" mira hacia atrás (⬅️).',
+                audioIntro: 'En español leemos siempre de izquierda a derecha.',
+                pairs: [
+                    { w1: 'bota', sub1: 'b (barriga adelante ➡️)', e1: '🥾', w2: 'dedo', sub2: 'd (barriga atrás ⬅️)', e2: '☝️' },
+                    { w1: 'HOLA', sub1: 'La H es MUDA (suena "ola")', e1: '👋', w2: 'HUEVO', sub2: 'La H no suena ("uevo")', e2: '🥚' }
+                ]
+            }
+        ];
+
+        /* =========================================================
+           6. ESTADO GLOBAL, VELOCIDAD DE VOZ Y SÍNTESIS
+           ========================================================= */
+        let currentScreen = 'home';
+        let caseMode = 'both';
+        let speechSpeedMode = 'normal'; // 'normal' (0.78) | 'slow' (0.58)
+        let currentConsonant = CONSONANTS[0];
+        let currentWordsLevel = 1;
+        let currentBlendFamily = Object.keys(BLENDS_DATA)[0];
+        let currentStoryId = READING_STORIES[0].id;
+        let currentRealLifeTab = '🛒 En el Supermercado';
+        let currentTraceLetter = 'A';
+        let currentKeyTarget = 'A';
+
+        // Estado Dictado
+        let currentDictLevel = 1;
+        let dictItemIndex = 0;
+        let dictScore = 0;
+        let dictChosenParts = [];
+        let dictShuffledParts = [];
+        let dictLocked = false;
+
+        // Estado Juegos
+        let activeGameType = 'drag';
+        let selectedDragVowel = null;
+        let currentGameLevel = 1;
+        let gameScore = 0;
+        let gameStreak = 0;
+        let gameLocked = false;
+        let levelQueue = [];
+        let levelStepIndex = 0;
+        let currentGameData = null;
+
+        const synth = window.speechSynthesis;
+
+        function getSpeechRate() {
+            return speechSpeedMode === 'slow' ? 0.58 : 0.78;
+        }
+
+        function toggleSpeechRate() {
+            if (speechSpeedMode === 'normal') {
+                speechSpeedMode = 'slow';
+                document.getElementById('btn-speed').innerHTML = '🐢 <span>Velocidad: <b>Despacio</b></span>';
+                speak('Velocidad despacio activada.', 0.6);
+            } else {
+                speechSpeedMode = 'normal';
+                document.getElementById('btn-speed').innerHTML = '🐇 <span>Velocidad: <b>Normal</b></span>';
+                speak('Velocidad normal activada.', 0.78);
+            }
+        }
+
+        let fontStyleMode = 'handwriting'; // 'handwriting' (A mano) | 'print' (Máquina)
+
+        function toggleFontFamily() {
+            if (fontStyleMode === 'handwriting') {
+                fontStyleMode = 'print';
+                document.body.classList.remove('font-handwriting');
+                document.getElementById('btn-font').innerHTML = '🖨️ Letra: <b>Máquina</b>';
+                speak('Letra de imprenta activada.', 0.8);
+            } else {
+                fontStyleMode = 'handwriting';
+                document.body.classList.add('font-handwriting');
+                document.getElementById('btn-font').innerHTML = '✏️ Letra: <b>A mano</b>';
+                speak('Letra escrita a mano activada.', 0.8);
+            }
+        }
+
+        function cleanTextForSpeech(text) {
+            if (!text) return '';
+            let t = String(text).trim();
+
+            // 1. Quitar notas entre paréntesis (suave), (aire fuerte), etc. para no leer paréntesis en voz alta
+            t = t.replace(/\s*\([^)]*\)/g, '');
+
+            // 2. Diccionario fonético para letras que el sintetizador de voz pronuncia mal o en inglés si van solas
+            const letterNames = {
+                'b': 'be',
+                'B': 'be',
+                'v': 'uve',
+                'V': 'uve',
+                'c': 'ce',
+                'C': 'ce',
+                'd': 'de',
+                'D': 'de',
+                'p': 'pe',
+                'P': 'pe',
+                't': 'te',
+                'T': 'te',
+                'm': 'eme',
+                'M': 'eme',
+                'n': 'ene',
+                'N': 'ene',
+                'l': 'ele',
+                'L': 'ele',
+                's': 'ese',
+                'S': 'ese',
+                'll': 'elle',
+                'LL': 'elle',
+                'Ll': 'elle',
+                'r': 'erre',
+                'R': 'erre',
+                'rr': 'doble erre',
+                'RR': 'doble erre',
+                'y': 'ye',
+                'Y': 'ye',
+                'z': 'zeta',
+                'Z': 'zeta',
+                'k': 'ka',
+                'K': 'ka',
+                'j': 'jota',
+                'J': 'jota',
+                'h': 'hache',
+                'H': 'hache'
+            };
+
+            // Letra aislada
+            if (letterNames[t]) {
+                return letterNames[t];
+            }
+
+            // Expresiones como "Letra B", "Letra LL"
+            t = t.replace(/^Letra\s+([a-zA-ZñÑ]{1,2})$/i, (m, letter) => {
+                return `Letra ${letterNames[letter] || letter}`;
+            });
+
+            // Si empieza por "B. " o "LL. "
+            t = t.replace(/^([a-zA-ZñÑ]{1,2})\.\s*/, (m, letter) => {
+                return `${letterNames[letter] || letter}. `;
+            });
+
+            return t;
+        }
+
+        function speak(text, customRate = null) {
+            if (!synth) return;
+            if (synth.speaking) synth.cancel();
+            if (!text) return;
+
+            const cleaned = cleanTextForSpeech(text);
+            const utter = new SpeechSynthesisUtterance(cleaned);
+            const voices = synth.getVoices();
+            const esVoice = voices.find(v => v.lang.startsWith('es-ES')) || voices.find(v => v.lang.startsWith('es'));
+            if (esVoice) utter.voice = esVoice;
+            utter.lang = 'es-ES';
+            utter.rate = customRate || getSpeechRate();
+            utter.pitch = 1.0;
+            synth.speak(utter);
+        }
+
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = () => synth.getVoices();
+        }
+
+        function toggleLetterCase() {
+            const modes = ['both', 'upper', 'lower'];
+            const labels = {
+                'both': '🔤 Letras: <b>A a</b>',
+                'upper': '🔤 Letras: <b>MAYÚSCULAS</b>',
+                'lower': '🔤 Letras: <b>minúsculas</b>'
+            };
+            caseMode = modes[(modes.indexOf(caseMode) + 1) % modes.length];
+            document.getElementById('btn-case').innerHTML = labels[caseMode];
+            renderVowels();
+            renderSyllables();
+            renderBlends();
+            renderWords();
+            drawTraceGuide();
+            if (currentScreen === 'games') renderCurrentGameStep(false);
+        }
+
+        function showScreen(name) {
+            currentScreen = name;
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById(`screen-${name}`).classList.add('active');
+
+            const titles = {
+                'home': 'Español Paso a Paso',
+                'vowels': '1. Las Vocales (A, E, I, O, U)',
+                'syllables': '2. Sílabas Simples (MA, PA...)',
+                'blends': '3. Sílabas Trabadas (BL, BR, TR...)',
+                'words': '4. Palabras por 5 Niveles',
+                'reading': '5. Comprensión Lectora',
+                'dictation': '6. Dictado Fácil',
+                'reallife': '7. Súper, Médico y Calle',
+                'tips': '8. Trucos P/B y Vocales',
+                'write': '9. Escribir y Teclado',
+                'games': '10. Juegos por Niveles'
+            };
+            document.getElementById('top-title').innerText = titles[name] || 'Español Paso a Paso';
+
+            if (name === 'vowels') renderVowels();
+            else if (name === 'syllables') renderSyllables();
+            else if (name === 'blends') renderBlends();
+            else if (name === 'words') renderWords();
+            else if (name === 'reading') renderReadingStory();
+            else if (name === 'dictation') initDictation();
+            else if (name === 'reallife') renderRealLife();
+            else if (name === 'tips') renderTips();
+            else if (name === 'write') initTraceSection();
+            else if (name === 'games') initGameLevelQueue();
+            else synth.cancel();
+        }
+
+        function speakCurrentHelp() {
+            const helps = {
+                'home': 'Toca cualquier apartado para practicar lectura, escuchar historias con preguntas, hacer dictados o jugar.',
+                'vowels': 'Toca las vocales o púlsalas en el teclado del ordenador.',
+                'syllables': 'Elige una letra arriba y escucha cómo suena con cada vocal.',
+                'blends': 'Aquí tienes las sílabas trabadas como BLA, BRA, TRA y las familias de CA, QUE, QUI.',
+                'words': 'Cinco niveles de palabras con dibujos reales.',
+                'reading': 'Toca el botón verde para escuchar la historia leída despacito y luego responde a las preguntas.',
+                'dictation': 'Toca la bocina para escuchar la palabra y coloca las piezas en orden.',
+                'reallife': 'Carteles del supermercado, médico y frases coloquiales.',
+                'tips': 'Consejos para no confundir la Pe y la Be, o la E y la I.',
+                'write': 'Pizarra para dibujar las letras y buscador de teclas.',
+                'games': 'Cuatro juegos con 5 niveles sin repetir palabras.'
+            };
+            speak(helps[currentScreen]);
+        }
+
+        /* =========================================================
+           7. MÓDULO 1 Y 2: VOCALES Y SÍLABAS DIRECTAS
+           ========================================================= */
+        function renderVowels() {
+            const row = document.getElementById('vowel-buttons-row');
+            row.innerHTML = '';
+            Object.keys(VOWEL_DATA).forEach(v => {
+                const btn = document.createElement('button');
+                btn.className = `vowel-btn ${VOWEL_DATA[v].colorClass}`;
+                btn.innerHTML = caseMode === 'upper' ? `<span class="vowel-big">${v}</span>`
+                    : (caseMode === 'lower' ? `<span class="vowel-big">${v.toLowerCase()}</span>`
+                    : `<span class="vowel-big">${v}</span><span class="vowel-small">${v.toLowerCase()}</span>`);
+                btn.onclick = () => selectVowel(v);
+                row.appendChild(btn);
+            });
+        }
+
+        function highlightTargetVowel(word, targetVowel) {
+            const mapAccent = { 'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u', 'Á':'A', 'É':'E', 'Í':'I', 'Ó':'O', 'Ú':'U' };
+            return word.split('').map(ch => {
+                const base = (mapAccent[ch] || ch).toUpperCase();
+                if (base === targetVowel) return `<span class="hl-vowel">${ch}</span>`;
+                return ch;
+            }).join('');
+        }
+
+        function selectVowel(v, wordIndex = 0) {
+            const info = VOWEL_DATA[v];
+            const item = info.words[wordIndex % info.words.length];
+            const emojiEl = document.getElementById('v-stage-emoji');
+            emojiEl.innerHTML = item.emoji;
+            emojiEl.classList.remove('pop');
+            void emojiEl.offsetWidth;
+            emojiEl.classList.add('pop');
+
+            document.getElementById('v-stage-word').innerHTML = `${v} ${v.toLowerCase()} = ` + highlightTargetVowel(item.word.toUpperCase(), v);
+            document.getElementById('v-stage-sub').innerHTML = highlightTargetVowel(item.word.toLowerCase(), v);
+
+            const chips = document.getElementById('v-word-chips');
+            chips.innerHTML = '';
+            info.words.forEach((w, idx) => {
+                const chip = document.createElement('button');
+                chip.className = 'word-chip';
+                chip.innerHTML = `<span>${w.emoji}</span> <span>${highlightTargetVowel(w.word, v)}</span>`;
+                chip.onclick = () => selectVowel(v, idx);
+                chips.appendChild(chip);
+            });
+            speak(`${v}, ${item.word}`, 0.72);
+        }
+
+        function renderSyllables() {
+            const bar = document.getElementById('consonant-bar');
+            bar.innerHTML = '';
+            CONSONANTS.forEach(c => {
+                const btn = document.createElement('button');
+                btn.className = `cons-btn ${c.letter === currentConsonant.letter ? 'active' : ''}`;
+                btn.innerText = `${c.letter} ${c.letter.toLowerCase()}`;
+                btn.onclick = () => {
+                    currentConsonant = c;
+                    renderSyllables();
+                    speak(`Letra ${c.name}`);
+                };
+                bar.appendChild(btn);
+            });
+
+            const grid = document.getElementById('syllable-grid');
+            grid.innerHTML = '';
+            ['A', 'E', 'I', 'O', 'U'].forEach(v => {
+                const syl = currentConsonant.letter + v;
+                const btn = document.createElement('button');
+                btn.className = 'syl-btn';
+                btn.innerHTML = caseMode === 'upper' ? `${syl}`
+                    : (caseMode === 'lower' ? `${syl.toLowerCase()}` : `${syl} <small>${syl.toLowerCase()}</small>`);
+                btn.onclick = () => selectSyllable(syl);
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectSyllable(syl) {
+            const ex = currentConsonant.examples[syl];
+            document.getElementById('syl-emoji').innerHTML = ex.emoji;
+            document.getElementById('syl-word').innerHTML = `<span style="color:var(--primary)">${syl}</span> / <span style="color:var(--purple)">${syl.toLowerCase()}</span>`;
+            document.getElementById('syl-example').innerHTML = `Como en <b>${ex.word.toUpperCase()}</b> (${ex.word.toLowerCase()})`;
+            speak(`${syl.toLowerCase()}. ${ex.word}`, 0.72);
+        }
+
+        /* =========================================================
+           8. MÓDULO 3: SÍLABAS TRABADAS Y ESPECIALES
+           ========================================================= */
+        function renderBlends() {
+            const bar = document.getElementById('blends-family-bar');
+            bar.innerHTML = '';
+            Object.keys(BLENDS_DATA).forEach(family => {
+                const btn = document.createElement('button');
+                btn.className = `family-btn ${family === currentBlendFamily ? 'active' : ''}`;
+                btn.innerText = family;
+                btn.onclick = () => {
+                    currentBlendFamily = family;
+                    renderBlends();
+                    speak(family);
+                };
+                bar.appendChild(btn);
+            });
+
+            const data = BLENDS_DATA[currentBlendFamily];
+            const area = document.getElementById('blends-content-area');
+            area.innerHTML = `
+                <div style="background:white; border:2px solid #e2e8f0; border-radius:16px; padding:16px; margin-bottom:16px;">
+                    <p style="font-size:1.1rem; color:#4c1d95; font-weight:800;">💡 ${data.desc}</p>
+                </div>
+            `;
+
+            data.subgroups.forEach((group, gIdx) => {
+                const block = document.createElement('div');
+                block.style.marginBottom = '20px';
+
+                let cardsHtml = group.items.map((it, itIdx) => {
+                    const dispSyl = caseMode === 'lower' ? it.syl.toLowerCase() : it.syl;
+                    const noteHtml = it.note ? `<span style="font-size:0.8rem; color:#7c3aed; font-weight:700; display:block; margin-top:2px;">(${it.note})</span>` : '';
+                    return `
+                        <button class="blend-card-btn" onclick="playBlend(${gIdx}, ${itIdx})">
+                            <span style="font-size:2.4rem; display:block; margin-bottom:4px;">${it.emoji}</span>
+                            <span class="bc-syl">${dispSyl}</span>
+                            <span class="bc-word">${it.word}</span>
+                            ${noteHtml}
+                        </button>
+                    `;
+                }).join('');
+
+                block.innerHTML = `
+                    <h3 style="font-size:1.15rem; font-weight:800; color:#1e293b; margin-bottom:10px;">${group.name}</h3>
+                    <div class="blend-sub-grid">${cardsHtml}</div>
+                `;
+                area.appendChild(block);
+            });
+        }
+
+        function playBlend(gIdx, itIdx) {
+            const data = BLENDS_DATA[currentBlendFamily];
+            const item = data.subgroups[gIdx].items[itIdx];
+            speak(`${item.syl.toLowerCase()}, ${item.word}`, 0.7);
+        }
+
+        /* =========================================================
+           9. MÓDULO 4: PALABRAS POR 5 NIVELES
+           ========================================================= */
+        function renderWords() {
+            const bar = document.getElementById('words-level-bar');
+            bar.innerHTML = '';
+            [1, 2, 3, 4, 5].forEach(lvl => {
+                const btn = document.createElement('button');
+                btn.className = `lvl-btn ${lvl === currentWordsLevel ? 'active' : ''}`;
+                btn.innerHTML = `⭐ Nivel ${lvl}`;
+                btn.onclick = () => {
+                    currentWordsLevel = lvl;
+                    renderWords();
+                    speak(WORDS_BY_LEVEL[lvl].name);
+                };
+                bar.appendChild(btn);
+            });
+
+            const lvlObj = WORDS_BY_LEVEL[currentWordsLevel];
+            document.getElementById('words-level-desc').innerText = `${lvlObj.name}: ${lvlObj.desc}`;
+
+            const grid = document.getElementById('words-grid');
+            grid.innerHTML = '';
+            lvlObj.items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                const parts = item.word.split('-');
+                const pillsHtml = parts.map(p => {
+                    const label = caseMode === 'lower' ? p.toLowerCase() : p;
+                    return `<button class="syl-pill" onclick="speak('${p.toLowerCase()}', 0.68)">${label}</button>`;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="word-card-emoji" onclick="speak('${item.full}', 0.75)">${item.emoji}</div>
+                    <div class="direction-indicator">🟢 Lee de izquierda a derecha ➡️</div>
+                    <div class="syllable-pills">${pillsHtml}</div>
+                    <div style="font-size:1.15rem; color:var(--muted); font-weight:700;">${item.full.toLowerCase()}</div>
+                    <button class="btn-read-whole" onclick="speakSyllablesAndWord('${item.word}', '${item.full}')">
+                        🔊 Escuchar sílaba a sílaba
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function speakSyllablesAndWord(hyphenated, fullWord) {
+            const parts = hyphenated.split('-').map(p => p.toLowerCase());
+            speak(`${parts.join('. ')}. ... ${fullWord}`, 0.68);
+        }
+
+        /* =========================================================
+           10. MÓDULO 5: COMPRENSIÓN LECTORA (CON PREGUNTAS Y NOTA)
+           ========================================================= */
+        function renderReadingStory() {
+            const tabs = document.getElementById('story-selector-tabs');
+            tabs.innerHTML = '';
+            READING_STORIES.forEach(st => {
+                const btn = document.createElement('button');
+                btn.className = `cat-tab ${st.id === currentStoryId ? 'active' : ''}`;
+                btn.innerText = st.title;
+                btn.onclick = () => {
+                    currentStoryId = st.id;
+                    renderReadingStory();
+                };
+                tabs.appendChild(btn);
+            });
+
+            const story = READING_STORIES.find(s => s.id === currentStoryId);
+            const container = document.getElementById('story-display-area');
+
+            let sentencesHtml = story.sentences.map((sent, idx) => `
+                <span class="story-sentence" id="story-sent-${idx}" onclick="speakStorySentence('${sent}', ${idx})">
+                    ${sent}
+                </span>
+            `).join(' ');
+
+            let questionsHtml = story.questions.map((q, qIdx) => `
+                <div class="q-item" id="q-box-${qIdx}">
+                    <div class="q-text">
+                        <span>❓ Pregunta ${qIdx + 1}: ${q.q}</span>
+                        <button class="btn-top" style="font-size:0.85rem; padding:3px 8px;" onclick="speak('${q.q}')">🔊</button>
+                    </div>
+                    <div class="q-options">
+                        ${q.options.map((opt, optIdx) => `
+                            <button class="q-opt-btn" onclick="checkStoryAnswer(${qIdx}, ${optIdx})">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="q-fb-${qIdx}" style="margin-top:8px; font-weight:800; font-size:1.05rem;"></div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="story-container">
+                    <div class="story-header">
+                        <h3 style="font-size:1.35rem; font-weight:900; color:var(--text);">${story.title}</h3>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn-action" style="background:#16a34a;" onclick="readEntireStory()">
+                                🔊 Leer toda la historia despacio
+                            </button>
+                        </div>
+                    </div>
+                    <div class="story-text-box">
+                        ${sentencesHtml}
+                    </div>
+                    <div style="font-size:0.95rem; color:var(--muted); font-weight:700; margin-bottom:12px;">
+                        💡 Toca cualquier frase para escucharla individualmente.
+                    </div>
+                    <div class="questions-box">
+                        <h4 style="font-size:1.25rem; font-weight:900; color:#1e3a8a; margin-bottom:12px;">
+                            📝 Preguntas de comprensión:
+                        </h4>
+                        ${questionsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function speakStorySentence(text, idx) {
+            document.querySelectorAll('.story-sentence').forEach(el => el.classList.remove('speaking'));
+            const el = document.getElementById(`story-sent-${idx}`);
+            if (el) el.classList.add('speaking');
+            speak(text, 0.72);
+            setTimeout(() => {
+                if (el) el.classList.remove('speaking');
+            }, 3500);
+        }
+
+        function readEntireStory() {
+            const story = READING_STORIES.find(s => s.id === currentStoryId);
+            const fullText = story.sentences.join('. ');
+            speak(fullText, 0.68);
+        }
+
+        function checkStoryAnswer(qIdx, selectedOptIdx) {
+            const story = READING_STORIES.find(s => s.id === currentStoryId);
+            const q = story.questions[qIdx];
+            const qBox = document.getElementById(`q-box-${qIdx}`);
+            const buttons = qBox.querySelectorAll('.q-opt-btn');
+            const fb = document.getElementById(`q-fb-${qIdx}`);
+
+            if (selectedOptIdx === q.answer) {
+                buttons[selectedOptIdx].classList.add('correct');
+                fb.style.color = 'var(--success)';
+                fb.innerText = `¡Correcto! ${q.feedback}`;
+                speak(`¡Muy bien! ${q.feedback}`, 0.75);
+            } else {
+                buttons[selectedOptIdx].classList.add('wrong');
+                fb.style.color = '#dc2626';
+                fb.innerText = 'Esa no es la respuesta. Vuelve a leer la frase arriba o escúchala otra vez.';
+                speak('Esa no es la respuesta correcta. Vuelve a escuchar la historia.', 0.75);
+                setTimeout(() => buttons[selectedOptIdx].classList.remove('wrong'), 800);
+            }
+        }
+
+        /* =========================================================
+           11. MÓDULO 6: DICTADO INTERACTIVO FÁCIL
+           ========================================================= */
+        function initDictation() {
+            const bar = document.getElementById('dictation-level-bar');
+            bar.innerHTML = '';
+            [1, 2, 3, 4].forEach(lvl => {
+                const btn = document.createElement('button');
+                btn.className = `lvl-btn ${lvl === currentDictLevel ? 'active' : ''}`;
+                btn.innerHTML = `Nivel ${lvl}`;
+                btn.onclick = () => {
+                    currentDictLevel = lvl;
+                    initDictation();
+                };
+                bar.appendChild(btn);
+            });
+
+            dictItemIndex = 0;
+            dictScore = 0;
+            document.getElementById('dict-score').innerText = dictScore;
+            loadDictationStep();
+        }
+
+        function loadDictationStep() {
+            dictLocked = false;
+            document.getElementById('dict-feedback').innerText = '';
+            const items = DICTATION_ITEMS[currentDictLevel];
+            const currentItem = items[dictItemIndex % items.length];
+
+            document.getElementById('dict-progress-label').innerText = `Palabra ${(dictItemIndex % items.length) + 1} de ${items.length}`;
+            dictChosenParts = [];
+            dictShuffledParts = [...currentItem.parts].sort(() => Math.random() - 0.5);
+
+            drawDictationSlots();
+            drawDictationPieces();
+            setTimeout(() => playDictationAudio(false), 250);
+        }
+
+        function playDictationAudio(forceSlow = false) {
+            const items = DICTATION_ITEMS[currentDictLevel];
+            const currentItem = items[dictItemIndex % items.length];
+            const rate = forceSlow ? 0.52 : (speechSpeedMode === 'slow' ? 0.58 : 0.72);
+            speak(currentItem.full, rate);
+        }
+
+        function drawDictationSlots() {
+            const items = DICTATION_ITEMS[currentDictLevel];
+            const currentItem = items[dictItemIndex % items.length];
+            const container = document.getElementById('dict-slots-container');
+
+            container.innerHTML = currentItem.parts.map((_, i) => {
+                const val = dictChosenParts[i] || '';
+                return `<div class="dict-slot ${val ? 'filled' : ''}">${val}</div>`;
+            }).join('');
+        }
+
+        function drawDictationPieces() {
+            const items = DICTATION_ITEMS[currentDictLevel];
+            const currentItem = items[dictItemIndex % items.length];
+            const container = document.getElementById('dict-pieces-container');
+            container.innerHTML = '';
+
+            dictShuffledParts.forEach(piece => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-opt-btn';
+                btn.innerText = piece;
+                btn.onclick = () => {
+                    if (dictLocked) return;
+                    const expected = currentItem.parts[dictChosenParts.length];
+                    const fb = document.getElementById('dict-feedback');
+
+                    if (piece === expected) {
+                        dictChosenParts.push(piece);
+                        speak(piece.toLowerCase(), 0.72);
+                        drawDictationSlots();
+                        btn.style.visibility = 'hidden';
+
+                        if (dictChosenParts.length === currentItem.parts.length) {
+                            dictLocked = true;
+                            dictScore += 1;
+                            document.getElementById('dict-score').innerText = dictScore;
+                            fb.style.color = 'var(--success)';
+                            fb.innerText = `¡Perfecto! Has escrito ${currentItem.full.toUpperCase()} 🎉`;
+
+                            // Esperar a que termine de sonar la última sílaba antes de leer la palabra completa
+                            setTimeout(() => {
+                                speak(`¡Muy bien! ${currentItem.full}`, 0.75);
+                            }, 850);
+
+                            setTimeout(() => {
+                                dictItemIndex += 1;
+                                loadDictationStep();
+                            }, 2500);
+                        }
+                    } else {
+                        btn.classList.add('shake');
+                        fb.style.color = '#dc2626';
+                        fb.innerText = `Esa no es la primera sílaba. Escucha otra vez: ${currentItem.full}`;
+                        speak(`No, busca ${expected.toLowerCase()}`, 0.72);
+                        setTimeout(() => btn.classList.remove('shake'), 450);
+                    }
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        /* =========================================================
+           12. MÓDULO 7 Y 8: VIDA REAL Y TRUCOS
+           ========================================================= */
+        function renderRealLife() {
+            const tabs = document.getElementById('reallife-tabs');
+            tabs.innerHTML = '';
+            Object.keys(REAL_LIFE_DATA).forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `cat-tab ${cat === currentRealLifeTab ? 'active' : ''}`;
+                btn.innerText = cat;
+                btn.onclick = () => {
+                    currentRealLifeTab = cat;
+                    renderRealLife();
+                    speak(cat);
+                };
+                tabs.appendChild(btn);
+            });
+
+            const grid = document.getElementById('reallife-grid');
+            grid.innerHTML = '';
+            REAL_LIFE_DATA[currentRealLifeTab].forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'sign-card';
+                card.onclick = () => speak(item.audio, 0.74);
+                card.innerHTML = `
+                    <div>
+                        <div class="sign-visual" style="background:${item.bg}; border-color:${item.border}; color:${item.color};">
+                            ${item.visual}
+                        </div>
+                        <div class="sign-meaning" style="margin-top:10px;">
+                            ${item.meaning}
+                        </div>
+                    </div>
+                    <div class="sign-footer">
+                        <span>🟢 Lee el cartel</span>
+                        <span>🔊 Toca para escuchar</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderTips() {
+            const container = document.getElementById('tips-container');
+            container.innerHTML = '';
+            MOROCCAN_TIPS.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'tip-card';
+                const pairsHtml = t.pairs.map(p => `
+                    <div class="contrast-pair-row">
+                        <button class="contrast-item-btn" onclick="speak('${p.w1}. ${p.sub1}', 0.72)">
+                            <span class="ci-emoji">${p.e1}</span>
+                            <span class="ci-word">${p.w1}</span>
+                            <span class="ci-sub">${p.sub1}</span>
+                        </button>
+                        <button class="contrast-item-btn" onclick="speak('${p.w2}. ${p.sub2}', 0.72)">
+                            <span class="ci-emoji">${p.e2}</span>
+                            <span class="ci-word">${p.w2}</span>
+                            <span class="ci-sub">${p.sub2}</span>
+                        </button>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="tip-header">
+                        <h3 style="font-size:1.1rem; font-weight:800;">${t.title}</h3>
+                        <span class="tip-badge" style="background:${t.badgeBg}; color:${t.badgeColor};">${t.badge}</span>
+                    </div>
+                    <div class="tip-explain">
+                        ${t.tip}
+                        <div style="margin-top:6px;">
+                            <button class="btn-top" style="font-size:0.85rem; padding:4px 8px;" onclick="speak('${t.audioIntro}', 0.75)">
+                                🔊 Escuchar consejo
+                            </button>
+                        </div>
+                    </div>
+                    ${pairsHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        /* =========================================================
+           13. MÓDULO 9: PIZARRA DE TRAZO Y TECLADO
+           ========================================================= */
+        const TRACE_LETTERS = ['A', 'E', 'I', 'O', 'U', 'M', 'P', 'B', 'L', 'LL', 'S', 'T', 'N', 'D'];
+        let isDrawing = false;
+
+        function initTraceSection() {
+            const picker = document.getElementById('trace-picker');
+            picker.innerHTML = '';
+            TRACE_LETTERS.forEach(l => {
+                const btn = document.createElement('button');
+                btn.className = `pick-btn ${l === currentTraceLetter ? 'active' : ''}`;
+                btn.innerText = `${l} ${l.toLowerCase()}`;
+                btn.onclick = () => {
+                    currentTraceLetter = l;
+                    initTraceSection();
+                    speak(l.toLowerCase());
+                };
+                picker.appendChild(btn);
+            });
+            drawTraceGuide();
+            setupCanvasEvents();
+        }
+
+        function drawTraceGuide() {
+            const canvas = document.getElementById('trace-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#16a34a';
+            ctx.beginPath();
+            ctx.arc(32, 38, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.font = 'bold 13px Segoe UI, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Empieza a la izquierda ➡️', 46, 42);
+
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(20, 205);
+            ctx.lineTo(canvas.width - 20, 205);
+            ctx.stroke();
+
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = 'bold 135px Segoe UI, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillText(`${currentTraceLetter} ${currentTraceLetter.toLowerCase()}`, canvas.width / 2, 200);
+        }
+
+        function clearTraceCanvas() { drawTraceGuide(); }
+        function speakTraceLetter() { speak(currentTraceLetter.toLowerCase(), 0.75); }
+
+        function setupCanvasEvents() {
+            const canvas = document.getElementById('trace-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            }
+
+            canvas.onpointerdown = (e) => {
+                isDrawing = true;
+                const pos = getPos(e);
+                ctx.strokeStyle = '#2563eb';
+                ctx.lineWidth = 9;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+            };
+            canvas.onpointermove = (e) => {
+                if (!isDrawing) return;
+                const pos = getPos(e);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+            };
+            window.onpointerup = () => { isDrawing = false; };
+        }
+
+        function nextKeyboardTarget() {
+            const pool = TRACE_LETTERS;
+            let next = pool[Math.floor(Math.random() * pool.length)];
+            if (next === currentKeyTarget) next = pool[(pool.indexOf(next) + 1) % pool.length];
+            currentKeyTarget = next;
+            document.getElementById('key-target-box').innerText = currentKeyTarget;
+            document.getElementById('key-feedback').style.color = 'var(--primary)';
+            document.getElementById('key-feedback').innerText = `Busca y pulsa la tecla ${currentKeyTarget}`;
+            speak(`Busca en el teclado la letra ${currentKeyTarget.toLowerCase()}`);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            const key = e.key.toUpperCase();
+            if (currentScreen === 'vowels' && VOWEL_DATA[key]) {
+                selectVowel(key);
+            } else if (currentScreen === 'write') {
+                if (key === currentKeyTarget) {
+                    const fb = document.getElementById('key-feedback');
+                    fb.style.color = 'var(--success)';
+                    fb.innerText = `¡Muy bien! Tecla ${key} correcta 🎉`;
+                    speak(`¡Muy bien! Esa es la ${key.toLowerCase()}`);
+                    setTimeout(nextKeyboardTarget, 1600);
+                } else if (/^[A-ZÑ]$/.test(key)) {
+                    const fb = document.getElementById('key-feedback');
+                    fb.style.color = '#dc2626';
+                    fb.innerText = `Has pulsado ${key}. Busca la tecla ${currentKeyTarget}`;
+                    speak(`Esa es la ${key.toLowerCase()}. Busca la ${currentKeyTarget.toLowerCase()}`);
+                }
+            }
+        });
+
+        /* =========================================================
+           14. MÓDULO 10: JUEGOS POR NIVELES SIN REPETICIÓN
+           ========================================================= */
+        function renderGameLevelButtons() {
+            const bar = document.getElementById('game-level-bar');
+            bar.innerHTML = '';
+            [1, 2, 3, 4, 5].forEach(lvl => {
+                const btn = document.createElement('button');
+                btn.className = `lvl-btn ${lvl === currentGameLevel ? 'active' : ''}`;
+                btn.innerHTML = `Nivel ${lvl}`;
+                btn.onclick = () => {
+                    currentGameLevel = lvl;
+                    initGameLevelQueue();
+                };
+                bar.appendChild(btn);
+            });
+        }
+
+        const DRAG_VOWELS_DATA = {
+            1: [
+                { word: 'Oso', answer: 'O', rest: 'SO', emoji: '🐻' },
+                { word: 'Uvas', answer: 'U', rest: 'VAS', emoji: '🍇' },
+                { word: 'Agua', answer: 'A', rest: 'GUA', emoji: '💧' }
+            ],
+            2: [
+                { word: 'Escoba', answer: 'E', rest: 'SCOBA', emoji: '🧹' },
+                { word: 'Imán', answer: 'I', rest: 'MÁN', emoji: '🧲' },
+                { word: 'Anillo', answer: 'A', rest: 'NILLO', emoji: '💍' }
+            ],
+            3: [
+                { word: 'Olla', answer: 'O', rest: 'LLA', emoji: '🍲' },
+                { word: 'Espejo', answer: 'E', rest: 'SPEJO', emoji: '🪞' },
+                { word: 'Uno', answer: 'U', rest: 'NO', emoji: '1️⃣' }
+            ],
+            4: [
+                { word: 'Isla', answer: 'I', rest: 'SLA', emoji: '🏝️' },
+                { word: 'Ojo', answer: 'O', rest: 'JO', emoji: '👁️' },
+                { word: 'Estrella', answer: 'E', rest: 'STRELLA', emoji: '⭐' }
+            ],
+            5: [
+                { word: 'Avión', answer: 'A', rest: 'VIÓN', emoji: '✈️' },
+                { word: 'Invierno', answer: 'I', rest: 'NVIERNO', emoji: '🧣' },
+                { word: 'Uña', answer: 'U', rest: 'ÑA', emoji: '💅' }
+            ]
+        };
+
+        function switchGame(type) {
+            activeGameType = type;
+            selectedDragVowel = null;
+            currentGameLevel = 1; // Al cambiar de juego siempre empieza en Nivel 1 de manera predeterminada
+            currentGameData = null;
+            levelStepIndex = 0;
+            ['drag', 'market', 'puzzle', 'sound', 'memory'].forEach(id => {
+                const tab = document.getElementById(`tab-g-${id}`);
+                if (tab) tab.classList.toggle('active', id === type);
+            });
+            initGameLevelQueue();
+        }
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function initGameLevelQueue() {
+            renderGameLevelButtons();
+            levelStepIndex = 0;
+            document.getElementById('game-feedback').innerText = '';
+
+            const wordsPool = WORDS_BY_LEVEL[currentGameLevel].items;
+            levelQueue = shuffleArray(wordsPool);
+
+            updateProgressBar();
+            renderCurrentGameStep(true);
+        }
+
+        function updateProgressBar() {
+            const total = (activeGameType === 'memory' || activeGameType === 'drag') ? 1 : levelQueue.length;
+            const current = Math.min(levelStepIndex + 1, total);
+            document.getElementById('game-progress-text').innerText = `${current} / ${total}`;
+            const pct = Math.round((levelStepIndex / total) * 100);
+            document.getElementById('game-progress-bar').style.width = `${pct}%`;
+        }
+
+        function advanceStepOrLevel() {
+            levelStepIndex += 1;
+            const total = (activeGameType === 'memory' || activeGameType === 'drag') ? 1 : levelQueue.length;
+
+            if (levelStepIndex >= total) {
+                document.getElementById('game-progress-bar').style.width = '100%';
+                const fb = document.getElementById('game-feedback');
+                if (currentGameLevel < 5) {
+                    const finishedLvl = currentGameLevel;
+                    currentGameLevel += 1;
+                    fb.style.color = 'var(--success)';
+                    fb.innerText = `🏆 ¡Nivel ${finishedLvl} superado! Pasando al Nivel ${currentGameLevel}...`;
+                    speak(`¡Felicidades! Nivel ${finishedLvl} superado. Pasamos al Nivel ${currentGameLevel}.`);
+                    setTimeout(initGameLevelQueue, 2400);
+                } else {
+                    fb.style.color = 'var(--purple)';
+                    fb.innerText = `👑 ¡Has completado los 5 Niveles!`;
+                    speak(`¡Enhorabuena! Has superado los cinco niveles.`);
+                    setTimeout(() => {
+                        currentGameLevel = 1;
+                        initGameLevelQueue();
+                    }, 2800);
+                }
+            } else {
+                updateProgressBar();
+                renderCurrentGameStep(true);
+            }
+        }
+
+        function addPoint() {
+            gameScore += 1;
+            gameStreak += 1;
+            document.getElementById('game-score').innerText = gameScore;
+            document.getElementById('game-streak').innerText = gameStreak;
+        }
+
+        function resetStreak() {
+            gameStreak = 0;
+            document.getElementById('game-streak').innerText = gameStreak;
+        }
+
+        function renderCurrentGameStep(speakPrompt = true) {
+            gameLocked = false;
+            document.getElementById('game-feedback').innerText = '';
+            if (activeGameType === 'drag') renderDragGame(speakPrompt);
+            else if (activeGameType === 'market') renderMarketGame(speakPrompt);
+            else if (activeGameType === 'puzzle') renderPuzzleGame(speakPrompt);
+            else if (activeGameType === 'sound') renderSoundGame(speakPrompt);
+            else if (activeGameType === 'memory') renderMemoryGame();
+        }
+
+        /* JUEGO 1: ARRASTRAR LAS VOCALES */
+        function renderDragGame(speakPrompt) {
+            document.getElementById('game-title-label').innerText = `🎈 Nivel ${currentGameLevel}: Arrastra o Toca la Vocal Inicial`;
+            const currentItems = DRAG_VOWELS_DATA[currentGameLevel] || DRAG_VOWELS_DATA[1];
+
+            currentGameData = {
+                items: currentItems.map(item => ({ ...item, placed: null })),
+                totalCompleted: 0
+            };
+            selectedDragVowel = null;
+
+            drawDragGameState();
+
+            if (speakPrompt) {
+                setTimeout(() => speak('Escucha la palabra y coloca la vocal por la que empieza', 0.78), 250);
+            }
+        }
+
+        function drawDragGameState() {
+            const stage = document.getElementById('game-stage-content');
+            const vowels = ['A', 'E', 'I', 'O', 'U'];
+
+            const bubblesHtml = vowels.map(v => `
+                <div class="vowel-bubble v-bubble-${v} ${selectedDragVowel === v ? 'selected' : ''}" 
+                     draggable="true" 
+                     ondragstart="onVowelDragStart(event, '${v}')"
+                     onclick="onVowelBubbleClick('${v}')"
+                     title="Toca para seleccionar o arrastra la letra ${v}">
+                    ${v}
+                </div>
+            `).join('');
+
+            const pedestalsHtml = currentGameData.items.map((item, idx) => {
+                const isFilled = item.placed !== null;
+                const slotContent = isFilled ? item.placed : (selectedDragVowel ? selectedDragVowel : '❓');
+                const wordRest = caseMode === 'lower' ? item.rest.toLowerCase() : item.rest;
+                const letterDisplay = isFilled 
+                    ? (caseMode === 'lower' ? item.placed.toLowerCase() : item.placed) 
+                    : '_';
+                const wordFull = isFilled 
+                    ? `<span style="color:#16a34a; font-weight:900;">${letterDisplay}</span><span class="rest">${wordRest}</span>`
+                    : `<span style="text-decoration:underline; font-weight:900; color:var(--primary);">_</span><span class="rest">${wordRest}</span>`;
+
+                return `
+                    <div class="pedestal-card ${isFilled ? 'completed' : ''}" id="pedestal-${idx}">
+                        <button type="button" class="pedestal-speaker-btn" onclick="speak('${item.word}', 0.72)">
+                            <div style="font-size:3.6rem; line-height:1.2;">${item.emoji}</div>
+                            <div style="font-size:0.9rem; font-weight:700; color:#15803d; margin-top:4px;">
+                                🔊 Escuchar palabra
+                            </div>
+                        </button>
+                        <div class="pedestal-dropzone ${isFilled ? 'filled' : ''}" 
+                             id="dropzone-${idx}"
+                             ondragover="onVowelDragOver(event)"
+                             ondragleave="onVowelDragLeave(event)"
+                             ondrop="onVowelDrop(event, ${idx})"
+                             onclick="onPedestalDropzoneClick(${idx})">
+                            ${isFilled ? letterDisplay : slotContent}
+                        </div>
+                        <div class="pedestal-word">${wordFull}</div>
+                    </div>
+                `;
+            }).join('');
+
+            stage.innerHTML = `
+                <div class="drag-vowels-container">
+                    <p style="color:var(--muted); font-weight:700; margin:0; font-size:1.05rem;">
+                        Arrastra una vocal o <b>tócala</b> para colocarla en el cuadro correspondiente:
+                    </p>
+                    <div class="drag-vowels-source-row">
+                        ${bubblesHtml}
+                    </div>
+                    <div class="drag-targets-row">
+                        ${pedestalsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function onVowelDragStart(event, vowel) {
+            selectedDragVowel = vowel;
+            event.dataTransfer.setData('text/plain', vowel);
+            speak(vowel.toLowerCase(), 0.85);
+        }
+
+        function onVowelDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('drag-over');
+        }
+
+        function onVowelDragLeave(event) {
+            event.currentTarget.classList.remove('drag-over');
+        }
+
+        function onVowelDrop(event, pedestalIdx) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('drag-over');
+            let vowel = null;
+            try {
+                vowel = event.dataTransfer ? event.dataTransfer.getData('text/plain') : null;
+            } catch(e) {}
+            handleVowelPlacement(pedestalIdx, vowel || selectedDragVowel);
+        }
+
+        function onVowelBubbleClick(vowel) {
+            if (gameLocked) return;
+            if (selectedDragVowel === vowel) {
+                selectedDragVowel = null;
+            } else {
+                selectedDragVowel = vowel;
+                speak(vowel.toLowerCase(), 0.85);
+            }
+            drawDragGameState();
+        }
+
+        function onPedestalDropzoneClick(pedestalIdx) {
+            if (gameLocked) return;
+            const item = currentGameData.items[pedestalIdx];
+            if (item.placed !== null) {
+                speak(item.word, 0.75);
+                return;
+            }
+            if (!selectedDragVowel) {
+                speak(item.word, 0.72);
+                const fb = document.getElementById('game-feedback');
+                fb.style.color = 'var(--primary)';
+                fb.innerText = `Esta palabra es "${item.word}". Toca primero una vocal (A, E, I, O, U) y luego este cuadro.`;
+                return;
+            }
+            handleVowelPlacement(pedestalIdx, selectedDragVowel);
+        }
+
+        function handleVowelPlacement(pedestalIdx, vowel) {
+            if (gameLocked || !vowel) return;
+            const item = currentGameData.items[pedestalIdx];
+            if (item.placed !== null) return;
+
+            const fb = document.getElementById('game-feedback');
+            const dropzone = document.getElementById(`dropzone-${pedestalIdx}`);
+
+            if (vowel.toUpperCase() === item.answer.toUpperCase()) {
+                item.placed = item.answer;
+                currentGameData.totalCompleted += 1;
+                addPoint();
+                fb.style.color = 'var(--success)';
+                fb.innerText = `¡Correcto! ${item.answer} de ${item.word.toUpperCase()} 👏`;
+                speak(`¡Muy bien! ${item.answer}... ${item.word}`, 0.75);
+                selectedDragVowel = null;
+                drawDragGameState();
+
+                if (currentGameData.totalCompleted === currentGameData.items.length) {
+                    gameLocked = true;
+                    setTimeout(() => {
+                        fb.style.color = 'var(--success)';
+                        fb.innerText = `¡Excelente! Has completado todas las palabras del Nivel ${currentGameLevel} 🎉`;
+                        speak(`¡Excelente! Has completado todas las palabras.`);
+                    }, 500);
+                    setTimeout(advanceStepOrLevel, 2400);
+                }
+            } else {
+                resetStreak();
+                if (dropzone) {
+                    dropzone.classList.add('shake');
+                    setTimeout(() => dropzone.classList.remove('shake'), 450);
+                }
+                fb.style.color = '#dc2626';
+                fb.innerText = `Con "${vowel}" no suena así. Escucha: ${item.word}`;
+                speak(`Con ${vowel.toLowerCase()} no. Escucha bien: ${item.word}`, 0.72);
+            }
+        }
+
+        function renderMarketGame(speakPrompt) {
+            document.getElementById('game-title-label').innerText = `🛒 Nivel ${currentGameLevel}: Lee y elige la palabra`;
+            const target = levelQueue[levelStepIndex];
+            const pool = WORDS_BY_LEVEL[currentGameLevel].items;
+
+            let options = [target];
+            const distractors = shuffleArray(pool.filter(x => x.full !== target.full));
+            options.push(distractors[0], distractors[1]);
+            options = shuffleArray(options);
+
+            const stage = document.getElementById('game-stage-content');
+            stage.innerHTML = `
+                <div class="quiz-speaker-box" onclick="speak('${target.full}', 0.72)">
+                    <div style="font-size:4.4rem;">${target.emoji}</div>
+                    <div style="font-size:1.05rem; font-weight:700; color:#15803d; margin-top:6px;">
+                        🔊 Toca para escuchar
+                    </div>
+                </div>
+                <p style="color:var(--muted); font-weight:700;">¿Dónde está escrita esta palabra?</p>
+                <div class="quiz-options" id="market-opts"></div>
+            `;
+
+            const optsDiv = document.getElementById('market-opts');
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-opt-btn';
+                btn.style.fontSize = '1.7rem';
+                btn.innerHTML = caseMode === 'lower' ? opt.full.toLowerCase()
+                    : (caseMode === 'upper' ? opt.full.toUpperCase() : `${opt.full.toUpperCase()}<div style="font-size:1.1rem; color:var(--muted);">${opt.full.toLowerCase()}</div>`);
+                btn.onclick = () => {
+                    if (gameLocked) return;
+                    const fb = document.getElementById('game-feedback');
+                    if (opt.full === target.full) {
+                        gameLocked = true;
+                        addPoint();
+                        btn.style.background = '#dcfce7';
+                        btn.style.borderColor = '#16a34a';
+                        fb.style.color = 'var(--success)';
+                        fb.innerText = `¡Correcto! Ahí pone ${target.full.toUpperCase()} 👏`;
+                        speak(`¡Muy bien! ${target.full}`);
+                        setTimeout(advanceStepOrLevel, 1500);
+                    } else {
+                        resetStreak();
+                        btn.classList.add('shake');
+                        fb.style.color = '#dc2626';
+                        fb.innerText = `Ahí pone "${opt.full}". Busca ${target.full.toUpperCase()}`;
+                        speak(`Ahí pone ${opt.full}. Busca ${target.full}`);
+                        setTimeout(() => btn.classList.remove('shake'), 450);
+                    }
+                };
+                optsDiv.appendChild(btn);
+            });
+
+            if (speakPrompt) setTimeout(() => speak(target.full, 0.72), 250);
+        }
+
+        function renderPuzzleGame(speakPrompt) {
+            document.getElementById('game-title-label').innerText = `🧩 Nivel ${currentGameLevel}: Ordena de izquierda 🟢 a derecha ➡️`;
+            const target = levelQueue[levelStepIndex];
+            const syllables = target.word.split('-');
+
+            if (!currentGameData || currentGameData.target.full !== target.full) {
+                let shuffled = syllables.map((s, idx) => ({ s, idx, used: false }));
+                shuffled = shuffleArray(shuffled);
+                if (shuffled.map(x => x.s).join('-') === target.word && shuffled.length > 1) {
+                    shuffled.reverse();
+                }
+                currentGameData = { target, syllables, chosen: [], shuffled };
+            }
+
+            drawPuzzleState();
+            if (speakPrompt) setTimeout(() => speak(target.full, 0.72), 250);
+        }
+
+        function drawPuzzleState() {
+            const { target, syllables, chosen, shuffled } = currentGameData;
+            const stage = document.getElementById('game-stage-content');
+            const slotsHtml = syllables.map((_, i) => {
+                const val = chosen[i] || '';
+                const displayVal = caseMode === 'lower' ? val.toLowerCase() : val;
+                return `<div class="dict-slot ${val ? 'filled' : ''}">${displayVal}</div>`;
+            }).join('<span style="font-size:1.3rem; color:#94a3b8;">➡️</span>');
+
+            stage.innerHTML = `
+                <div class="quiz-speaker-box" onclick="speak('${target.full}', 0.72)" style="padding:12px;">
+                    <div style="font-size:3.8rem;">${target.emoji}</div>
+                    <div style="font-size:0.95rem; font-weight:700; color:#15803d;">🔊 Escuchar palabra</div>
+                </div>
+                <div class="dictation-slots">
+                    <span style="font-size:1.3rem; align-self:center;">🟢</span>
+                    ${slotsHtml}
+                </div>
+                <p style="color:var(--muted); font-weight:700; margin-bottom:6px;">Toca las sílabas en orden:</p>
+                <div class="quiz-options" id="puzzle-pieces"></div>
+            `;
+
+            const piecesDiv = document.getElementById('puzzle-pieces');
+            shuffled.forEach(piece => {
+                if (piece.used) return;
+                const btn = document.createElement('button');
+                btn.className = 'quiz-opt-btn';
+                btn.innerText = caseMode === 'lower' ? piece.s.toLowerCase() : piece.s;
+                btn.onclick = () => {
+                    if (gameLocked) return;
+                    const expected = syllables[chosen.length];
+                    const fb = document.getElementById('game-feedback');
+                    if (piece.s === expected) {
+                        piece.used = true;
+                        chosen.push(piece.s);
+                        speak(piece.s.toLowerCase(), 0.75);
+                        drawPuzzleState();
+                        if (chosen.length === syllables.length) {
+                            gameLocked = true;
+                            addPoint();
+                            fb.style.color = 'var(--success)';
+                            fb.innerText = `¡Completada! ${target.full.toUpperCase()} 🎉`;
+                            setTimeout(() => speak(`¡Muy bien! ${target.full}`, 0.75), 850);
+                            setTimeout(() => {
+                                currentGameData = null;
+                                advanceStepOrLevel();
+                            }, 2500);
+                        }
+                    } else {
+                        resetStreak();
+                        btn.classList.add('shake');
+                        fb.style.color = '#dc2626';
+                        fb.innerText = `Esa es "${piece.s}". Busca primero "${expected}"`;
+                        speak(`Busca primero ${expected.toLowerCase()}`);
+                        setTimeout(() => btn.classList.remove('shake'), 450);
+                    }
+                };
+                piecesDiv.appendChild(btn);
+            });
+        }
+
+        function renderSoundGame(speakPrompt) {
+            document.getElementById('game-title-label').innerText = `🎯 Nivel ${currentGameLevel}: Caza el Sonido`;
+            const pool = [
+                { word: 'PAN', masked: '_AN', answer: 'P', options: ['P', 'B'], emoji: '🍞', hint: 'P con golpe fuerte de aire' },
+                { word: 'SILLA', masked: 'S_LLA', answer: 'I', options: ['E', 'I'], emoji: '🪑', hint: 'SI-lla (con I)' },
+                { word: 'MESA', masked: 'M_SA', answer: 'E', options: ['E', 'I'], emoji: MESA_ICON, hint: 'ME-sa (con E)' },
+                { word: 'POLLO', masked: '_OLLO', answer: 'P', options: ['P', 'B'], emoji: '🍗', hint: 'P fuerte' },
+                { word: 'BOLSA', masked: '_OLSA', answer: 'B', options: ['P', 'B'], emoji: '🛍️', hint: 'B suave' },
+                { word: 'LECHE', masked: 'L_CHE', answer: 'E', options: ['E', 'I'], emoji: '🥛', hint: 'LE-che (con E)' },
+                { word: 'LIMÓN', masked: 'L_MÓN', answer: 'I', options: ['E', 'I'], emoji: '🍋', hint: 'LI-món (sonrisa I)' }
+            ];
+            const item = pool[levelStepIndex % pool.length];
+
+            const stage = document.getElementById('game-stage-content');
+            stage.innerHTML = `
+                <div class="quiz-speaker-box" onclick="speak('${item.word}', 0.68)">
+                    <div style="font-size:4.2rem;">${item.emoji}</div>
+                    <div style="font-size:2.4rem; font-weight:900; letter-spacing:4px; margin-top:6px;">
+                        ${item.masked}
+                    </div>
+                    <div style="font-size:0.95rem; color:#15803d; font-weight:700; margin-top:4px;">
+                        💡 ${item.hint}
+                    </div>
+                </div>
+                <p style="color:var(--muted); font-weight:700;">¿Qué letra falta en el hueco?</p>
+                <div class="quiz-options" id="sound-opts"></div>
+            `;
+
+            const optsDiv = document.getElementById('sound-opts');
+            item.options.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-opt-btn';
+                btn.innerText = `${letter} ${letter.toLowerCase()}`;
+                btn.onclick = () => {
+                    if (gameLocked) return;
+                    const fb = document.getElementById('game-feedback');
+                    if (letter === item.answer) {
+                        gameLocked = true;
+                        addPoint();
+                        btn.style.background = '#dcfce7';
+                        btn.style.borderColor = '#16a34a';
+                        fb.style.color = 'var(--success)';
+                        fb.innerText = `¡Exacto! Se escribe ${item.word} 🎉`;
+                        speak(`¡Exacto! ${item.word}`);
+                        setTimeout(advanceStepOrLevel, 1600);
+                    } else {
+                        resetStreak();
+                        btn.classList.add('shake');
+                        fb.style.color = '#dc2626';
+                        fb.innerText = `Con ${letter} no suena así. Escucha: ${item.word}`;
+                        speak(`Escucha bien: ${item.word}`, 0.65);
+                        setTimeout(() => btn.classList.remove('shake'), 450);
+                    }
+                };
+                optsDiv.appendChild(btn);
+            });
+
+            if (speakPrompt) setTimeout(() => speak(item.word, 0.68), 250);
+        }
+
+        function renderMemoryGame() {
+            document.getElementById('game-title-label').innerText = `🃏 Nivel ${currentGameLevel}: Parejas`;
+            const startIdx = (levelStepIndex * 4) % WORDS_BY_LEVEL[currentGameLevel].items.length;
+            const picked = [];
+            for (let i = 0; i < 4; i++) {
+                picked.push(levelQueue[(startIdx + i) % levelQueue.length]);
+            }
+
+            const cards = [];
+            picked.forEach(item => {
+                cards.push({ id: item.full, type: 'emoji', display: item.emoji, audio: item.full, matched: false });
+                cards.push({ id: item.full, type: 'text', display: item.full, audio: item.full, matched: false });
+            });
+
+            currentGameData = { cards: shuffleArray(cards), firstIdx: null, matches: 0 };
+            drawMemoryBoard();
+        }
+
+        function drawMemoryBoard() {
+            const { cards, firstIdx } = currentGameData;
+            const stage = document.getElementById('game-stage-content');
+            stage.innerHTML = `
+                <p style="color:var(--muted); font-weight:700; margin-bottom:12px; font-size:1.05rem;">
+                    Toca un dibujo y luego su palabra escrita:
+                </p>
+                <div class="memory-grid" id="mem-grid"></div>
+            `;
+
+            const grid = document.getElementById('mem-grid');
+            cards.forEach((c, idx) => {
+                const div = document.createElement('button');
+                div.type = 'button';
+                div.className = `mem-card ${c.matched ? 'matched' : ''} ${firstIdx === idx ? 'selected' : ''}`;
+                if (c.type === 'emoji') {
+                    div.innerHTML = `
+                        <span class="mem-card-icon">${c.display}</span>
+                        <span class="mem-card-listen">🔊 Escuchar</span>
+                    `;
+                } else {
+                    const txt = caseMode === 'lower' ? c.display.toLowerCase() : c.display.toUpperCase();
+                    div.innerHTML = `
+                        <span class="mem-card-text-main">${txt}</span>
+                        <span class="mem-card-text-sub">${c.display.toLowerCase()}</span>
+                    `;
+                }
+                div.onclick = () => handleMemoryClick(idx);
+                grid.appendChild(div);
+            });
+        }
+
+        function handleMemoryClick(idx) {
+            if (gameLocked) return;
+            const state = currentGameData;
+            const card = state.cards[idx];
+            if (card.matched || state.firstIdx === idx) return;
+
+            if (card.type === 'emoji') speak(card.audio, 0.75);
+
+            if (state.firstIdx === null) {
+                state.firstIdx = idx;
+                drawMemoryBoard();
+            } else {
+                const firstCard = state.cards[state.firstIdx];
+                const fb = document.getElementById('game-feedback');
+                if (firstCard.id === card.id && firstCard.type !== card.type) {
+                    firstCard.matched = true;
+                    card.matched = true;
+                    state.firstIdx = null;
+                    state.matches += 1;
+                    addPoint();
+                    speak(`¡Muy bien! ${card.audio}`, 0.78);
+                    drawMemoryBoard();
+                    if (state.matches === 4) {
+                        fb.style.color = 'var(--success)';
+                        fb.innerText = '¡Tablero completado! 🌟';
+                        setTimeout(advanceStepOrLevel, 1500);
+                    }
+                } else {
+                    gameLocked = true;
+                    resetStreak();
+                    fb.style.color = '#dc2626';
+                    fb.innerText = 'No son pareja. ¡Prueba otra vez!';
+                    setTimeout(() => {
+                        state.firstIdx = null;
+                        gameLocked = false;
+                        fb.innerText = '';
+                        drawMemoryBoard();
+                    }, 800);
+                }
+            }
+        }
+
+        // Inicialización
+        renderVowels();
+    </script>
+</body>
+</html>
