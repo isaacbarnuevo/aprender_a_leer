@@ -1080,6 +1080,165 @@
             letter-spacing: 0.5px;
         }
 
+        /* MODAL DE SELECCIÓN DE VOZ HUMANA / NATURAL */
+        .voice-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .voice-modal-overlay.open {
+            display: flex;
+        }
+        .voice-modal-card {
+            background: white;
+            border-radius: 24px;
+            max-width: 580px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 3px solid #cbd5e1;
+            overflow: hidden;
+            animation: modalFadeIn 0.2s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .voice-modal-header {
+            padding: 18px 22px;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+        }
+        .voice-modal-header h2 {
+            font-size: 1.25rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .voice-modal-close {
+            background: #e2e8f0;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            transition: background 0.15s;
+        }
+        .voice-modal-close:hover { background: #cbd5e1; color: #0f172a; }
+        .voice-modal-body {
+            padding: 18px 22px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .voice-item-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .voice-item-card:hover {
+            border-color: var(--primary);
+            background: #f8fafc;
+            transform: translateY(-2px);
+        }
+        .voice-item-card.selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+        .voice-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .voice-item-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #1e293b;
+        }
+        .voice-badge-natural {
+            display: inline-block;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 99px;
+            width: fit-content;
+        }
+        .voice-badge-high {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 99px;
+            width: fit-content;
+        }
+        .voice-badge-standard {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 99px;
+            width: fit-content;
+        }
+        .voice-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-test-voice {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-test-voice:hover { background: #eff6ff; border-color: var(--primary); color: var(--primary); }
+        .voice-tip-box {
+            background: #fefce8;
+            border: 2px solid #fef08a;
+            border-radius: 16px;
+            padding: 12px 14px;
+            font-size: 0.92rem;
+            color: #854d0e;
+            line-height: 1.45;
+        }
+
         /* ESTILOS DE IMPRESIÓN (CARTILLA EN PAPEL) */
         @media print {
             header, .level-bar, .category-tabs, .btn-action, .quiz-options, .write-container, .header-controls {
@@ -1111,6 +1270,9 @@
             <button class="btn-top active" id="btn-case" onclick="toggleLetterCase()">
                 🔤 Letras: <b>A a</b>
             </button>
+            <button class="btn-top" id="btn-voice-modal" onclick="openVoiceModal()" title="Elegir una voz más humana o natural">
+                🗣️ <span id="header-voice-label">Voz: <b>Humana</b></span>
+            </button>
             <button class="btn-top" onclick="window.print()" title="Imprimir cartilla en papel">
                 🖨️ Imprimir
             </button>
@@ -1119,6 +1281,23 @@
             </button>
         </div>
     </header>
+
+    <!-- MODAL DE SELECCIÓN DE VOZ HUMANA / NATURAL -->
+    <div class="voice-modal-overlay" id="voice-modal-overlay" onclick="handleVoiceModalOverlayClick(event)">
+        <div class="voice-modal-card">
+            <div class="voice-modal-header">
+                <h2>🗣️ Voces Disponibles (Menos Robóticas)</h2>
+                <button type="button" class="voice-modal-close" onclick="closeVoiceModal()" title="Cerrar">✕</button>
+            </div>
+            <div class="voice-modal-body">
+                <div class="voice-tip-box">
+                    💡 <b>¿Cómo escuchar la voz más humana y real?</b><br>
+                    Si abres esta aplicación con <b>Microsoft Edge</b> (instalado en todos los portátiles con Windows), tendrás disponibles gratis las voces neuronales de Inteligencia Artificial <b>Elvira Natural</b> y <b>Álvaro Natural</b>, que suenan con la calidez y entonación de una persona real.
+                </div>
+                <div id="voice-list-container" style="display:flex; flex-direction:column; gap:10px;"></div>
+            </div>
+        </div>
+    </div>
 
     <main>
         <!-- PANTALLA 0: MENÚ PRINCIPAL -->
@@ -1388,15 +1567,31 @@
         const MESA_ICON = `<svg viewBox="0 0 64 64" width="1em" height="1em" style="display:inline-block; vertical-align:-0.15em;" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="20" width="56" height="8" rx="2" fill="#b45309"/><rect x="8" y="28" width="48" height="4" fill="#78350f"/><rect x="9" y="32" width="7" height="24" rx="2" fill="#92400e"/><rect x="48" y="32" width="7" height="24" rx="2" fill="#92400e"/><rect x="18" y="32" width="5" height="18" rx="1.5" fill="#78350f"/><rect x="41" y="32" width="5" height="18" rx="1.5" fill="#78350f"/></svg>`;
 
         const CONSONANTS = [
-            { letter: 'M', name: 'eme', examples: { 'MA': { word: 'Mano', emoji: '✋' }, 'ME': { word: 'Mesa', emoji: MESA_ICON }, 'MI': { word: 'Miel', emoji: '🍯' }, 'MO': { word: 'Mochila', emoji: '🎒' }, 'MU': { word: 'Mujer', emoji: '👩' } } },
-            { letter: 'P', name: 'pe', label: 'pe (aire fuerte)', examples: { 'PA': { word: 'Pan', emoji: '🍞' }, 'PE': { word: 'Pera', emoji: '🍐' }, 'PI': { word: 'Piña', emoji: '🍍' }, 'PO': { word: 'Pollo', emoji: '🍗' }, 'PU': { word: 'Puerta', emoji: '🚪' } } },
-            { letter: 'B', name: 'be', label: 'be (suave)', examples: { 'BA': { word: 'Baño', emoji: '🚿' }, 'BE': { word: 'Bebé', emoji: '👶' }, 'BI': { word: 'Bicicleta', emoji: '🚲' }, 'BO': { word: 'Bolsa', emoji: '🛍️' }, 'BU': { word: 'Bufanda', emoji: '🧣' } } },
-            { letter: 'L', name: 'ele', examples: { 'LA': { word: 'Lápiz', emoji: '✏️' }, 'LE': { word: 'Leche', emoji: '🥛' }, 'LI': { word: 'Limón', emoji: '🍋' }, 'LO': { word: 'Loro', emoji: '🦜' }, 'LU': { word: 'Luna', emoji: '🌙' } } },
-            { letter: 'LL', name: 'elle', examples: { 'LLA': { word: 'Llave', emoji: '🔑' }, 'LLE': { word: 'Cuello', emoji: '🧣' }, 'LLI': { word: 'Gallina', emoji: '🐔' }, 'LLO': { word: 'Pollo', emoji: '🍗' }, 'LLU': { word: 'Lluvia', emoji: '🌧️' } } },
-            { letter: 'S', name: 'ese', examples: { 'SA': { word: 'Sal', emoji: '🧂' }, 'SE': { word: 'Semáforo', emoji: '🚦' }, 'SI': { word: 'Silla', emoji: '🪑' }, 'SO': { word: 'Sopa', emoji: '🍲' }, 'SU': { word: 'Suma', emoji: '➕' } } },
-            { letter: 'T', name: 'te', examples: { 'TA': { word: 'Taza', emoji: '☕' }, 'TE': { word: 'Teléfono', emoji: '📱' }, 'TI': { word: 'Tijeras', emoji: '✂️' }, 'TO': { word: 'Tomate', emoji: '🍅' }, 'TU': { word: 'Tulipán', emoji: '🌷' } } },
-            { letter: 'N', name: 'ene', examples: { 'NA': { word: 'Naranja', emoji: '🍊' }, 'NE': { word: 'Nevera', emoji: '🧊' }, 'NI': { word: 'Niña', emoji: '👧' }, 'NO': { word: 'Noche', emoji: '🌌' }, 'NU': { word: 'Nube', emoji: '☁️' } } },
-            { letter: 'D', name: 'de', examples: { 'DA': { word: 'Dado', emoji: '🎲' }, 'DE': { word: 'Dedo', emoji: '☝️' }, 'DI': { word: 'Dinero', emoji: '💶' }, 'DO': { word: 'Dos', emoji: '2️⃣' }, 'DU': { word: 'Ducha', emoji: '🚿' } } }
+            { letter: 'B', name: 'be', label: 'be', examples: { 'BA': { word: 'Baño', emoji: '🚿' }, 'BE': { word: 'Bebé', emoji: '👶' }, 'BI': { word: 'Bicicleta', emoji: '🚲' }, 'BO': { word: 'Bolsa', emoji: '🛍️' }, 'BU': { word: 'Bufanda', emoji: '🧣' } } },
+            { letter: 'C', name: 'ce', label: 'ce', examples: { 'CA': { word: 'Casa', emoji: '🏠' }, 'CE': { word: 'Cebra', emoji: '🦓' }, 'CI': { word: 'Cine', emoji: '🎬' }, 'CO': { word: 'Coche', emoji: '🚗' }, 'CU': { word: 'Cuchara', emoji: '🥄' } } },
+            { letter: 'CH', name: 'che', label: 'che', examples: { 'CHA': { word: 'Chaleco', emoji: '🦺' }, 'CHE': { word: 'Cheque', emoji: '💶' }, 'CHI': { word: 'Chino', emoji: '🇨🇳' }, 'CHO': { word: 'Chocolate', emoji: '🍫' }, 'CHU': { word: 'Churro', emoji: '🥖' } } },
+            { letter: 'D', name: 'de', label: 'de', examples: { 'DA': { word: 'Dado', emoji: '🎲' }, 'DE': { word: 'Dedo', emoji: '☝️' }, 'DI': { word: 'Dinero', emoji: '💶' }, 'DO': { word: 'Dos', emoji: '2️⃣' }, 'DU': { word: 'Ducha', emoji: '🚿' } } },
+            { letter: 'F', name: 'efe', label: 'efe', examples: { 'FA': { word: 'Familia', emoji: '👨‍👩‍👧' }, 'FE': { word: 'Fiesta', emoji: '🎉' }, 'FI': { word: 'Fideo', emoji: '🍜' }, 'FO': { word: 'Foto', emoji: '📷' }, 'FU': { word: 'Fuego', emoji: '🔥' } } },
+            { letter: 'G', name: 'ge', label: 'ge', examples: { 'GA': { word: 'Gato', emoji: '🐱' }, 'GE': { word: 'Gel', emoji: '🧴' }, 'GI': { word: 'Gigante', emoji: '🧑‍🌾' }, 'GO': { word: 'Gota', emoji: '💧' }, 'GU': { word: 'Gusano', emoji: '🐛' } } },
+            { letter: 'H', name: 'hache', label: 'hache', examples: { 'HA': { word: 'Habitación', emoji: '🛏️' }, 'HE': { word: 'Helado', emoji: '🍦' }, 'HI': { word: 'Hilo', emoji: '🧵' }, 'HO': { word: 'Hoja', emoji: '🍁' }, 'HU': { word: 'Humo', emoji: '💨' } } },
+            { letter: 'J', name: 'jota', label: 'jota', examples: { 'JA': { word: 'Jamón', emoji: '🍖' }, 'JE': { word: 'Jefe', emoji: '💼' }, 'JI': { word: 'Jirafa', emoji: '🦒' }, 'JO': { word: 'Joya', emoji: '💎' }, 'JU': { word: 'Jugo', emoji: '🧃' } } },
+            { letter: 'K', name: 'ka', label: 'ka', examples: { 'KA': { word: 'Karate', emoji: '🥋' }, 'KE': { word: 'Kétchup', emoji: '🥫' }, 'KI': { word: 'Kiwi', emoji: '🥝' }, 'KO': { word: 'Koala', emoji: '🐨' }, 'KU': { word: 'Kung-fu', emoji: '🥋' } } },
+            { letter: 'L', name: 'ele', label: 'ele', examples: { 'LA': { word: 'Lápiz', emoji: '✏️' }, 'LE': { word: 'Leche', emoji: '🥛' }, 'LI': { word: 'Limón', emoji: '🍋' }, 'LO': { word: 'Loro', emoji: '🦜' }, 'LU': { word: 'Luna', emoji: '🌙' } } },
+            { letter: 'LL', name: 'elle', label: 'elle', examples: { 'LLA': { word: 'Llave', emoji: '🔑' }, 'LLE': { word: 'Cuello', emoji: '🧣' }, 'LLI': { word: 'Gallina', emoji: '🐔' }, 'LLO': { word: 'Pollo', emoji: '🍗' }, 'LLU': { word: 'Lluvia', emoji: '🌧️' } } },
+            { letter: 'M', name: 'eme', label: 'eme', examples: { 'MA': { word: 'Mano', emoji: '✋' }, 'ME': { word: 'Mesa', emoji: MESA_ICON }, 'MI': { word: 'Miel', emoji: '🍯' }, 'MO': { word: 'Mochila', emoji: '🎒' }, 'MU': { word: 'Mujer', emoji: '👩' } } },
+            { letter: 'N', name: 'ene', label: 'ene', examples: { 'NA': { word: 'Naranja', emoji: '🍊' }, 'NE': { word: 'Nevera', emoji: '🧊' }, 'NI': { word: 'Niña', emoji: '👧' }, 'NO': { word: 'Noche', emoji: '🌌' }, 'NU': { word: 'Nube', emoji: '☁️' } } },
+            { letter: 'Ñ', name: 'eñe', label: 'eñe', examples: { 'ÑA': { word: 'Piña', emoji: '🍍' }, 'ÑE': { word: 'Muñeca', emoji: '🪆' }, 'ÑI': { word: 'Albañil', emoji: '🧱' }, 'ÑO': { word: 'Moño', emoji: '🎀' }, 'ÑU': { word: 'Pañuelo', emoji: '🤧' } } },
+            { letter: 'P', name: 'pe', label: 'pe', examples: { 'PA': { word: 'Pan', emoji: '🍞' }, 'PE': { word: 'Pera', emoji: '🍐' }, 'PI': { word: 'Piña', emoji: '🍍' }, 'PO': { word: 'Pollo', emoji: '🍗' }, 'PU': { word: 'Puerta', emoji: '🚪' } } },
+            { letter: 'Q', name: 'cu', label: 'cu', examples: { 'QA': { syl: 'QUE', word: 'Queso', emoji: '🧀' }, 'QE': { syl: 'QUE', word: 'Paquete', emoji: '📦' }, 'QI': { syl: 'QUI', word: 'Quince', emoji: '1️⃣5️⃣' }, 'QO': { syl: 'QUE', word: 'Queso', emoji: '🧀' }, 'QU': { syl: 'QUI', word: 'Química', emoji: '🧪' } } },
+            { letter: 'R', name: 'erre', label: 'erre', examples: { 'RA': { word: 'Radio', emoji: '📻' }, 'RE': { word: 'Regalo', emoji: '🎁' }, 'RI': { word: 'Risa', emoji: '😄' }, 'RO': { word: 'Rosa', emoji: '🌹' }, 'RU': { word: 'Rueda', emoji: '🛞' } } },
+            { letter: 'RR', name: 'doble erre', label: 'doble erre', examples: { 'RRA': { word: 'Barra', emoji: '🥖' }, 'RRE': { word: 'Torre', emoji: '🗼' }, 'RRI': { word: 'Arriba', emoji: '⬆️' }, 'RRO': { word: 'Perro', emoji: '🐶' }, 'RRU': { word: 'Arroz', emoji: '🍚' } } },
+            { letter: 'S', name: 'ese', label: 'ese', examples: { 'SA': { word: 'Sal', emoji: '🧂' }, 'SE': { word: 'Semáforo', emoji: '🚦' }, 'SI': { word: 'Silla', emoji: '🪑' }, 'SO': { word: 'Sopa', emoji: '🍲' }, 'SU': { word: 'Suma', emoji: '➕' } } },
+            { letter: 'T', name: 'te', label: 'te', examples: { 'TA': { word: 'Taza', emoji: '☕' }, 'TE': { word: 'Teléfono', emoji: '📱' }, 'TI': { word: 'Tijeras', emoji: '✂️' }, 'TO': { word: 'Tomate', emoji: '🍅' }, 'TU': { word: 'Tulipán', emoji: '🌷' } } },
+            { letter: 'V', name: 'uve', label: 'uve', examples: { 'VA': { word: 'Vaso', emoji: '🥛' }, 'VE': { word: 'Vela', emoji: '🕯️' }, 'VI': { word: 'Vino', emoji: '🍷' }, 'VO': { word: 'Volante', emoji: '🚗' }, 'VU': { word: 'Vuelo', emoji: '✈️' } } },
+            { letter: 'W', name: 'doble uve', label: 'doble uve', examples: { 'WA': { word: 'Wafle', emoji: '🧇' }, 'WE': { word: 'Web', emoji: '🌐' }, 'WI': { word: 'Wi-Fi', emoji: '📶' }, 'WO': { word: 'Wok', emoji: '🍳' }, 'WU': { word: 'Wáter', emoji: '🚽' } } },
+            { letter: 'X', name: 'equis', label: 'equis', examples: { 'XA': { word: 'Examen', emoji: '📝' }, 'XE': { word: 'Boxeo', emoji: '🥊' }, 'XI': { word: 'Taxi', emoji: '🚕' }, 'XO': { word: 'Saxofón', emoji: '🎷' }, 'XU': { word: 'Éxito', emoji: '🏆' } } },
+            { letter: 'Y', name: 'ye', label: 'ye', examples: { 'YA': { word: 'Yate', emoji: '🛥️' }, 'YE': { word: 'Yema', emoji: '🍳' }, 'YI': { word: 'Yogur', emoji: '🥛' }, 'YO': { word: 'Yoyo', emoji: '🪀' }, 'YU': { word: 'Yuca', emoji: '🥔' } } },
+            { letter: 'Z', name: 'zeta', label: 'zeta', examples: { 'ZA': { word: 'Zapato', emoji: '👞' }, 'ZE': { word: 'Zepelín', emoji: '🎈' }, 'ZI': { word: 'Zinc', emoji: '🪙' }, 'ZO': { word: 'Zorro', emoji: '🦊' }, 'ZU': { word: 'Zumo', emoji: '🧃' } } }
         ];
 
         // SÍLABAS TRABADAS Y ESPECIALES (BL, BR, TR, CA-QUE-QUI, GA-GUE-GUI, INVERSAS)
@@ -1446,6 +1641,16 @@
                             { syl: 'BRI', word: 'Abril', emoji: '📅' },
                             { syl: 'BRO', word: 'Libro', emoji: '📖' },
                             { syl: 'BRU', word: 'Bruja', emoji: '🧙‍♀️' }
+                        ]
+                    },
+                    {
+                        name: 'Familia CR (cra, cre, cri, cro, cru)',
+                        items: [
+                            { syl: 'CRA', word: 'Cráneo', emoji: '💀' },
+                            { syl: 'CRE', word: 'Crema', emoji: '🧴' },
+                            { syl: 'CRI', word: 'Cristal', emoji: '🪟' },
+                            { syl: 'CRO', word: 'Cromo', emoji: '📻' },
+                            { syl: 'CRU', word: 'Cruz', emoji: '✝️' }
                         ]
                     },
                     {
@@ -1715,7 +1920,7 @@
            ========================================================= */
         const REAL_LIFE_DATA = {
             '🛒 En el Supermercado': [
-                { visual: '🍗 100% POLLO', bg: '#dcfce7', border: '#22c55e', color: '#15803d', meaning: 'Carne de POLLO (sí puedes comerlo). Empieza por PO.', audio: 'Cien por cien Pollo. Empieza por Pe, O.' },
+                { visual: '🍗 100% POLLO', bg: '#dcfce7', border: '#22c55e', color: '#15803d', meaning: 'Carne de POLLO (sí puedes comerlo). Sílabas: PO - LLO.', audio: 'Cien por cien Pollo. Carne de pollo. Po, llo, pollo.' },
                 { visual: '🐄 VACUNO / TERNERA', bg: '#dcfce7', border: '#22c55e', color: '#15803d', meaning: 'Carne de vaca o ternera.', audio: 'Vacuno o Ternera. Carne de vaca.' },
                 { visual: '🐷🚫 CERDO / PORCINO', bg: '#fee2e2', border: '#ef4444', color: '#b91c1c', meaning: '¡OJO en los ingredientes! Si pone CERDO, PORCINO, JAMÓN o MANTECA, lleva cerdo.', audio: 'Atención: si lees Cerdo, Porcino o Jamón, lleva carne de cerdo.' },
                 { visual: '🏷️ OFERTA / DESCUENTO', bg: '#fef08a', border: '#eab308', color: '#854d0e', meaning: 'Cartel amarillo o rojo: significa que el precio es más barato hoy.', audio: 'Oferta. Descuento. Cuesta menos dinero.' },
@@ -1870,6 +2075,230 @@
             }
         }
 
+        let cachedSpanishVoice = null;
+
+        function isSpanishVoice(v) {
+            if (!v) return false;
+            const lang = (v.lang || '').toLowerCase();
+            const name = (v.name || '').toLowerCase();
+            // Debe ser explícitamente español y no un idioma inglés con otra etiqueta
+            if (lang.startsWith('es') || /spanish|español|espanol|helena|laura|pablo|elvira|alvaro|sabina|mónica|monica/.test(name)) {
+                if (lang.startsWith('en') && !name.includes('spanish')) return false;
+                return true;
+            }
+            return false;
+        }
+
+        function scoreVoiceQuality(v) {
+            if (!v || !isSpanishVoice(v)) return -99999;
+            let score = 0;
+            const name = (v.name || '').toLowerCase();
+            const lang = (v.lang || '').toLowerCase();
+
+            // Idioma español
+            score += 100;
+            if (lang.includes('es-es') || lang.includes('es_es')) score += 50;
+
+            // Voz favorita del usuario: Google español (máxima prioridad)
+            if (name.includes('google')) {
+                score += 5000;
+            }
+
+            // Voces neuronales naturales (Edge / Azure Natural)
+            if (name.includes('natural') || name.includes('online (natural)') || name.includes('neural')) {
+                score += 2000;
+            }
+            if (name.includes('elvira')) score += 800; // Microsoft Elvira Online (Natural)
+            if (name.includes('alvaro') || name.includes('álvaro')) score += 750; // Microsoft Alvaro Online (Natural)
+
+            // Voces OneCore de Windows (buenas voces del sistema)
+            if (name.includes('laura')) score += 500;
+            if (name.includes('pablo')) score += 450;
+            if (name.includes('sabina')) score += 350;
+
+            // Penalización fuerte para la voz robótica antigua de Windows SAPI5 (Helena Desktop)
+            if (name.includes('desktop')) score -= 1000;
+            if (name.includes('helena') && !name.includes('natural')) score -= 600;
+
+            return score;
+        }
+
+        function getDetectedSpanishVoices() {
+            if (!synth) return [];
+            const all = synth.getVoices() || [];
+            const spanish = all.filter(isSpanishVoice);
+            return spanish.sort((a, b) => scoreVoiceQuality(b) - scoreVoiceQuality(a));
+        }
+
+        function getBestSpanishVoice() {
+            if (!synth) return null;
+            const list = getDetectedSpanishVoices();
+            if (!list || list.length === 0) return null;
+
+            // 1. Si el usuario guardó una voz previamente en este equipo, comprobarla
+            try {
+                const savedVoiceURI = localStorage.getItem('preferredSpanishVoiceURI');
+                const savedVoiceName = localStorage.getItem('preferredSpanishVoiceName');
+                if (savedVoiceURI || savedVoiceName) {
+                    const matched = list.find(v => (savedVoiceURI && v.voiceURI === savedVoiceURI) || (savedVoiceName && v.name === savedVoiceName));
+                    if (matched && isSpanishVoice(matched)) return matched;
+                    localStorage.removeItem('preferredSpanishVoiceURI');
+                    localStorage.removeItem('preferredSpanishVoiceName');
+                }
+            } catch (e) {}
+
+            // 2. Si Google español está disponible, es la voz favorita predeterminada
+            const googleVoice = list.find(v => (v.name || '').toLowerCase().includes('google'));
+            if (googleVoice) {
+                try {
+                    localStorage.setItem('preferredSpanishVoiceURI', googleVoice.voiceURI);
+                    localStorage.setItem('preferredSpanishVoiceName', googleVoice.name);
+                } catch (e) {}
+                return googleVoice;
+            }
+
+            // 3. De lo contrario, devolver la de mayor puntuación
+            return list[0] || null;
+        }
+
+        function updateVoiceHeaderButton() {
+            const btnLabel = document.getElementById('header-voice-label');
+            if (!btnLabel) return;
+            if (!cachedSpanishVoice) {
+                btnLabel.innerHTML = 'Voz: <b>Automática</b>';
+                return;
+            }
+            const rawName = cachedSpanishVoice.name || '';
+            if (rawName.toLowerCase().includes('google')) {
+                btnLabel.innerHTML = 'Voz: <b>Google español ⭐</b>';
+                return;
+            }
+            let shortName = rawName
+                .replace(/Microsoft\s+/i, '')
+                .replace(/Online\s*\(Natural\)/i, '⭐')
+                .replace(/Desktop/i, '')
+                .replace(/\s*-\s*Spanish.*$/i, '')
+                .trim();
+            if (shortName.length > 13) shortName = shortName.substring(0, 12) + '…';
+            btnLabel.innerHTML = `Voz: <b>${shortName || 'Humana'}</b>`;
+        }
+
+        function openVoiceModal() {
+            const overlay = document.getElementById('voice-modal-overlay');
+            const container = document.getElementById('voice-list-container');
+            if (!overlay || !container) return;
+
+            const voices = getDetectedSpanishVoices();
+            container.innerHTML = '';
+
+            if (!voices || voices.length === 0) {
+                container.innerHTML = '<div style="padding:16px; text-align:center; color:#64748b;">No se detectaron voces adicionales en este navegador. Se usará la voz por defecto del sistema.</div>';
+            } else {
+                voices.forEach(v => {
+                    const score = scoreVoiceQuality(v);
+                    const isSelected = cachedSpanishVoice && (cachedSpanishVoice.voiceURI === v.voiceURI || cachedSpanishVoice.name === v.name);
+                    const isGoogle = (v.name || '').toLowerCase().includes('google');
+                    
+                    let badgeHtml = '';
+                    if (isGoogle) {
+                        badgeHtml = '<span class="voice-badge-natural" style="background:#dbeafe; color:#1e40af; border:1px solid #93c5fd;">⭐ Voz Favorita (Google Español)</span>';
+                    } else if (score >= 1500) {
+                        badgeHtml = '<span class="voice-badge-natural">✨ Natural IA (Voz Humana)</span>';
+                    } else if (score >= 400) {
+                        badgeHtml = '<span class="voice-badge-high">💎 Calidad Alta (Windows OneCore)</span>';
+                    } else if (score < 0) {
+                        badgeHtml = '<span class="voice-badge-standard">🤖 Voz Básica / Robótica</span>';
+                    } else {
+                        badgeHtml = '<span class="voice-badge-standard">🔉 Voz Estándar</span>';
+                    }
+
+                    let friendlyName = v.name
+                        .replace(/Microsoft\s+/i, '')
+                        .replace(/Online\s*\(Natural\)/i, 'Natural')
+                        .replace(/Desktop/i, '')
+                        .replace(/\s*-\s*Spanish.*$/i, '')
+                        .trim();
+
+                    const card = document.createElement('div');
+                    card.className = `voice-item-card ${isSelected ? 'selected' : ''}`;
+                    card.onclick = () => selectVoiceFromModal(v.name, v.voiceURI);
+
+                    const safeNameForJs = v.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+
+                    card.innerHTML = `
+                        <div class="voice-item-info">
+                            <div class="voice-item-name">${isSelected ? '✅ ' : ''}${friendlyName} <small style="font-weight:400; color:#64748b; font-size:0.8rem;">(${v.lang})</small></div>
+                            ${badgeHtml}
+                        </div>
+                        <div class="voice-item-actions">
+                            <button type="button" class="btn-test-voice" onclick="event.stopPropagation(); testVoicePreview('${safeNameForJs}')" title="Escuchar cómo suena">
+                                🔊 Probar
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            overlay.classList.add('open');
+        }
+
+        function closeVoiceModal() {
+            const overlay = document.getElementById('voice-modal-overlay');
+            if (overlay) overlay.classList.remove('open');
+        }
+
+        function handleVoiceModalOverlayClick(event) {
+            if (event.target && event.target.id === 'voice-modal-overlay') {
+                closeVoiceModal();
+            }
+        }
+
+        function selectVoiceFromModal(voiceName, voiceURI) {
+            if (!synth) return;
+            const all = synth.getVoices() || [];
+            const found = all.find(v => (voiceURI && v.voiceURI === voiceURI) || v.name === voiceName);
+            if (found) {
+                cachedSpanishVoice = found;
+                try {
+                    localStorage.setItem('preferredSpanishVoiceURI', found.voiceURI);
+                    localStorage.setItem('preferredSpanishVoiceName', found.name);
+                } catch (e) {}
+                updateVoiceHeaderButton();
+                openVoiceModal(); // Vuelve a pintar para actualizar la marca de selección
+                const shortAnnounce = found.name.replace(/Microsoft\s+/i, '').replace(/Online\s*\(Natural\)/i, 'Natural').replace(/Desktop/i, '').split('-')[0].trim();
+                speak(`Voz seleccionada: ${shortAnnounce}`);
+            }
+        }
+
+        function testVoicePreview(voiceName) {
+            if (!synth) return;
+            if (synth.speaking) synth.cancel();
+            const all = synth.getVoices() || [];
+            const found = all.find(v => v.name === voiceName);
+            if (!found) return;
+
+            const utter = new SpeechSynthesisUtterance('Hola, esta es mi voz. Aprenderemos a leer juntos paso a paso.');
+            utter.voice = found;
+            utter.lang = found.lang || 'es-ES';
+            utter.rate = getSpeechRate();
+            utter.pitch = 1.02;
+            synth.speak(utter);
+        }
+
+        function updateVoices() {
+            if (!synth) return;
+            cachedSpanishVoice = getBestSpanishVoice();
+            updateVoiceHeaderButton();
+        }
+
+        if (typeof window !== 'undefined' && window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = updateVoices;
+            updateVoices();
+            setTimeout(updateVoices, 350);
+            setTimeout(updateVoices, 1200);
+        }
+
         function cleanTextForSpeech(text) {
             if (!text) return '';
             let t = String(text).trim();
@@ -1879,59 +2308,89 @@
 
             // 2. Diccionario fonético para letras que el sintetizador de voz pronuncia mal o en inglés si van solas
             const letterNames = {
-                'b': 'be',
-                'B': 'be',
-                'v': 'uve',
-                'V': 'uve',
-                'c': 'ce',
-                'C': 'ce',
-                'd': 'de',
-                'D': 'de',
-                'p': 'pe',
-                'P': 'pe',
-                't': 'te',
-                'T': 'te',
-                'm': 'eme',
-                'M': 'eme',
-                'n': 'ene',
-                'N': 'ene',
-                'l': 'ele',
-                'L': 'ele',
-                's': 'ese',
-                'S': 'ese',
-                'll': 'elle',
-                'LL': 'elle',
-                'Ll': 'elle',
-                'r': 'erre',
-                'R': 'erre',
-                'rr': 'doble erre',
-                'RR': 'doble erre',
-                'y': 'ye',
-                'Y': 'ye',
-                'z': 'zeta',
-                'Z': 'zeta',
-                'k': 'ka',
-                'K': 'ka',
-                'j': 'jota',
-                'J': 'jota',
-                'h': 'hache',
-                'H': 'hache'
+                'a': 'a', 'A': 'a',
+                'b': 'be', 'B': 'be',
+                'c': 'ce', 'C': 'ce',
+                'ch': 'che', 'CH': 'che',
+                'd': 'de', 'D': 'de',
+                'e': 'e', 'E': 'e',
+                'f': 'efe', 'F': 'efe',
+                'g': 'ge', 'G': 'ge',
+                'h': 'hache', 'H': 'hache',
+                'i': 'i', 'I': 'i',
+                'j': 'jota', 'J': 'jota',
+                'k': 'ka', 'K': 'ka',
+                'l': 'ele', 'L': 'ele',
+                'll': 'elle', 'LL': 'elle', 'Ll': 'elle',
+                'm': 'eme', 'M': 'eme',
+                'n': 'ene', 'N': 'ene',
+                'ñ': 'eñe', 'Ñ': 'eñe',
+                'o': 'o', 'O': 'o',
+                'p': 'pe', 'P': 'pe',
+                'q': 'cu', 'Q': 'cu',
+                'r': 'erre', 'R': 'erre',
+                'rr': 'doble erre', 'RR': 'doble erre',
+                's': 'ese', 'S': 'ese',
+                't': 'te', 'T': 'te',
+                'u': 'u', 'U': 'u',
+                'v': 'uve', 'V': 'uve',
+                'w': 'doble uve', 'W': 'doble uve',
+                'x': 'equis', 'X': 'equis',
+                'y': 'ye', 'Y': 'ye',
+                'z': 'zeta', 'Z': 'zeta'
             };
 
-            // Letra aislada
+            // Letra aislada directa
             if (letterNames[t]) {
                 return letterNames[t];
             }
 
-            // Expresiones como "Letra B", "Letra LL"
-            t = t.replace(/^Letra\s+([a-zA-ZñÑ]{1,2})$/i, (m, letter) => {
-                return `Letra ${letterNames[letter] || letter}`;
+            // Sustituir B y V explícitamente en cualquier frase para que NUNCA diga "Bi" o "Vi"
+            t = t.replace(/\b(tecla|letra|la|busca|pulsado|has pulsado|esa es la)\s+b\b/gi, '$1 be');
+            t = t.replace(/\b(tecla|letra|la|busca|pulsado|has pulsado|esa es la)\s+v\b/gi, '$1 uve');
+
+            // Expresiones con cualquier letra: "tecla X", "letra X", "esa es la X", "busca la X"
+            t = t.replace(/\b(tecla|letra|la)\s+([a-zA-ZñÑ]{1,2})\b/gi, (m, prefix, letter) => {
+                return `${prefix} ${letterNames[letter] || letter}`;
             });
 
-            // Si empieza por "B. " o "LL. "
-            t = t.replace(/^([a-zA-ZñÑ]{1,2})\.\s*/, (m, letter) => {
-                return `${letterNames[letter] || letter}. `;
+            // Frases del teclado y dictado
+            t = t.replace(/\b(esa es la|busca la|busca en el teclado la)\s+([a-zA-ZñÑ]{1,2})\b/gi, (m, prefix, letter) => {
+                return `${prefix} ${letterNames[letter] || letter}`;
             });
+
+            // Si empieza por una letra aislada seguida de punto (ej. "B. ..." o "LL. ...")
+            t = t.replace(/^([a-zA-ZñÑ]{1,2})\.(?!\.)\s*/, (m, letter) => {
+                return letterNames[letter] ? `${letterNames[letter]}. ` : m;
+            });
+
+            // 3. Normalización fonética para sílabas en Google español:
+            // - La gran mayoría de sílabas (bre, bro, tro, blo, ple, plo, glo, cra, cro, etc.)
+            //   se deben mantener en minúsculas y SIN tildes artificiales. Las tildes artificiales
+            //   hacían que Google TTS las deletreara ("be erre e", "be erre o", etc.).
+            // - Solo estas sílabas concretas necesitan una tilde fonética para no ser interpretadas como abreviaturas:
+            const SPECIFIC_SYLLABLE_FIXES = {
+                'bli': 'blí',
+                'bru': 'brú',
+                'fla': 'flá',
+                'gla': 'glá',
+                'lli': 'llí',
+                'llu': 'llú',
+                'chu': 'chú',
+                'us': 'ús',
+                'cu': 'cú',
+                'za': 'zá',
+                'zi': 'zí'
+            };
+
+            for (const [syl, phon] of Object.entries(SPECIFIC_SYLLABLE_FIXES)) {
+                const re = new RegExp('(^|[^a-záéíóúñA-ZÁÉÍÓÚÑ])' + syl + '([^a-záéíóúñA-ZÁÉÍÓÚÑ]|$)', 'gi');
+                t = t.replace(re, (m, p1, p2) => p1 + phon + p2);
+            }
+
+            // B y V sueltas como palabras aisladas
+            t = t.replace(/(^|\s)b(\s|$)/gi, '$1be$2');
+            t = t.replace(/(^|\s)v(\s|$)/gi, '$1uve$2');
 
             return t;
         }
@@ -1941,19 +2400,31 @@
             if (synth.speaking) synth.cancel();
             if (!text) return;
 
+            // Asegurar que siempre se usa una voz en español
+            if (!cachedSpanishVoice || !isSpanishVoice(cachedSpanishVoice)) {
+                cachedSpanishVoice = getBestSpanishVoice();
+            }
+
+            // Si las voces aún no han cargado en el navegador (carga asíncrona de Chrome / Edge)
+            if (!cachedSpanishVoice && synth.getVoices().length === 0) {
+                setTimeout(() => {
+                    cachedSpanishVoice = getBestSpanishVoice();
+                    speak(text, customRate);
+                }, 120);
+                return;
+            }
+
             const cleaned = cleanTextForSpeech(text);
             const utter = new SpeechSynthesisUtterance(cleaned);
-            const voices = synth.getVoices();
-            const esVoice = voices.find(v => v.lang.startsWith('es-ES')) || voices.find(v => v.lang.startsWith('es'));
-            if (esVoice) utter.voice = esVoice;
-            utter.lang = 'es-ES';
+            if (cachedSpanishVoice) {
+                utter.voice = cachedSpanishVoice;
+                utter.lang = cachedSpanishVoice.lang || 'es-ES';
+            } else {
+                utter.lang = 'es-ES';
+            }
             utter.rate = customRate || getSpeechRate();
-            utter.pitch = 1.0;
+            utter.pitch = 1.02;
             synth.speak(utter);
-        }
-
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = () => synth.getVoices();
         }
 
         function toggleLetterCase() {
@@ -2090,23 +2561,37 @@
 
             const grid = document.getElementById('syllable-grid');
             grid.innerHTML = '';
-            ['A', 'E', 'I', 'O', 'U'].forEach(v => {
-                const syl = currentConsonant.letter + v;
-                const btn = document.createElement('button');
-                btn.className = 'syl-btn';
-                btn.innerHTML = caseMode === 'upper' ? `${syl}`
-                    : (caseMode === 'lower' ? `${syl.toLowerCase()}` : `${syl} <small>${syl.toLowerCase()}</small>`);
-                btn.onclick = () => selectSyllable(syl);
-                grid.appendChild(btn);
-            });
+            if (currentConsonant.letter === 'Q') {
+                ['QUE', 'QUI'].forEach(syl => {
+                    const btn = document.createElement('button');
+                    btn.className = 'syl-btn';
+                    btn.innerHTML = caseMode === 'upper' ? `${syl}`
+                        : (caseMode === 'lower' ? `${syl.toLowerCase()}` : `${syl} <small>${syl.toLowerCase()}</small>`);
+                    btn.onclick = () => selectSyllable(syl === 'QUE' ? 'QA' : 'QI');
+                    grid.appendChild(btn);
+                });
+            } else {
+                ['A', 'E', 'I', 'O', 'U'].forEach(v => {
+                    const syl = currentConsonant.letter + v;
+                    const btn = document.createElement('button');
+                    btn.className = 'syl-btn';
+                    btn.innerHTML = caseMode === 'upper' ? `${syl}`
+                        : (caseMode === 'lower' ? `${syl.toLowerCase()}` : `${syl} <small>${syl.toLowerCase()}</small>`);
+                    btn.onclick = () => selectSyllable(syl);
+                    grid.appendChild(btn);
+                });
+            }
         }
 
-        function selectSyllable(syl) {
-            const ex = currentConsonant.examples[syl];
+        function selectSyllable(sylKey) {
+            const ex = currentConsonant.examples[sylKey];
+            if (!ex) return;
+            const sylDisplay = ex.syl || sylKey;
             document.getElementById('syl-emoji').innerHTML = ex.emoji;
-            document.getElementById('syl-word').innerHTML = `<span style="color:var(--primary)">${syl}</span> / <span style="color:var(--purple)">${syl.toLowerCase()}</span>`;
+            document.getElementById('syl-word').innerHTML = `<span style="color:var(--primary)">${sylDisplay}</span> / <span style="color:var(--purple)">${sylDisplay.toLowerCase()}</span>`;
             document.getElementById('syl-example').innerHTML = `Como en <b>${ex.word.toUpperCase()}</b> (${ex.word.toLowerCase()})`;
-            speak(`${syl.toLowerCase()}, ${ex.word}`, 0.72);
+            let sylToSpeak = sylDisplay.toLowerCase();
+            speak(`${sylToSpeak}. ${ex.word}`, 0.72);
         }
 
         /* =========================================================
@@ -2142,8 +2627,10 @@
                 let cardsHtml = group.items.map((it, itIdx) => {
                     const dispSyl = caseMode === 'lower' ? it.syl.toLowerCase() : it.syl;
                     const noteHtml = it.note ? `<span style="font-size:0.8rem; color:#7c3aed; font-weight:700; display:block; margin-top:2px;">(${it.note})</span>` : '';
+                    const safeSyl = it.syl.toLowerCase();
+                    const safeWord = it.word.replace(/'/g, "\\'");
                     return `
-                        <button class="blend-card-btn" onclick="playBlend(${gIdx}, ${itIdx})">
+                        <button class="blend-card-btn" onclick="playBlendItem('${safeSyl}', '${safeWord}')">
                             <span style="font-size:2.4rem; display:block; margin-bottom:4px;">${it.emoji}</span>
                             <span class="bc-syl">${dispSyl}</span>
                             <span class="bc-word">${it.word}</span>
@@ -2160,10 +2647,16 @@
             });
         }
 
+        function playBlendItem(syl, word) {
+            speak(`${syl}. ${word}`, 0.85);
+        }
+
         function playBlend(gIdx, itIdx) {
             const data = BLENDS_DATA[currentBlendFamily];
-            const item = data.subgroups[gIdx].items[itIdx];
-            speak(`${item.syl.toLowerCase()}, ${item.word}`, 0.7);
+            if (data && data.subgroups && data.subgroups[gIdx] && data.subgroups[gIdx].items[itIdx]) {
+                const item = data.subgroups[gIdx].items[itIdx];
+                playBlendItem(item.syl.toLowerCase(), item.word);
+            }
         }
 
         /* =========================================================
@@ -2195,7 +2688,8 @@
                 const parts = item.word.split('-');
                 const pillsHtml = parts.map(p => {
                     const label = caseMode === 'lower' ? p.toLowerCase() : p;
-                    return `<button class="syl-pill" onclick="speak('${p.toLowerCase()}', 0.68)">${label}</button>`;
+                    const sylSpeak = p.toLowerCase() === 'ga' ? 'gá' : p.toLowerCase();
+                    return `<button class="syl-pill" onclick="speak('${sylSpeak}', 0.68)">${label}</button>`;
                 }).join('');
 
                 card.innerHTML = `
@@ -2212,8 +2706,12 @@
         }
 
         function speakSyllablesAndWord(hyphenated, fullWord) {
-            const parts = hyphenated.split('-').map(p => p.toLowerCase());
-            speak(`${parts.join('. ')}. ... ${fullWord}`, 0.68);
+            const parts = hyphenated.split('-').map(p => {
+                let s = p.toLowerCase();
+                if (s === 'ga') s = 'gá';
+                return s;
+            });
+            speak(`${parts.join(', ')}... ${fullWord}`, 0.68);
         }
 
         /* =========================================================
@@ -2513,7 +3011,15 @@
         /* =========================================================
            13. MÓDULO 9: PIZARRA DE TRAZO Y TECLADO
            ========================================================= */
-        const TRACE_LETTERS = ['A', 'E', 'I', 'O', 'U', 'M', 'P', 'B', 'L', 'LL', 'S', 'T', 'N', 'D'];
+        const TRACE_LETTERS = [
+            'A', 'B', 'C', 'CH', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LL', 'M',
+            'N', 'Ñ', 'O', 'P', 'Q', 'R', 'RR', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ];
+
+        const KEYBOARD_LETTERS = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        ];
         let isDrawing = false;
 
         function initTraceSection() {
@@ -2556,7 +3062,8 @@
             ctx.stroke();
 
             ctx.fillStyle = '#e2e8f0';
-            ctx.font = 'bold 135px Segoe UI, sans-serif';
+            const fontFam = fontStyleMode === 'handwriting' ? '"Segoe Print", "Comic Sans MS", cursive' : 'Segoe UI, sans-serif';
+            ctx.font = `bold 120px ${fontFam}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'alphabetic';
             ctx.fillText(`${currentTraceLetter} ${currentTraceLetter.toLowerCase()}`, canvas.width / 2, 200);
@@ -2596,14 +3103,14 @@
         }
 
         function nextKeyboardTarget() {
-            const pool = TRACE_LETTERS;
+            const pool = KEYBOARD_LETTERS;
             let next = pool[Math.floor(Math.random() * pool.length)];
             if (next === currentKeyTarget) next = pool[(pool.indexOf(next) + 1) % pool.length];
             currentKeyTarget = next;
             document.getElementById('key-target-box').innerText = currentKeyTarget;
             document.getElementById('key-feedback').style.color = 'var(--primary)';
             document.getElementById('key-feedback').innerText = `Busca y pulsa la tecla ${currentKeyTarget}`;
-            speak(`Busca en el teclado la letra ${currentKeyTarget.toLowerCase()}`);
+            speak(`Busca en el teclado la tecla ${currentKeyTarget.toLowerCase()}`);
         }
 
         window.addEventListener('keydown', (e) => {
@@ -2615,13 +3122,13 @@
                     const fb = document.getElementById('key-feedback');
                     fb.style.color = 'var(--success)';
                     fb.innerText = `¡Muy bien! Tecla ${key} correcta 🎉`;
-                    speak(`¡Muy bien! Esa es la ${key.toLowerCase()}`);
+                    speak(`¡Muy bien! Esa es la tecla ${key.toLowerCase()}`);
                     setTimeout(nextKeyboardTarget, 1600);
                 } else if (/^[A-ZÑ]$/.test(key)) {
                     const fb = document.getElementById('key-feedback');
                     fb.style.color = '#dc2626';
                     fb.innerText = `Has pulsado ${key}. Busca la tecla ${currentKeyTarget}`;
-                    speak(`Esa es la ${key.toLowerCase()}. Busca la ${currentKeyTarget.toLowerCase()}`);
+                    speak(`Has pulsado la tecla ${key.toLowerCase()}. Busca la tecla ${currentKeyTarget.toLowerCase()}`);
                 }
             }
         });
