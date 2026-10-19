@@ -1735,6 +1735,7 @@
             </div>
             <div class="level-bar" id="phrases-level-bar"></div>
             <div style="text-align:center; margin-bottom:14px; color:var(--muted); font-weight:700;" id="phrases-level-desc"></div>
+            <div id="phrases-level-feedback" style="margin-bottom:14px; text-align:center; font-size:1.15rem; font-weight:800; min-height:10px;"></div>
             <div class="phrases-grid" id="phrases-grid"></div>
         </section>
 
@@ -2075,7 +2076,7 @@
            ========================================================= */
         const SHORT_PHRASES_DATA = {
             1: {
-                name: 'Nivel 1: Frases de 3 palabras',
+                name: 'Nivel 1: Frases de 3 y 4 palabras',
                 desc: 'Frases muy cortitas con sujeto, verbo y objeto para empezar a leer con sentido.',
                 items: [
                     { full: 'El gato bebe leche.', words: ['El', 'gato', 'bebe', 'leche.'], emoji: '🐱' },
@@ -2800,17 +2801,18 @@
             if (onEnd) {
                 let finished = false;
                 let fallbackTimer = null;
-                const done = () => {
+                const done = (evt) => {
                     if (finished) return;
                     finished = true;
                     if (fallbackTimer) clearTimeout(fallbackTimer);
+                    if (evt && (evt.error === 'canceled' || evt.error === 'interrupted')) return;
                     onEnd();
                 };
-                utter.onend = done;
-                utter.onerror = done;
+                utter.onend = (e) => done(e);
+                utter.onerror = (e) => done(e);
                 // Temporizador de seguridad garantizado según longitud de texto
                 const estMs = Math.max(1600, Math.ceil((cleaned.length / 8) * 1000 / (utter.rate || 0.85)) + 1200);
-                fallbackTimer = setTimeout(done, estMs);
+                fallbackTimer = setTimeout(() => done(null), estMs);
             }
 
             synth.speak(utter);
@@ -3127,6 +3129,8 @@
                 btn.innerHTML = `⭐ Nivel ${lvl}`;
                 btn.onclick = () => {
                     currentPhrasesLevel = lvl;
+                    const fbEl = document.getElementById('phrases-level-feedback');
+                    if (fbEl) fbEl.innerHTML = '';
                     renderPhrases();
                     speak(SHORT_PHRASES_DATA[lvl].name);
                 };
@@ -3134,7 +3138,17 @@
             });
 
             const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
-            document.getElementById('phrases-level-desc').innerText = `${lvlObj.name}: ${lvlObj.desc}`;
+            let completedCount = 0;
+            lvlObj.items.forEach((_, idx) => {
+                const st = phraseGameStates[`${currentPhrasesLevel}_${idx}`];
+                if (st && st.completed) completedCount++;
+            });
+
+            const badgeHtml = completedCount > 0 
+                ? `<span style="display:inline-block; margin-left:8px; background:#dcfce7; color:#15803d; border:1px solid #86efac; border-radius:99px; padding:2px 10px; font-size:0.85rem; font-weight:800;">${completedCount} / ${lvlObj.items.length} completadas</span>`
+                : '';
+
+            document.getElementById('phrases-level-desc').innerHTML = `${lvlObj.name}: ${lvlObj.desc} ${badgeHtml}`;
 
             const grid = document.getElementById('phrases-grid');
             grid.innerHTML = '';
@@ -3142,6 +3156,7 @@
             lvlObj.items.forEach((item, cardIdx) => {
                 const card = document.createElement('div');
                 card.className = 'phrase-card';
+                card.id = `phrase-card-${cardIdx}`;
 
                 const wordsHtml = item.words.map((w, wIdx) => {
                     const dispWord = caseMode === 'lower' ? w.toLowerCase() : (caseMode === 'upper' ? w.toUpperCase() : w);
@@ -3149,11 +3164,12 @@
                     return `<button type="button" class="phrase-word-pill" id="p-pill-${cardIdx}-${wIdx}" onclick="speakPhraseWord('${safeW}', ${cardIdx}, ${wIdx})">${dispWord}</button>`;
                 }).join('');
 
-                const isGameOpen = phraseGameStates[cardIdx] && phraseGameStates[cardIdx].open;
+                const gKey = `${currentPhrasesLevel}_${cardIdx}`;
+                const isGameOpen = phraseGameStates[gKey] && phraseGameStates[gKey].open;
                 let gameHtml = '';
 
                 if (isGameOpen) {
-                    const gState = phraseGameStates[cardIdx];
+                    const gState = phraseGameStates[gKey];
                     const slotsHtml = item.words.map((_, sIdx) => {
                         const filledWord = gState.placed[sIdx];
                         return `<div class="dict-slot ${filledWord ? 'filled' : ''}">${filledWord || ''}</div>`;
@@ -3185,6 +3201,9 @@
                         <button type="button" class="phrase-btn-full" onclick="speak('${safeFull}', 0.72)">
                             🔊 Escuchar frase entera
                         </button>
+                        <button type="button" class="phrase-btn-full" style="background:#0284c7; box-shadow:0 4px 10px rgba(2,132,199,0.3);" onclick="readPhraseWordByWord(${cardIdx})">
+                            ▶️ Leer palabra a palabra
+                        </button>
                         <button type="button" class="phrase-btn-game" onclick="togglePhraseGame(${cardIdx})">
                             ${isGameOpen ? '✕ Cerrar juego' : '🧩 Jugar a ordenar'}
                         </button>
@@ -3199,26 +3218,57 @@
             document.querySelectorAll('.phrase-word-pill').forEach(el => el.classList.remove('active'));
             const el = document.getElementById(`p-pill-${cardIdx}-${wordIdx}`);
             if (el) el.classList.add('active');
-            speak(word.replace(/[.,;:!?]/g, ''), 0.68);
-            setTimeout(() => {
+            speak(word.replace(/[.,;:!?]/g, ''), 0.68, () => {
                 if (el) el.classList.remove('active');
-            }, 800);
+            });
+        }
+
+        function readPhraseWordByWord(cardIdx) {
+            const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
+            const item = lvlObj.items[cardIdx];
+            if (!item) return;
+
+            document.querySelectorAll('.phrase-word-pill').forEach(el => el.classList.remove('active'));
+
+            let wIdx = 0;
+            function step() {
+                if (wIdx >= item.words.length) {
+                    document.querySelectorAll('.phrase-word-pill').forEach(el => el.classList.remove('active'));
+                    return;
+                }
+                const currentIdx = wIdx;
+                const word = item.words[currentIdx];
+                const cleanW = word.replace(/[.,;:!?]/g, '');
+
+                document.querySelectorAll('.phrase-word-pill').forEach(el => el.classList.remove('active'));
+                const el = document.getElementById(`p-pill-${cardIdx}-${currentIdx}`);
+                if (el) el.classList.add('active');
+
+                wIdx++;
+                speak(cleanW, 0.72, () => {
+                    if (el) el.classList.remove('active');
+                    setTimeout(step, 350);
+                });
+            }
+            step();
         }
 
         function togglePhraseGame(cardIdx) {
             const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
             const item = lvlObj.items[cardIdx];
-            if (!phraseGameStates[cardIdx] || !phraseGameStates[cardIdx].open) {
+            const gKey = `${currentPhrasesLevel}_${cardIdx}`;
+            if (!phraseGameStates[gKey] || !phraseGameStates[gKey].open) {
                 const shuffled = item.words.map((w, idx) => ({ w, idx, used: false }))
                     .sort(() => Math.random() - 0.5);
-                phraseGameStates[cardIdx] = {
+                phraseGameStates[gKey] = {
                     open: true,
                     placed: [],
                     shuffled: shuffled,
-                    feedback: ''
+                    feedback: '',
+                    completed: false
                 };
             } else {
-                phraseGameStates[cardIdx].open = false;
+                phraseGameStates[gKey].open = false;
             }
             renderPhrases();
         }
@@ -3226,7 +3276,8 @@
         function onPhrasePieceClick(cardIdx, pieceIdx) {
             const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
             const item = lvlObj.items[cardIdx];
-            const gState = phraseGameStates[cardIdx];
+            const gKey = `${currentPhrasesLevel}_${cardIdx}`;
+            const gState = phraseGameStates[gKey];
             if (!gState) return;
 
             const piece = gState.shuffled[pieceIdx];
@@ -3239,18 +3290,95 @@
             if (cleanPiece === cleanExpected) {
                 piece.used = true;
                 gState.placed.push(expectedWord);
-                speak(cleanExpected, 0.75);
-                if (gState.placed.length === item.words.length) {
+                const isComplete = (gState.placed.length === item.words.length);
+                if (isComplete) {
+                    gState.completed = true;
                     gState.feedback = `<span style="color:var(--success);">¡Perfecto! Has ordenado la frase 👏</span>`;
-                    setTimeout(() => speak(`¡Muy bien! ${item.full}`, 0.75), 600);
+                    // Pronunciar la última palabra al 100% y esperar a que finalice antes de decir la frase completa con felicitación
+                    speak(cleanExpected, 0.75, () => {
+                        setTimeout(() => {
+                            speak(`¡Muy bien! ${item.full}`, 0.75, () => {
+                                checkPhrasesLevelCompletion(cardIdx);
+                            });
+                        }, 450);
+                    });
                 } else {
                     gState.feedback = '';
+                    speak(cleanExpected, 0.75);
                 }
             } else {
                 gState.feedback = `<span style="color:#dc2626;">Prueba con otra palabra primero.</span>`;
                 speak('Busca otra palabra primero', 0.75);
             }
             renderPhrases();
+        }
+
+        function checkPhrasesLevelCompletion(justFinishedCardIdx) {
+            const lvlObj = SHORT_PHRASES_DATA[currentPhrasesLevel];
+            const totalItems = lvlObj.items.length;
+            let completedCount = 0;
+            for (let i = 0; i < totalItems; i++) {
+                const st = phraseGameStates[`${currentPhrasesLevel}_${i}`];
+                if (st && st.completed) {
+                    completedCount++;
+                }
+            }
+
+            const fbEl = document.getElementById('phrases-level-feedback');
+
+            // ¿Ha completado todas las frases del nivel actual?
+            if (completedCount >= totalItems) {
+                const finishedLvl = currentPhrasesLevel;
+                if (finishedLvl < 3) {
+                    const nextLvl = finishedLvl + 1;
+                    if (fbEl) {
+                        fbEl.innerHTML = `
+                            <div style="background:#dcfce7; border:3px solid #22c55e; color:#15803d; border-radius:16px; padding:16px; font-size:1.3rem; font-weight:900; box-shadow:0 8px 20px rgba(34,197,94,0.22); margin-bottom:12px;">
+                                🎉 ¡Excelente! Has completado todas las frases del Nivel ${finishedLvl}. Pasando al Nivel ${nextLvl}...
+                            </div>
+                        `;
+                        fbEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    speak(`¡Excelente! Has completado todas las frases del nivel ${finishedLvl}. Pasamos al nivel ${nextLvl}.`, 0.85, () => {
+                        setTimeout(() => {
+                            currentPhrasesLevel = nextLvl;
+                            if (fbEl) fbEl.innerHTML = '';
+                            renderPhrases();
+                            // Abrir automáticamente el juego en la primera frase del nuevo nivel
+                            togglePhraseGame(0);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, 750);
+                    });
+                } else {
+                    // Completó el Nivel 3 (último nivel)
+                    if (fbEl) {
+                        fbEl.innerHTML = `
+                            <div style="background:#eff6ff; border:3px solid #3b82f6; color:#1d4ed8; border-radius:16px; padding:18px; font-size:1.35rem; font-weight:900; box-shadow:0 8px 20px rgba(59,130,246,0.22); margin-bottom:12px;">
+                                🏆 ¡Enhorabuena! ¡Has superado todos los niveles de Frases Cortas! ¡Ya lees frases completas con mucha soltura! 🌟
+                            </div>
+                        `;
+                        fbEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    speak('¡Enhorabuena! Has completado todos los niveles de frases cortas. ¡Ya lees frases completas de corrido!', 0.85);
+                }
+                return;
+            }
+
+            // Si todavía quedan frases en este nivel, abrir y desplazarse a la siguiente frase no completada
+            const nextIdx = justFinishedCardIdx + 1;
+            if (nextIdx < totalItems) {
+                const nextKey = `${currentPhrasesLevel}_${nextIdx}`;
+                const nextState = phraseGameStates[nextKey];
+                if (!nextState || !nextState.open) {
+                    togglePhraseGame(nextIdx);
+                }
+                setTimeout(() => {
+                    const nextCardEl = document.getElementById(`phrase-card-${nextIdx}`);
+                    if (nextCardEl) {
+                        nextCardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 400);
+            }
         }
 
         /* =========================================================
@@ -3432,7 +3560,6 @@
 
                     if (piece === expected) {
                         dictChosenParts.push(piece);
-                        speak(piece.toLowerCase(), 0.72);
                         drawDictationSlots();
                         btn.style.visibility = 'hidden';
 
@@ -3443,15 +3570,19 @@
                             fb.style.color = 'var(--success)';
                             fb.innerText = `¡Perfecto! Has escrito ${currentItem.full.toUpperCase()} 🎉`;
 
-                            // Esperar a que termine de sonar la última sílaba antes de leer la palabra completa
-                            setTimeout(() => {
-                                speak(`¡Muy bien! ${currentItem.full}`, 0.75, () => {
-                                    setTimeout(() => {
-                                        dictItemIndex += 1;
-                                        loadDictationStep();
-                                    }, 600);
-                                });
-                            }, 500);
+                            // Esperar a que termine de sonar la última sílaba al 100% antes de leer la palabra completa
+                            speak(piece.toLowerCase(), 0.72, () => {
+                                setTimeout(() => {
+                                    speak(`¡Muy bien! ${currentItem.full}`, 0.75, () => {
+                                        setTimeout(() => {
+                                            dictItemIndex += 1;
+                                            loadDictationStep();
+                                        }, 600);
+                                    });
+                                }, 350);
+                            });
+                        } else {
+                            speak(piece.toLowerCase(), 0.72);
                         }
                     } else {
                         btn.classList.add('shake');
